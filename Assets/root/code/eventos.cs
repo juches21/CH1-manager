@@ -13,10 +13,18 @@ public class eventos : MonoBehaviour
 
     public Button miBoton;  // El botón en el Inspector
 
+    [SerializeField] GameObject[] partes;
+    int fallo_suspension;
+    int fallo_refrigeracion;
+    int fallo_power;
     // Start is called before the first frame update
     void Start()
     {
         falta = 0;
+        partes[0].GetComponent<RawImage>().color = Color.green;
+        partes[1].GetComponent<RawImage>().color = Color.green;
+        partes[2].GetComponent<RawImage>().color = Color.green;
+        fallo_suspension++;
     }
 
     // Update is called once per frame
@@ -28,6 +36,7 @@ public class eventos : MonoBehaviour
 
     public void test()
     {
+        /*
         if (!panelchec.activeSelf)
         {
 
@@ -36,6 +45,13 @@ public class eventos : MonoBehaviour
 
             miBoton.onClick.AddListener(() => acierto(falta));
             falta++;
+
+        }
+        */
+
+        if (fallo_suspension > 0)
+        {
+            partes[0].GetComponent<RawImage>().color = Color.yellow;
 
         }
     }
@@ -54,5 +70,9 @@ public class eventos : MonoBehaviour
         }
     }
 
-
+    public void reparar_suspension()
+    {
+        partes[0].GetComponent<RawImage>().color = Color.green;
+        fallo_suspension=0;
+    }
 }

@@ -14,6 +14,8 @@ public class laps : MonoBehaviour
 
     GameObject[] jugadores;
 
+    Proceso_Degradacion degradacion;
+
     public GameObject tiempos;
 
     int minor_fault = 0;
@@ -44,7 +46,7 @@ public class laps : MonoBehaviour
 
 
 
-
+        degradacion=gameObject.GetComponent<Proceso_Degradacion>();
 
         jugadores = GameObject.FindGameObjectsWithTag("Player");
       
@@ -72,7 +74,7 @@ public class laps : MonoBehaviour
 
     public void lap()
     {
-        //evento();
+      
 
         // Actualizar tiempos
         for (int i = 0; i < datos.Count; i++)
@@ -159,7 +161,7 @@ public class laps : MonoBehaviour
 
 
 
-            datos[i][6] = wheel_wear(datos[i][5], datos[i][6], datos[i][7]);
+          //  datos[i][6] = wheel_wear(datos[i][5], datos[i][6], datos[i][7]);
 
             int tiempoActual = Convert.ToInt32(datos[i][1]);
 
@@ -167,6 +169,9 @@ public class laps : MonoBehaviour
             datos[i][1] = tiempoActual + nuevoTiempo + penalizacion;
             datos[i][2] = nuevoTiempo + penalizacion; ;
             datos[i][4] = Convert.ToInt32(datos[i][4]) + 1;
+
+            degradacion.wheel_wear();
+            evento();
         }
 
         // Actualizar posiciones con los nuevos tiempos
@@ -194,44 +199,44 @@ public class laps : MonoBehaviour
 
 
 
-    public int wheel_wear(object compuesto, object desgaste, object actitud)
-    {
+    //public int wheel_wear(object compuesto, object desgaste, object actitud)
+    //{
 
-        int x = 0;
-        int graining = 0;
-        if (Convert.ToInt32(actitud)==1)
-        {
-            x = 0;
-        }
-        if (Convert.ToInt32(actitud) == 2)
-        {
-            x = 5;
-        }
-        if (Convert.ToInt32(actitud) == 3)
-        {
-            x = 10;
-        }
-        if (compuesto.ToString() == "soft")
-        {
-            graining = Convert.ToInt32(desgaste) - (10+x);
-        }
-        else
-        if (compuesto.ToString() == "medium")
-        {
-            graining = Convert.ToInt32(desgaste) - (5+x);
-        }
-        else
+    //    int x = 0;
+    //    int graining = 0;
+    //    if (Convert.ToInt32(actitud)==1)
+    //    {
+    //        x = 0;
+    //    }
+    //    if (Convert.ToInt32(actitud) == 2)
+    //    {
+    //        x = 5;
+    //    }
+    //    if (Convert.ToInt32(actitud) == 3)
+    //    {
+    //        x = 10;
+    //    }
+    //    if (compuesto.ToString() == "soft")
+    //    {
+    //        graining = Convert.ToInt32(desgaste) - (10+x);
+    //    }
+    //    else
+    //    if (compuesto.ToString() == "medium")
+    //    {
+    //        graining = Convert.ToInt32(desgaste) - (5+x);
+    //    }
+    //    else
 
-        {
-            graining = Convert.ToInt32(desgaste) - (2+x);
-        }
-        if(graining <= 0)
-        {
-            graining = 0;
-        }
-        return graining;
+    //    {
+    //        graining = Convert.ToInt32(desgaste) - (2+x);
+    //    }
+    //    if(graining <= 0)
+    //    {
+    //        graining = 0;
+    //    }
+    //    return graining;
 
-    }
+    //}
 
 
 

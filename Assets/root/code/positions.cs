@@ -214,4 +214,35 @@ public class positions : MonoBehaviour
             }
         }
     }
+
+
+
+
+    //modos panel
+
+    public void diferencia_L()
+    {
+        tipo = 1;
+        AñadirPrefabAlPanel();
+    }
+    public void diferencia()
+    {
+        tipo = 0;
+        AñadirPrefabAlPanel();
+
+    }
+
+    public void aptitud()
+    {
+        tipo = 3;
+        AñadirPrefabAlPanel();
+
+    }
+
+    public void rueda()
+    {
+        tipo = 2;
+        AñadirPrefabAlPanel();
+
+    }
 }

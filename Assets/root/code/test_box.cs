@@ -14,7 +14,6 @@ public class test_box : MonoBehaviour
     laps scriptlap;
 
 
-
     int minor_fault = 0;
     int medium_fault = 0;
     int major_fault = 0;
