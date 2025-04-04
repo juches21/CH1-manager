@@ -178,10 +178,11 @@ public class test_box : MonoBehaviour
 
     }
 
-
+    //botones neumaticos
     public void soft()
     {
-        neumatico = "soft";
+        neumatico = "hard";
+        
 
     }
     public void medium()
@@ -193,5 +194,14 @@ public class test_box : MonoBehaviour
     {
         neumatico = "hard";
 
+    }
+
+
+    public void boxbox()
+    {
+        scriptlap.datos[id][6] = 100;
+        scriptlap.datos[id][5] = neumatico;
+        print(scriptlap.datos[id][5]);
+        scriptlap.datos[id][1] = Convert.ToInt32(scriptlap.datos[id][1])+ 200000;
     }
 }
