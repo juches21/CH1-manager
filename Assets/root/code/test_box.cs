@@ -181,18 +181,18 @@ public class test_box : MonoBehaviour
     //botones neumaticos
     public void soft()
     {
-        neumatico = "hard";
+        neumatico = "s";
         
 
     }
     public void medium()
     {
-        neumatico = "medium";
+        neumatico = "m";
 
     }
     public void hard()
     {
-        neumatico = "hard";
+        neumatico = "h";
 
     }
 

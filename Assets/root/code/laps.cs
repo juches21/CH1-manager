@@ -30,23 +30,22 @@ public class laps : MonoBehaviour
     {
         // Inicialización de datos
         // name, total time , time last lap, team , lap,compuesto neumatico, desgaste del compuesto,modo de pilotaje 
-        datos.Add(new List<object> { "Max", 0, 0, 1, 0, "hard", 100, 1 });
-        datos.Add(new List<object> { "Russell", 0, 0, 2, 0, "hard", 100, 2 });
-        datos.Add(new List<object> { "Hamilton", 0, 0, 3, 0, "hard", 100, 2 });
-        datos.Add(new List<object> { "Carlos", 0, 0, 4, 0, "hard", 100, 1 });
-        datos.Add(new List<object> { "Alonso", 0, 0, 5, 0, "hard", 100, 3 });
-        datos.Add(new List<object> { "Rossi", 0, 0, 6, 0, "hard", 100, 3 });
+        datos.Add(new List<object> { "Max", 0, 0, 1, 0, "h", 100, 1 });
+        datos.Add(new List<object> { "Russell", 0, 0, 2, 0, "h", 100, 2 });
+        datos.Add(new List<object> { "Hamilton", 0, 0, 3, 0, "h", 100, 2 });
+        datos.Add(new List<object> { "Carlos", 0, 0, 4, 0, "h", 100, 1 });
+        datos.Add(new List<object> { "Alonso", 0, 0, 5, 0, "h", 100, 3 });
+        datos.Add(new List<object> { "Rossi", 0, 0, 6, 0, "h", 100, 3 });
 
         datos = datos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
         // Inicializar posiciones con los mismos datos
         foreach (var piloto in datos)
         {
-            posiciones.Add(new List<object> { piloto[0], piloto[1], piloto[2] });
+            posiciones.Add(new List<object> { piloto[0], piloto[1], piloto[2], piloto[3], piloto[4], piloto[5], piloto[6], piloto[7] } );
         }
+    
 
-
-
-        degradacion=gameObject.GetComponent<Proceso_Degradacion>();
+        degradacion =gameObject.GetComponent<Proceso_Degradacion>();
 
         jugadores = GameObject.FindGameObjectsWithTag("Player");
       
@@ -171,8 +170,8 @@ public class laps : MonoBehaviour
             datos[i][4] = Convert.ToInt32(datos[i][4]) + 1;
 
             degradacion.wheel_wear();
-            evento();
         }
+            evento();
 
         // Actualizar posiciones con los nuevos tiempos
         posiciones.Clear();

@@ -26,7 +26,7 @@ public class Proceso_Degradacion : MonoBehaviour
 
     public void wheel_wear()
     {
-
+       
         foreach (var piloto in scriptlap.datos)
         {
             int x = 0;
@@ -43,19 +43,19 @@ public class Proceso_Degradacion : MonoBehaviour
             {
                 x = 10;
             }
-            if (piloto[5].ToString() == "soft")
+            if (piloto[5].ToString() == "s")
             {
-                piloto[6] = Convert.ToInt32(piloto[6])- (10 + x);
+                piloto[6] = Convert.ToInt32(piloto[6])- (5 + x);
             }
             else
-            if (piloto[5].ToString() == "medium")
+            if (piloto[5].ToString() == "m")
             {
-                piloto[6] = Convert.ToInt32(piloto[6]) - (5 + x);
+                piloto[6] = Convert.ToInt32(piloto[6]) - (3 + x);
             }
             else
 
             {
-                piloto[6] = Convert.ToInt32(piloto[6]) - (2 + x);
+                piloto[6] = Convert.ToInt32(piloto[6]) - (1 + x);
             }
             if (Convert.ToInt32(piloto[6]) <= 0)
             {
