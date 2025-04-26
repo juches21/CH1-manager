@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class test_box : MonoBehaviour
 {
@@ -10,13 +11,13 @@ public class test_box : MonoBehaviour
     public GameObject B_ask;
     public GameObject B_lap;
     public TextMeshProUGUI T_player;
-    [SerializeField]  int id;
+    [SerializeField] int id;
     laps scriptlap;
 
 
-    int minor_fault = 0;
-    int medium_fault = 0;
-    int major_fault = 0;
+    public int minor_fault = 0;
+    public int medium_fault = 0;
+    public int major_fault = 0;
     int time_advantage = 0;
 
 
@@ -26,12 +27,12 @@ public class test_box : MonoBehaviour
 
 
 
-   
+
     // Start is called before the first frame update
     void Start()
     {
-         manager = GameObject.FindGameObjectWithTag("manager");
-        scriptlap=manager.GetComponent<laps>();
+        manager = GameObject.FindGameObjectWithTag("manager");
+        scriptlap = manager.GetComponent<laps>();
         B_ask.SetActive(true);
         B_lap.SetActive(false);
         ask_for_id();
@@ -40,11 +41,11 @@ public class test_box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void ask_for_id()
     {
-        id=scriptlap.give_id();
+        id = scriptlap.give_id();
         if (id == -1)
         {
             print("error");
@@ -53,19 +54,22 @@ public class test_box : MonoBehaviour
         }
         else
         {
+
             T_player.text = scriptlap.datos[id][0].ToString();
             B_ask.SetActive(false);
-        B_lap.SetActive(true);
+            B_lap.SetActive(true);
         }
+
+        Load_Helmet();
     }
 
 
     //laps individual
-    
-       public void timer()
+
+    public void timer()
     {
 
-
+        //print("lapeada indi");
         minor_fault = 0;
         medium_fault = 0;
         major_fault = 0;
@@ -75,66 +79,80 @@ public class test_box : MonoBehaviour
 
 
 
-        if (id == -1)
+
+
+
+
+        int modo = Convert.ToInt32(scriptlap.datos[id][7]);
+        int desgaste = Convert.ToInt32(scriptlap.datos[id][4]);
+
+        if (modo == 1) medium_fault++;
+        if (modo == 2) minor_fault++;
+        if (modo == 3) time_advantage++;
+
+
+        if (desgaste > 80)
         {
-            print("error");
+            minor_fault++;
         }
-        else
+        else if (desgaste > 50)
+        { }
+        else if (desgaste > 30)
         {
-            if (Convert.ToInt32(scriptlap.datos[id][7]) == 1)
-            {
-                medium_fault++;
-
-            }
-            if (Convert.ToInt32(scriptlap.datos[id][7]) == 2)
-            {
-                minor_fault++;
-            }
-            if (Convert.ToInt32(scriptlap.datos[id][7]) == 3)
-            {
-                time_advantage++;
-            }
-
-
-
-            for (int j = 0; j < minor_fault; j++) // Penalización leve
-            {
-                penalizacion += UnityEngine.Random.Range(50, 100); // Reducido de 150 a 100 máx.
-            }
-            for (int j = 0; j < medium_fault; j++) // Penalización media
-            {
-                penalizacion += UnityEngine.Random.Range(150, 300); // Reducido el máximo de 400 a 300.
-            }
-            for (int j = 0; j < major_fault; j++) // Penalización grave
-            {
-                penalizacion += UnityEngine.Random.Range(500, 1200); // Reducido el máximo de 1500 a 1200.
-            }
-            for (int j = 0; j < time_advantage; j++)
-            {
-                penalizacion -= UnityEngine.Random.Range(50, 200);
-            }
-
-
-
-
-            int tiempoActual = Convert.ToInt32(scriptlap.datos[id][1]);
-        
-
-
-
-
-        float nuevoTiempo = penalizacion + scriptlap.vuelta_promedio+ UnityEngine.Random.Range(0, 30);
-            scriptlap.datos[id][2] = nuevoTiempo;
-
-            scriptlap.datos[id][1] = tiempoActual + nuevoTiempo;
-            scriptlap.datos[id][4] = Convert.ToInt32(scriptlap.datos[id][4]) + 1;
-
-            print(nuevoTiempo);
+            medium_fault += 2;
         }
+        else if (desgaste > 10)
+        {
+            major_fault += 7;
+        }
+        else if (desgaste <= 10)
+        {
+            major_fault += 9;
+        }
+        for (int j = 0; j <= minor_fault; j++)
+        {
+            penalizacion += UnityEngine.Random.Range(50, 100);
+        }
+        for (int j = 0; j <= medium_fault; j++)
+        {
+            penalizacion += UnityEngine.Random.Range(150, 300);
+        }
+        for (int j = 0; j <= major_fault; j++)
+        {
+            penalizacion += UnityEngine.Random.Range(500, 1000);
+        }
+        for (int j = 0; j <= time_advantage; j++)
+        {
+            penalizacion -= UnityEngine.Random.Range(50, 200);
+        }
+
+
+
+
+        int tiempoActual = Convert.ToInt32(scriptlap.datos[id][5]);
+
+
+
+
+
+        float nuevoTiempo = scriptlap.vuelta_promedio + UnityEngine.Random.Range(0, 30);
+
+        scriptlap.datos[id][5] = tiempoActual + nuevoTiempo + penalizacion;  // [5] es total
+        scriptlap.datos[id][6] = nuevoTiempo + penalizacion;  // [6] es última vuelta
+        scriptlap.datos[id][8] = Convert.ToInt32(scriptlap.datos[id][8]) + 1;
+
+        //print(nuevoTiempo);
+
+
+
+
+
+
+
     }
 
 
-    
+
 
 
     //monitores 
@@ -182,7 +200,7 @@ public class test_box : MonoBehaviour
     public void soft()
     {
         neumatico = "s";
-        
+
 
     }
     public void medium()
@@ -199,9 +217,34 @@ public class test_box : MonoBehaviour
 
     public void boxbox()
     {
-        scriptlap.datos[id][6] = 100;
-        scriptlap.datos[id][5] = neumatico;
-        print(scriptlap.datos[id][5]);
-        scriptlap.datos[id][1] = Convert.ToInt32(scriptlap.datos[id][1])+ 200000;
+        scriptlap.datos[id][4] = 100; // desgaste
+        scriptlap.datos[id][3] = neumatico; // compuesto
+        scriptlap.datos[id][5] = Convert.ToInt32(scriptlap.datos[id][5]) + UnityEngine.Random.Range(6000, 10000); // tiempo total
+
+
     }
+
+    public Image imageObject;
+    void Load_Helmet()
+    {
+        // Obtener la ruta del casco desde los datos
+        string imagePath = "Fotos/" + scriptlap.datos[id][9].ToString();
+
+        // Cargar el sprite desde Resources usando la ruta proporcionada
+        Sprite sprite = Resources.Load<Sprite>(imagePath);
+        Debug.Log("Ruta de la imagen: " + imagePath);
+
+        // Comprobar si la imagen fue cargada correctamente
+        if (sprite != null)
+        {
+            imageObject.sprite = sprite;  // Asignar el sprite al objeto de imagen
+        }
+        else
+        {
+            Debug.LogError("No se pudo cargar la imagen. Asegúrate de que la ruta sea correcta.");
+            // Imprimir más información de depuración para verificar la ruta
+            print("Ruta de la imagen no válida o archivo no encontrado: " + imagePath);
+        }
+    }
+
 }

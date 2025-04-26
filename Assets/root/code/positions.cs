@@ -57,36 +57,36 @@ public class positions : MonoBehaviour
 
 
                 //asignacion logo escuderia
-                if (Convert.ToInt32(piloto[3]) == 1)
+                if (Convert.ToInt32(piloto[2]) == 1)
                 {
 
                     escuderia[1].sprite = logos[0];
                 }
-                if (Convert.ToInt32(piloto[3]) == 2)
+                if (Convert.ToInt32(piloto[2]) == 2)
                 {
 
                     escuderia[1].sprite = logos[1];
 
                 }
-                if (Convert.ToInt32(piloto[3]) == 3)
+                if (Convert.ToInt32(piloto[2]) == 3)
                 {
 
                     escuderia[1].sprite = logos[2];
 
                 }
-                if (Convert.ToInt32(piloto[3]) == 4)
+                if (Convert.ToInt32(piloto[2]) == 4)
                 {
 
                     escuderia[1].sprite = logos[3];
 
                 }
-                if (Convert.ToInt32(piloto[3]) == 5)
+                if (Convert.ToInt32(piloto[2]) == 5)
                 {
 
                     escuderia[1].sprite = logos[4];
 
                 }
-                if (Convert.ToInt32(piloto[3]) == 6)
+                if (Convert.ToInt32(piloto[2]) == 6)
                 {
 
                     escuderia[1].sprite = logos[5];
@@ -101,7 +101,7 @@ public class positions : MonoBehaviour
                     if (tiempo_anterior > 0)
                     {
 
-                        int diferencia = tiempo_anterior - Convert.ToInt32(piloto[1]);
+                        int diferencia = tiempo_anterior - Convert.ToInt32(piloto[5]);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -127,7 +127,7 @@ public class positions : MonoBehaviour
                     if (tiempo_anterior > 0)
                     {
 
-                        int diferencia = tiempo_lider - Convert.ToInt32(piloto[1]);
+                        int diferencia = tiempo_lider - Convert.ToInt32(piloto[5]);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -144,13 +144,13 @@ public class positions : MonoBehaviour
                     }
                     else
                     {
-                        tiempo_lider = Convert.ToInt32(piloto[1]);
+                        tiempo_lider = Convert.ToInt32(piloto[5]);
                         textComponents[3].text = "leader";
                     }
                 }
                 if (tipo == 2)
                 {
-                    textComponents[3].text = Convert.ToInt32(piloto[6])+"";
+                    textComponents[3].text = Convert.ToInt32(piloto[4])+"";
 
                 }
                 if (tipo == 3)
@@ -158,16 +158,16 @@ public class positions : MonoBehaviour
                     textComponents[3].text = Convert.ToInt32(piloto[7]) + "";
 
                 }
-
+           
 
 
                 //datos pilotos
 
                 textComponents[0].text = piloto[0].ToString(); // Nombre del piloto
 
-                tiempoEnMilisegundos = Convert.ToInt32(piloto[1]);
+                tiempoEnMilisegundos = Convert.ToInt32(piloto[5]);
 
-                tiempo_anterior = Convert.ToInt32(piloto[1]);
+                tiempo_anterior = Convert.ToInt32(piloto[5]);
 
                 // Calcular minutos, segundos y milisegundos
                 int minutos = tiempoEnMilisegundos / 60000;
@@ -177,7 +177,7 @@ public class positions : MonoBehaviour
                 textComponents[1].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
 
 
-                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto[2]);
+                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto[6]);
 
                 // Calcular minutos, segundos y milisegundos
                 minutos = tiempoactualEnMilisegundos / 60000;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class laps : MonoBehaviour
@@ -18,49 +19,60 @@ public class laps : MonoBehaviour
 
     public GameObject tiempos;
 
-    int minor_fault = 0;
-    int medium_fault = 0;
-    int major_fault = 0;
+    public int minor_fault = 0;
+    public int medium_fault = 0;
+    public int major_fault = 0;
     int time_advantage = 0;
 
+    int vueltas_max = 40;
+    public int vueltas_act = 0;
 
-
-
+    bool linea = true;
     void Start()
     {
-        // Inicialización de datos
-        // name, total time , time last lap, team , lap,compuesto neumatico, desgaste del compuesto,modo de pilotaje 
-        datos.Add(new List<object> { "Max", 0, 0, 1, 0, "h", 100, 1 });
-        datos.Add(new List<object> { "Russell", 0, 0, 2, 0, "h", 100, 2 });
-        datos.Add(new List<object> { "Hamilton", 0, 0, 3, 0, "h", 100, 2 });
-        datos.Add(new List<object> { "Carlos", 0, 0, 4, 0, "h", 100, 1 });
-        datos.Add(new List<object> { "Alonso", 0, 0, 5, 0, "h", 100, 3 });
-        datos.Add(new List<object> { "Rossi", 0, 0, 6, 0, "h", 100, 3 });
+        // nombre, número, escudería, compuesto, desgaste, tiempo total, tiempo lap, modo, vuelta
+        datos.Add(new List<object> { "Max", 33, 1, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
+        datos.Add(new List<object> { "Russell", 63, 2, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
+        datos.Add(new List<object> { "Hamilton", 44, 3, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
+        datos.Add(new List<object> { "Carlos", 55, 4, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
+        datos.Add(new List<object> { "Alonso", 14, 5, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
+        datos.Add(new List<object> { "Rossi", 46, 6, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
 
         datos = datos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
-        // Inicializar posiciones con los mismos datos
+
         foreach (var piloto in datos)
         {
-            posiciones.Add(new List<object> { piloto[0], piloto[1], piloto[2], piloto[3], piloto[4], piloto[5], piloto[6], piloto[7] } );
+            posiciones.Add(new List<object>(piloto));
         }
-    
 
-        degradacion =gameObject.GetComponent<Proceso_Degradacion>();
-
+        degradacion = gameObject.GetComponent<Proceso_Degradacion>();
         jugadores = GameObject.FindGameObjectsWithTag("Player");
-      
-        StartCoroutine(tempo());
+
     }
 
-
+    private void Update()
+    {
+        if (linea)
+        {
+            linea = false;
+            StartCoroutine(tempo());
+        }
+    }
     public void boton()
     {
-        lap();
+        if (vueltas_act < vueltas_max)
+        {
+
+            vueltas_act++;
+            jugadores[0].gameObject.GetComponent<test_box>().timer();
+            lap();
+        }
+
     }
 
     public int give_id()
     {
-        if (dorsales <= datos.Count+1)
+        if (dorsales <= datos.Count + 1)
         {
             dorsales++;
             return dorsales - 1;
@@ -73,177 +85,143 @@ public class laps : MonoBehaviour
 
     public void lap()
     {
-      
-
-        // Actualizar tiempos
         for (int i = 0; i < datos.Count; i++)
         {
-
-            minor_fault = 0;
-            medium_fault = 0;
-            major_fault = 0;
-            time_advantage = 0;
-
+            minor_fault = medium_fault = major_fault = time_advantage = 0;
             int penalizacion = 0;
 
-            //tiempo acorde a pilotaje
-            if (Convert.ToInt32(datos[i][7]) ==1)
-            {
-                medium_fault++;
-         
-            }
-            if (Convert.ToInt32(datos[i][7]) == 2)
-            {
-                minor_fault++;
-            }  if (Convert.ToInt32(datos[i][7]) == 3)
-            {
-                time_advantage++;
-            }
+            int modo = Convert.ToInt32(datos[i][7]);
+            int desgaste = Convert.ToInt32(datos[i][4]);
 
+            if (modo == 1) medium_fault++;
+            if (modo == 2) minor_fault++;
+            if (modo == 3) time_advantage++;
 
-
-            //comprobar estado neumaticos
-            if (Convert.ToInt32(datos[i][6]) > 80)
+            if (desgaste > 80)
             {
                 minor_fault++;
-            
-           
             }
-            else if (Convert.ToInt32(datos[i][6]) > 50 && Convert.ToInt32(datos[i][6]) <= 80)
+            else if (desgaste > 50)
+            { }
+            else if (desgaste > 30)
             {
-                //condicion optima
+                medium_fault += 2;
             }
-            else if (Convert.ToInt32(datos[i][6]) > 30 && Convert.ToInt32(datos[i][6]) <= 50)
+            else if (desgaste > 10)
             {
-                minor_fault++;
-                minor_fault++;
+                major_fault += 7;
             }
-            else if (Convert.ToInt32(datos[i][6]) > 10 && Convert.ToInt32(datos[i][6]) <= 30)
+            else if (desgaste <= 10)
             {
-                medium_fault++;
-                medium_fault++;
-                medium_fault++;
+                major_fault += 9;
+                print("fallo: " + datos[i][0] + "  " + desgaste);
             }
-            else if (Convert.ToInt32(datos[i][6]) <= 10) // Aquí incluimos <= 10 explícitamente
+
+            for (int j = 0; j <= minor_fault; j++)
             {
-                major_fault++;
-                major_fault++;
-                major_fault++;
-                major_fault++;
-                major_fault++;
-                major_fault++;
-                major_fault++;
-                print("fallooooooooo" + datos[i][0] + "  " + datos[i][6]);
+                penalizacion += UnityEngine.Random.Range(50, 100);
             }
-
-
-
-
-
-            for (int j = 0; j < minor_fault; j++) // Penalización leve
+            for (int j = 0; j <= medium_fault; j++)
             {
-                penalizacion += UnityEngine.Random.Range(50, 100); // Reducido de 150 a 100 máx.
+                penalizacion += UnityEngine.Random.Range(150, 300);
             }
-            for (int j = 0; j < medium_fault; j++) // Penalización media
+            for (int j = 0; j <= major_fault; j++)
             {
-                penalizacion += UnityEngine.Random.Range(150, 300); // Reducido el máximo de 400 a 300.
+                penalizacion += UnityEngine.Random.Range(500, 1000);
             }
-            for (int j = 0; j < major_fault; j++) // Penalización grave
+            for (int j = 0; j <= time_advantage; j++)
             {
-                penalizacion += UnityEngine.Random.Range(500, 1200); // Reducido el máximo de 1500 a 1200.
-            }
-            for (int j = 0; j < time_advantage; j++)
-            {
-                penalizacion -= UnityEngine.Random.Range(50, 200); 
+                penalizacion -= UnityEngine.Random.Range(50, 200);
             }
 
-
-
-
-          //  datos[i][6] = wheel_wear(datos[i][5], datos[i][6], datos[i][7]);
-
-            int tiempoActual = Convert.ToInt32(datos[i][1]);
-
+            int tiempoActual = Convert.ToInt32(datos[i][5]);
             float nuevoTiempo = UnityEngine.Random.Range(0, 30) + vuelta_promedio;
-            datos[i][1] = tiempoActual + nuevoTiempo + penalizacion;
-            datos[i][2] = nuevoTiempo + penalizacion; ;
-            datos[i][4] = Convert.ToInt32(datos[i][4]) + 1;
 
-            degradacion.wheel_wear();
+            datos[i][5] = tiempoActual + nuevoTiempo + penalizacion; // Tiempo total
+            datos[i][6] = nuevoTiempo + penalizacion;               // Última vuelta
+            datos[i][8] = Convert.ToInt32(datos[i][8]) + 1;          // Sumar vuelta
+
+            boxbox(i);
         }
-            evento();
 
-        // Actualizar posiciones con los nuevos tiempos
+        degradacion.wheel_wear();
+        evento();
+
         posiciones.Clear();
         foreach (var piloto in datos)
         {
-            posiciones.Add(new List<object> { piloto[0], piloto[1], piloto[2], piloto[3], piloto[4], piloto[5], piloto[6], piloto[7] });
+            posiciones.Add(new List<object>(piloto));
         }
 
-        // Ordenar posiciones por tiempo (de menor a mayor)
-        posiciones.Sort((a, b) => Convert.ToInt32(a[1]).CompareTo(Convert.ToInt32(b[1])));
-        posiciones.Sort((b, a) => Convert.ToInt32(a[4]).CompareTo(Convert.ToInt32(b[4])));
+        posiciones.Sort((a, b) => Convert.ToInt32(a[5]).CompareTo(Convert.ToInt32(b[5])));
+        posiciones.Sort((b, a) => Convert.ToInt32(a[8]).CompareTo(Convert.ToInt32(b[8])));
 
-        // Mostrar resultados en consola
-     
         tiempos.GetComponent<positions>().AñadirPrefabAlPanel();
     }
 
     IEnumerator tempo()
     {
-        yield return new WaitForSeconds(20f); // Espera 2 segundos
-        lap();
+
+        if (vueltas_act < vueltas_max)
+        {
+            yield return new WaitForSeconds(1f); // Espera 2 segundos
+
+            vueltas_act++;
+            //jugadores[0].gameObject.GetComponent<test_box>().timer();
+            lap();
+            linea = true;
+        }
+
     }
 
 
-
-
-    //public int wheel_wear(object compuesto, object desgaste, object actitud)
-    //{
-
-    //    int x = 0;
-    //    int graining = 0;
-    //    if (Convert.ToInt32(actitud)==1)
-    //    {
-    //        x = 0;
-    //    }
-    //    if (Convert.ToInt32(actitud) == 2)
-    //    {
-    //        x = 5;
-    //    }
-    //    if (Convert.ToInt32(actitud) == 3)
-    //    {
-    //        x = 10;
-    //    }
-    //    if (compuesto.ToString() == "soft")
-    //    {
-    //        graining = Convert.ToInt32(desgaste) - (10+x);
-    //    }
-    //    else
-    //    if (compuesto.ToString() == "medium")
-    //    {
-    //        graining = Convert.ToInt32(desgaste) - (5+x);
-    //    }
-    //    else
-
-    //    {
-    //        graining = Convert.ToInt32(desgaste) - (2+x);
-    //    }
-    //    if(graining <= 0)
-    //    {
-    //        graining = 0;
-    //    }
-    //    return graining;
-
-    //}
 
 
 
 
     void evento()
     {
-        int numeroAleatorio = Random.Range(0, jugadores.Length);
-        jugadores[numeroAleatorio].gameObject.GetComponent<eventos>().test();
+
+        jugadores[0].gameObject.GetComponent<eventos>().test();
+
+    }
+
+    //IA
+
+
+    public void boxbox(int id)
+    {
+        int valor = Convert.ToInt32(datos[id][4]);
+
+        int numero=0;
+        if (valor > 50)
+        {
+            numero = 10000;
+        }
+        else if (valor <= 50)
+        {
+            numero = 5000;
+        }
+         if (valor < 20)
+        {
+            numero = 1000;
+        }
+         if (valor < 10)
+        {
+            numero = 100;
+        }
+        
+        int probavilidad = UnityEngine.Random.Range(0, 10000);
+        if (probavilidad > numero)
+        {
+
+            string neumatico = "s";
+            datos[id][4] = 100; // desgaste
+            datos[id][3] = neumatico; // compuesto
+            datos[id][5] = Convert.ToInt32(datos[id][5]) + UnityEngine.Random.Range(6000, 10000); // tiempo total
+            print(datos[id][0] + " cambio de riueda");
+        }
+
 
     }
 }
