@@ -8,7 +8,10 @@ public class Pit_stop : MonoBehaviour
     [SerializeField] GameObject[] mechanic;
     [SerializeField] GameObject light;
 
+    public Image car;
+    public int chrono = 0;
     int wheel_chek;
+    bool stop = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,11 +19,11 @@ public class Pit_stop : MonoBehaviour
         light.GetComponent<Button>().interactable = false;
         for (int i = 0; i <= mechanic.Length; i++)
         {
-           // mechanic[i].GetComponent<Button>().interactable = false;
+            //mechanic[i].GetComponent<Button>().interactable = false;
 
 
         }
-        time();
+        //time();
     }
 
     void acierto(int id)
@@ -43,6 +46,11 @@ public class Pit_stop : MonoBehaviour
             }
 
         }
+        if (!stop)
+        {
+            chrono++;
+
+        }
     }
     IEnumerator Change()
     {
@@ -51,9 +59,10 @@ public class Pit_stop : MonoBehaviour
 
     }
 
-    void time()
+    public void time()
     {
-
+        //car.rectTransform.anchoredPosition += new Vector2(0, 507.38f);
+        StartCoroutine(car_in());
         for (int i = 0; i <= mechanic.Length; i++)
         {
             mechanic[i].GetComponent<Button>().interactable = true;
@@ -63,4 +72,36 @@ public class Pit_stop : MonoBehaviour
         }
     }
 
+
+    public void exit()
+    {
+        
+        StartCoroutine(car_ex());
+    }
+
+
+    IEnumerator car_in()
+    {
+        for(float D = -541.9f ; D <= -34.52f; D+=5)
+        {
+            car.rectTransform.anchoredPosition = new Vector2(0, D);
+
+            yield return new WaitForSeconds(0.000001f);
+        }
+
+    }
+
+
+    IEnumerator car_ex()
+    {
+        for (float D = -34.52f; D <= 513.61f; D += 5)
+        {
+            car.rectTransform.anchoredPosition = new Vector2(0, D);
+
+            yield return new WaitForSeconds(0.000001f);
+        }
+        stop = true;
+        gameObject.GetComponent<test_box>().box_time(chrono) ;
+        car.rectTransform.anchoredPosition = new Vector2(0, -5555);
+    }
 }

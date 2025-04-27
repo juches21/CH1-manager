@@ -85,7 +85,7 @@ public class laps : MonoBehaviour
 
     public void lap()
     {
-        for (int i = 0; i < datos.Count; i++)
+        for (int i = 1; i < datos.Count; i++)
         {
             minor_fault = medium_fault = major_fault = time_advantage = 0;
             int penalizacion = 0;
@@ -218,7 +218,7 @@ public class laps : MonoBehaviour
             string neumatico = "s";
             datos[id][4] = 100; // desgaste
             datos[id][3] = neumatico; // compuesto
-            datos[id][5] = Convert.ToInt32(datos[id][5]) + UnityEngine.Random.Range(6000, 10000); // tiempo total
+            datos[id][5] = Convert.ToInt32(datos[id][5]) + UnityEngine.Random.Range(9000, 15000); // tiempo total
             print(datos[id][0] + " cambio de riueda");
         }
 

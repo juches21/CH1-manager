@@ -24,7 +24,7 @@ public class test_box : MonoBehaviour
     string neumatico;
 
 
-
+    public int penalizacion = 0;
 
 
 
@@ -75,7 +75,6 @@ public class test_box : MonoBehaviour
         major_fault = 0;
         time_advantage = 0;
 
-        int penalizacion = 0;
 
 
 
@@ -109,6 +108,8 @@ public class test_box : MonoBehaviour
         {
             major_fault += 9;
         }
+
+        
         for (int j = 0; j <= minor_fault; j++)
         {
             penalizacion += UnityEngine.Random.Range(50, 100);
@@ -125,7 +126,7 @@ public class test_box : MonoBehaviour
         {
             penalizacion -= UnityEngine.Random.Range(50, 200);
         }
-
+        
 
 
 
@@ -146,6 +147,7 @@ public class test_box : MonoBehaviour
 
 
 
+        penalizacion = 0;
 
 
 
@@ -217,12 +219,20 @@ public class test_box : MonoBehaviour
 
     public void boxbox()
     {
-        scriptlap.datos[id][4] = 100; // desgaste
-        scriptlap.datos[id][3] = neumatico; // compuesto
-        scriptlap.datos[id][5] = Convert.ToInt32(scriptlap.datos[id][5]) + UnityEngine.Random.Range(6000, 10000); // tiempo total
+        gameObject.GetComponent<Pit_stop>().time();
 
 
     }
+
+    public void box_time(int tiempo)
+    {
+        scriptlap.datos[id][4] = 100; // desgaste
+        scriptlap.datos[id][3] = neumatico; // compuesto
+        scriptlap.datos[id][5] = Convert.ToInt32(scriptlap.datos[id][5]) + tiempo; // tiempo total
+
+
+    }
+
 
     public Image imageObject;
     void Load_Helmet()
