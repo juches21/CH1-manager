@@ -1,0 +1,76 @@
+{
+  "pilotos": [
+    {
+    "nombre": "Max",
+    "numero": 33,
+    "escuderia": 1,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  },
+  {
+    "nombre": "Russell",
+    "numero": 63,
+    "escuderia": 2,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  },
+  {
+    "nombre": "Hamilton",
+    "numero": 44,
+    "escuderia": 3,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  },
+  {
+    "nombre": "Carlos",
+    "numero": 55,
+    "escuderia": 4,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  },
+  {
+    "nombre": "Alonso",
+    "numero": 14,
+    "escuderia": 5,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  },
+  {
+    "nombre": "Rossi",
+    "numero": 46,
+    "escuderia": 6,
+    "compuesto": "m",
+    "desgaste": 100,
+    "tiempo_total": 0,
+    "tiempo_lap": 0,
+    "modo": 2,
+    "vuelta": 0,
+    "casco": "sol_y_luna"
+  }
+  ]
+}

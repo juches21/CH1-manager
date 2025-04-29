@@ -43,7 +43,7 @@ public class positions : MonoBehaviour
         // Validar que los elementos necesarios están asignados
         if (prefab != null && panel != null)
         {
-            foreach (var piloto in scriptlap.posiciones)
+            foreach (var piloto in scriptlap.listaPilotos)
             {
 
                 // Instanciar el prefab y asignarlo al panel
@@ -57,36 +57,36 @@ public class positions : MonoBehaviour
 
 
                 //asignacion logo escuderia
-                if (Convert.ToInt32(piloto[2]) == 1)
+                if (Convert.ToInt32(piloto.escuderia) == 1)
                 {
 
                     escuderia[1].sprite = logos[0];
                 }
-                if (Convert.ToInt32(piloto[2]) == 2)
+                if (Convert.ToInt32(piloto.escuderia) == 2)
                 {
 
                     escuderia[1].sprite = logos[1];
 
                 }
-                if (Convert.ToInt32(piloto[2]) == 3)
+                if (Convert.ToInt32(piloto.escuderia) == 3)
                 {
 
                     escuderia[1].sprite = logos[2];
 
                 }
-                if (Convert.ToInt32(piloto[2]) == 4)
+                if (Convert.ToInt32(piloto.escuderia) == 4)
                 {
 
                     escuderia[1].sprite = logos[3];
 
                 }
-                if (Convert.ToInt32(piloto[2]) == 5)
+                if (Convert.ToInt32(piloto.escuderia) == 5)
                 {
 
                     escuderia[1].sprite = logos[4];
 
                 }
-                if (Convert.ToInt32(piloto[2]) == 6)
+                if (Convert.ToInt32(piloto.escuderia) == 6)
                 {
 
                     escuderia[1].sprite = logos[5];
@@ -101,7 +101,7 @@ public class positions : MonoBehaviour
                     if (tiempo_anterior > 0)
                     {
 
-                        int diferencia = tiempo_anterior - Convert.ToInt32(piloto[5]);
+                        int diferencia = tiempo_anterior - Convert.ToInt32(piloto.tiempo_lap);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -127,7 +127,7 @@ public class positions : MonoBehaviour
                     if (tiempo_anterior > 0)
                     {
 
-                        int diferencia = tiempo_lider - Convert.ToInt32(piloto[5]);
+                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_total);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -144,18 +144,18 @@ public class positions : MonoBehaviour
                     }
                     else
                     {
-                        tiempo_lider = Convert.ToInt32(piloto[5]);
+                        tiempo_lider = Convert.ToInt32(piloto.tiempo_total);
                         textComponents[3].text = "leader";
                     }
                 }
                 if (tipo == 2)
                 {
-                    textComponents[3].text = Convert.ToInt32(piloto[4])+"";
+                    textComponents[3].text = Convert.ToInt32(piloto.desgaste)+"";
 
                 }
                 if (tipo == 3)
                 {
-                    textComponents[3].text = Convert.ToInt32(piloto[7]) + "";
+                    textComponents[3].text = Convert.ToInt32(piloto.modo) + "";
 
                 }
            
@@ -163,11 +163,11 @@ public class positions : MonoBehaviour
 
                 //datos pilotos
 
-                textComponents[0].text = piloto[0].ToString(); // Nombre del piloto
+                textComponents[0].text = piloto.nombre.ToString(); // Nombre del piloto
 
-                tiempoEnMilisegundos = Convert.ToInt32(piloto[5]);
+                tiempoEnMilisegundos = Convert.ToInt32(piloto.tiempo_total);
 
-                tiempo_anterior = Convert.ToInt32(piloto[5]);
+                tiempo_anterior = Convert.ToInt32(piloto.tiempo_total);
 
                 // Calcular minutos, segundos y milisegundos
                 int minutos = tiempoEnMilisegundos / 60000;
@@ -177,7 +177,7 @@ public class positions : MonoBehaviour
                 textComponents[1].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
 
 
-                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto[6]);
+                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto.tiempo_lap);
 
                 // Calcular minutos, segundos y milisegundos
                 minutos = tiempoactualEnMilisegundos / 60000;

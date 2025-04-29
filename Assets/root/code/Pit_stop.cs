@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Pit_stop : MonoBehaviour
 {
+    [SerializeField] GameObject panel;
+
     [SerializeField] GameObject[] mechanic;
     [SerializeField] GameObject light;
 
@@ -17,12 +19,14 @@ public class Pit_stop : MonoBehaviour
     {
 
         light.GetComponent<Button>().interactable = false;
-        for (int i = 0; i <= mechanic.Length; i++)
+        for (int i = 0; i <= mechanic.Length - 1; i++)
         {
-            //mechanic[i].GetComponent<Button>().interactable = false;
-
+            mechanic[i].GetComponent<Button>().interactable = true;
+            int j = i;
+            mechanic[i].GetComponent<Button>().onClick.AddListener(() => acierto(j));
 
         }
+        panel.SetActive(false);
         //time();
     }
 
@@ -38,11 +42,11 @@ public class Pit_stop : MonoBehaviour
         if (wheel_chek == 4)
         {
             wheel_chek = 0;
-            for (int i = 0; i < mechanic.Length; i++)
-            {
                 light.GetComponent<Button>().interactable = true;
+            for (int i = 0; i <= mechanic.Length - 1; i++)
+            {
 
-                mechanic[i].SetActive(false);
+                //mechanic[i].SetActive(false);
             }
 
         }
@@ -62,12 +66,14 @@ public class Pit_stop : MonoBehaviour
     public void time()
     {
         //car.rectTransform.anchoredPosition += new Vector2(0, 507.38f);
+        panel.SetActive(true);
+        light.GetComponent<Button>().interactable = false;
+        stop = false;
         StartCoroutine(car_in());
-        for (int i = 0; i <= mechanic.Length; i++)
+        print(mechanic.Length);
+        for (int i = 0; i <= mechanic.Length - 1; i++)
         {
             mechanic[i].GetComponent<Button>().interactable = true;
-            int j = i;
-            mechanic[i].GetComponent<Button>().onClick.AddListener(() => acierto(j));
 
         }
     }
@@ -75,14 +81,14 @@ public class Pit_stop : MonoBehaviour
 
     public void exit()
     {
-        
+
         StartCoroutine(car_ex());
     }
 
 
     IEnumerator car_in()
     {
-        for(float D = -541.9f ; D <= -34.52f; D+=5)
+        for (float D = -541.9f; D <= -34.52f; D += 5)
         {
             car.rectTransform.anchoredPosition = new Vector2(0, D);
 
@@ -101,7 +107,9 @@ public class Pit_stop : MonoBehaviour
             yield return new WaitForSeconds(0.000001f);
         }
         stop = true;
-        gameObject.GetComponent<test_box>().box_time(chrono) ;
+        gameObject.GetComponent<test_box>().box_time(chrono);
         car.rectTransform.anchoredPosition = new Vector2(0, -5555);
+
+        panel.SetActive(false);
     }
 }
