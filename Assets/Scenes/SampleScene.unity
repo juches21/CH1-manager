@@ -4689,15 +4689,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d7c08724a09bf4390eed3b206cdf6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vuelta_promedio: 86252
   dorsales: 0
   tiempos: {fileID: 1519661512}
   minor_fault: 0
   medium_fault: 0
   major_fault: 0
   vueltas_act: 0
-  archivoJSON: {fileID: 4900000, guid: bc4d98aeedb36334dad8e835136402ee, type: 3}
   listaPilotos: []
+  listaPistas: []
 --- !u!114 &1102372412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6682,6 +6681,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9b49342491802f949afa4e0c0752b3c6, type: 3}
   - {fileID: 21300000, guid: d7df5c524de22e541b3591e7cf21489f, type: 3}
   - {fileID: 21300000, guid: 30149e99b787e89469a324335f0f921d, type: 3}
+  listaEscuderia: []
 --- !u!114 &1519661514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9746,6 +9746,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072627972}
   m_CullTransparentMesh: 1
+--- !u!1 &2080530200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080530202}
+  - component: {fileID: 2080530201}
+  m_Layer: 0
+  m_Name: DB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2080530201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080530200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b2d5b53aba884d81210fb7e4bb3a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DB_Pilotos: {fileID: 4900000, guid: bc4d98aeedb36334dad8e835136402ee, type: 3}
+  DB_Pistas: {fileID: 4900000, guid: 7c0928e2cdf2ba749a537a3e535058f1, type: 3}
+  DB_Escuderias: {fileID: 4900000, guid: 60a2f92590f77eb4b8b87864f445dbba, type: 3}
+  PilotosCargados: []
+  PistasCargadas: []
+  EscuderiasCargadas: []
+--- !u!4 &2080530202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080530200}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 921.5853, y: 689.6376, z: -5.6528187}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -9756,3 +9806,4 @@ SceneRoots:
   - {fileID: 1807608364}
   - {fileID: 1572771892}
   - {fileID: 498522603}
+  - {fileID: 2080530202}

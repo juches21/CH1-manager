@@ -20,12 +20,24 @@ public class positions : MonoBehaviour
 
     public List<Sprite> logos = new List<Sprite>();
 
+    public List<Data_base.Escuderia> listaEscuderia;
 
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("manager");
         scriptlap = manager.GetComponent<laps>();
+
+        Data_base loader = FindObjectOfType<Data_base>();
+        if (loader != null)
+        {
+            listaEscuderia = loader.EscuderiasCargadas;
+       
+        }
+        else
+        {
+            Debug.LogError("No se encontró el script Data_base en la escena.");
+        }
     }
 
     // Update is called once per frame
@@ -37,7 +49,7 @@ public class positions : MonoBehaviour
     public void AñadirPrefabAlPanel()
     {
         LimpiarPanel();
-
+        print(listaEscuderia[0].nombre);
         int offsetY = 300; // Separación inicial entre elementos
         tiempo_anterior = 0;
         // Validar que los elementos necesarios están asignados

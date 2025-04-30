@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 public class laps : MonoBehaviour
 {
-    public int vuelta_promedio = 86252;
+   // public int vuelta_promedio = 86252;
     //public List<List<object>> datos = new List<List<object>>();
     // public List<List<object>> posiciones = new List<List<object>>();
     public int dorsales;
@@ -28,13 +28,28 @@ public class laps : MonoBehaviour
     public int vueltas_act = 0;
 
     bool linea = true;
+
+
+    public List<Data_base.Piloto> listaPilotos;
+    public List<Data_base.Pista> listaPistas;
+
     void Start()
     {
+        Data_base loader = FindObjectOfType<Data_base>();
+        if (loader != null)
+        {
+            listaPilotos = loader.PilotosCargados;
+            listaPistas = loader.PistasCargadas;
+           // Debug.Log("Primera pista: " + listaPilotos[0].nombre);
+        }
+        else
+        {
+            Debug.LogError("No se encontró el script Data_base en la escena.");
+        }
 
-        PilotoList wrapper = JsonUtility.FromJson<PilotoList>(archivoJSON.text);
-        listaPilotos = wrapper.pilotos;
 
         Debug.Log(listaPilotos[1].nombre); // Por ejemplo, imprime "Russell"
+        Debug.Log(listaPistas[0].nombre); // Por ejemplo, imprime "Russell"
 
 
 
@@ -143,7 +158,7 @@ public class laps : MonoBehaviour
             }
 
             float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
-            float nuevoTiempo = UnityEngine.Random.Range(0, 30) + vuelta_promedio;
+            float nuevoTiempo = UnityEngine.Random.Range(0, 30) + 86252;
 
             listaPilotos[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
             listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
@@ -170,7 +185,7 @@ public class laps : MonoBehaviour
     IEnumerator tempo()
     {
 
-        if (vueltas_act < vueltas_max)
+        if (vueltas_act < listaPistas[0].vueltas)
         {
             yield return new WaitForSeconds(1f); // Espera 2 segundos
 
@@ -254,32 +269,32 @@ public class laps : MonoBehaviour
 
 
 
-    [System.Serializable]
-    public class Piloto
-    {
-        public string nombre;
-        public int numero;
-        public int escuderia;
-        public string compuesto;
-        public int desgaste;
-        public int tiempo_total;
-        public int tiempo_lap;
-        public int modo;
-        public int vuelta;
-        public string casco;
-    }
+    //[System.Serializable]
+    //public class Piloto
+    //{
+    //    public string nombre;
+    //    public int numero;
+    //    public int escuderia;
+    //    public string compuesto;
+    //    public int desgaste;
+    //    public int tiempo_total;
+    //    public int tiempo_lap;
+    //    public int modo;
+    //    public int vuelta;
+    //    public string casco;
+    //}
 
-    public TextAsset archivoJSON; // arrastra aquí tu .json en el Inspector
+    //public TextAsset archivoJSON; // arrastra aquí tu .json en el Inspector
   
 
-    //Base de datos
+    ////Base de datos
 
-    [System.Serializable]
-    public class PilotoList
-    {
-        public List<Piloto> pilotos;
-    }
+    //[System.Serializable]
+    //public class PilotoList
+    //{
+    //    public List<Piloto> pilotos;
+    //}
     
 
-    public List<Piloto> listaPilotos;
+    //public List<Piloto> listaPilotos;
 }

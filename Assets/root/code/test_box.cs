@@ -137,7 +137,7 @@ public class test_box : MonoBehaviour
 
 
 
-        float nuevoTiempo = scriptlap.vuelta_promedio + UnityEngine.Random.Range(0, 30);
+        float nuevoTiempo = 86252 + UnityEngine.Random.Range(0, 30);
 
         scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
         scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta

@@ -1,0 +1,19 @@
+{
+  "pistas": [
+    {
+      "nombre": "Silverstone",
+      "vueltas": 52,
+      "tiempo_promedio": 86000
+    },
+    {
+      "nombre": "Monza",
+      "vueltas": 53,
+      "tiempo_promedio": 79000
+    },
+    {
+      "nombre": "Spa-Francorchamps",
+      "vueltas": 44,
+      "tiempo_promedio": 92000
+    }
+  ]
+}

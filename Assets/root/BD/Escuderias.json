@@ -1,0 +1,54 @@
+{
+  "escuderia": [
+    {
+      "id": 1,
+      "nombre": "Mercedes",
+      "imagen": "mercedes.png"
+    },
+    {
+      "id": 2,
+      "nombre": "Red Bull Racing",
+      "imagen": "redbull.png"
+    },
+    {
+      "id": 3,
+      "nombre": "Ferrari",
+      "imagen": "ferrari.png"
+    },
+    {
+      "id": 4,
+      "nombre": "McLaren",
+      "imagen": "mclaren.png"
+    },
+    {
+      "id": 5,
+      "nombre": "Aston Martin",
+      "imagen": "astonmartin.png"
+    },
+    {
+      "id": 6,
+      "nombre": "Alpine",
+      "imagen": "alpine.png"
+    },
+    {
+      "id": 7,
+      "nombre": "Williams",
+      "imagen": "williams.png"
+    },
+    {
+      "id": 8,
+      "nombre": "Visa Cash App RB",
+      "imagen": "rb.png"
+    },
+    {
+      "id": 9,
+      "nombre": "Kick Sauber",
+      "imagen": "sauber.png"
+    },
+    {
+      "id": 10,
+      "nombre": "Haas",
+      "imagen": "haas.png"
+    }
+  ]
+}
