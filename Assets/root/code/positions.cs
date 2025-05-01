@@ -55,7 +55,7 @@ public class positions : MonoBehaviour
         // Validar que los elementos necesarios están asignados
         if (prefab != null && panel != null)
         {
-            foreach (var piloto in scriptlap.listaPilotos)
+            foreach (var piloto in scriptlap.copiaSegura)
             {
 
                 // Instanciar el prefab y asignarlo al panel
