@@ -32,7 +32,7 @@ public class positions : MonoBehaviour
         if (loader != null)
         {
             listaEscuderia = loader.EscuderiasCargadas;
-       
+
         }
         else
         {
@@ -66,9 +66,19 @@ public class positions : MonoBehaviour
                 Image[] escuderia = instancia.GetComponentsInChildren<Image>();
 
 
+ 
+                for (int D = 0; D < listaEscuderia.Count; D++)
+                {
+                    if (listaEscuderia[D].id == piloto.escuderia)
+                    {
+                string imagePath = "Fotos/Logos/" + listaEscuderia[D].imagen;
+                 Sprite sprite = Resources.Load<Sprite>(imagePath);
 
-
+                escuderia[1].sprite = sprite;
+                    }
+                }
                 //asignacion logo escuderia
+                /*
                 if (Convert.ToInt32(piloto.escuderia) == 1)
                 {
 
@@ -104,7 +114,7 @@ public class positions : MonoBehaviour
                     escuderia[1].sprite = logos[5];
 
                 }
-
+                */
 
                 //diferentes paneles de infoirmacion adicional
                 if (tipo == 0)
@@ -162,7 +172,7 @@ public class positions : MonoBehaviour
                 }
                 if (tipo == 2)
                 {
-                    textComponents[3].text = Convert.ToInt32(piloto.desgaste)+"";
+                    textComponents[3].text = Convert.ToInt32(piloto.desgaste) + "";
 
                 }
                 if (tipo == 3)
@@ -170,7 +180,7 @@ public class positions : MonoBehaviour
                     textComponents[3].text = Convert.ToInt32(piloto.modo) + "";
 
                 }
-           
+
 
 
                 //datos pilotos

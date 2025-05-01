@@ -11,20 +11,22 @@ public class laps : MonoBehaviour
    // public int vuelta_promedio = 86252;
     //public List<List<object>> datos = new List<List<object>>();
     // public List<List<object>> posiciones = new List<List<object>>();
-    public int dorsales;
-
     GameObject[] jugadores;
-
-    Proceso_Degradacion degradacion;
-
     public GameObject tiempos;
 
+    
+    int dorsales;
+    
     public int minor_fault = 0;
     public int medium_fault = 0;
     public int major_fault = 0;
-    int time_advantage = 0;
+    public int time_advantage = 0;
 
-    int vueltas_max = 40;
+    Proceso_Degradacion degradacion;
+
+
+
+    //int vueltas_max = 40;
     public int vueltas_act = 0;
 
     bool linea = true;
@@ -39,7 +41,8 @@ public class laps : MonoBehaviour
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
         {
-            listaPilotos = loader.PilotosCargados;
+            listaPilotos = loader.PilotosCargados;  //datos
+        listaPilotos = listaPilotos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
             listaPistas = loader.PistasCargadas;
            // Debug.Log("Primera pista: " + copiaSegura[0].nombre);
         }
@@ -53,7 +56,7 @@ public class laps : MonoBehaviour
         //Debug.Log(listaPistas[0].nombre); // Por ejemplo, imprime "Russell"
 
 
-        foreach (var piloto in loader.PilotosCargados)
+        foreach (var piloto in listaPilotos)
         {
             Data_base.Piloto nuevo = new Data_base.Piloto()
             {
@@ -80,7 +83,6 @@ public class laps : MonoBehaviour
         //datos.Add(new List<object> { "Alonso", 14, 5, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
         //datos.Add(new List<object> { "Rossi", 46, 6, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
 
-        copiaSegura = copiaSegura.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
 
         //foreach (var piloto in datos)
         //{
@@ -100,9 +102,11 @@ public class laps : MonoBehaviour
             StartCoroutine(tempo());
         }
     }
+
+    //Debug
     public void boton()
     {
-        if (vueltas_act < vueltas_max)
+        if (vueltas_act < listaPistas[0].vueltas)
         {
 
             vueltas_act++;
@@ -111,7 +115,7 @@ public class laps : MonoBehaviour
         }
 
     }
-
+    //----------------
     public int give_id()
     {
         if (dorsales <= listaPilotos.Count + 1)
@@ -132,8 +136,8 @@ public class laps : MonoBehaviour
             minor_fault = medium_fault = major_fault = time_advantage = 0;
             float penalizacion = 0;
 
-            int modo = Convert.ToInt32(copiaSegura[i].modo);
-            int desgaste = Convert.ToInt32(copiaSegura[i].desgaste);
+            int modo = Convert.ToInt32(listaPilotos[i].modo);
+            int desgaste = Convert.ToInt32(listaPilotos[i].desgaste);
 
             if (modo == 1) medium_fault++;
             if (modo == 2) minor_fault++;
@@ -156,7 +160,7 @@ public class laps : MonoBehaviour
             else if (desgaste <= 10)
             {
                 major_fault += 9;
-                print("fallo: " + copiaSegura[i].nombre + "  " + desgaste);
+                print("fallo: " + listaPilotos[i].nombre + "  " + desgaste);
             }
 
             for (int j = 0; j <= minor_fault; j++)
@@ -176,25 +180,38 @@ public class laps : MonoBehaviour
                 penalizacion -= UnityEngine.Random.Range(50, 200);
             }
 
-            float tiempoActual = Convert.ToInt32(copiaSegura[i].tiempo_total);
+            float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
             float nuevoTiempo = UnityEngine.Random.Range(0, 30) + 86252;
 
-            copiaSegura[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
-            copiaSegura[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
-            copiaSegura[i].vuelta = Convert.ToInt32(copiaSegura[i].vuelta) + 1;          // Sumar vuelta
+            listaPilotos[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
+            listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
+            listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
 
             boxbox(i);
         }
 
-        degradacion.wheel_wear();
+        //degradacion.wheel_wear();
         evento();
 
-        //posiciones.Clear();
-        //foreach (var piloto in datos)
-        //{
-        //    posiciones.Add(new List<object>(piloto));
-        //}
+        copiaSegura.Clear();
+        foreach (var piloto in listaPilotos)
+        {
+            Data_base.Piloto nuevo = new Data_base.Piloto()
+            {
+                nombre = piloto.nombre,
+                numero = piloto.numero,
+                escuderia = piloto.escuderia,
+                compuesto = piloto.compuesto,
+                desgaste = piloto.desgaste,
+                tiempo_total = piloto.tiempo_total,
+                tiempo_lap = piloto.tiempo_lap,
+                modo = piloto.modo,
+                vuelta = piloto.vuelta,
+                casco = piloto.casco
+            };
 
+            copiaSegura.Add(nuevo);
+        }
         copiaSegura.Sort((a, b) => Convert.ToInt32(a.tiempo_total).CompareTo(Convert.ToInt32(b.tiempo_total)));
         copiaSegura.Sort((b, a) => Convert.ToInt32(a.vuelta).CompareTo(Convert.ToInt32(b.vuelta)));
 
@@ -209,7 +226,7 @@ public class laps : MonoBehaviour
             yield return new WaitForSeconds(1f); // Espera 2 segundos
 
             vueltas_act++;
-            //jugadores[0].gameObject.GetComponent<test_box>().timer();
+            jugadores[0].gameObject.GetComponent<test_box>().timer();
             lap();
             linea = true;
         }
@@ -236,7 +253,7 @@ public class laps : MonoBehaviour
 
     public void boxbox(int id)
     {
-        int valor = Convert.ToInt32(copiaSegura[id].desgaste);
+        int valor = Convert.ToInt32(listaPilotos[id].desgaste);
 
         int numero = 0;
         if (valor > 50)
@@ -277,10 +294,10 @@ public class laps : MonoBehaviour
             }
 
             
-            copiaSegura[id].desgaste = 100; // desgaste
-            copiaSegura[id].compuesto = neumatico; // compuesto
-            copiaSegura[id].tiempo_total = Convert.ToInt32(copiaSegura[id].tiempo_total) + UnityEngine.Random.Range(9000, 15000); // tiempo total
-            print(copiaSegura[id].nombre + " cambio de riueda");
+            listaPilotos[id].desgaste = 100; // desgaste
+            listaPilotos[id].compuesto = neumatico; // compuesto
+            listaPilotos[id].tiempo_total = Convert.ToInt32(listaPilotos[id].tiempo_total) + UnityEngine.Random.Range(9000, 15000); // tiempo total
+            print(listaPilotos[id].nombre + " cambio de riueda");
         }
 
 

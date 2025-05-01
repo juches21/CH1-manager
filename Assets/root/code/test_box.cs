@@ -56,7 +56,7 @@ public class test_box : MonoBehaviour
         else
         {
 
-            T_player.text = scriptlap.copiaSegura[id].nombre.ToString();
+            T_player.text = scriptlap.listaPilotos[id].nombre.ToString();
             B_ask.SetActive(false);
             B_lap.SetActive(true);
         }
@@ -83,8 +83,8 @@ public class test_box : MonoBehaviour
 
 
 
-        int modo = Convert.ToInt32(scriptlap.copiaSegura[id].modo);
-        int desgaste = Convert.ToInt32(scriptlap.copiaSegura[id].desgaste);
+        int modo = Convert.ToInt32(scriptlap.listaPilotos[id].modo);
+        int desgaste = Convert.ToInt32(scriptlap.listaPilotos[id].desgaste);
 
         if (modo == 1) medium_fault++;
         if (modo == 2) minor_fault++;
@@ -131,7 +131,7 @@ public class test_box : MonoBehaviour
 
 
 
-        int tiempoActual = Convert.ToInt32(scriptlap.copiaSegura[id].tiempo_total);
+        int tiempoActual = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total);
 
 
 
@@ -139,9 +139,9 @@ public class test_box : MonoBehaviour
 
         float nuevoTiempo = 86252 + UnityEngine.Random.Range(0, 30);
 
-        scriptlap.copiaSegura[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
-        scriptlap.copiaSegura[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta
-        scriptlap.copiaSegura[id].vuelta = Convert.ToInt32(scriptlap.copiaSegura[id].vuelta) + 1;
+        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
+        scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta
+        scriptlap.listaPilotos[id].vuelta = Convert.ToInt32(scriptlap.listaPilotos[id].vuelta) + 1;
 
         //print(nuevoTiempo);
 
@@ -185,17 +185,17 @@ public class test_box : MonoBehaviour
 
     public void eco()
     {
-        scriptlap.copiaSegura[id].modo = 1;
+        scriptlap.listaPilotos[id].modo = 1;
 
     }
     public void normal()
     {
-        scriptlap.copiaSegura[id].modo = 2;
+        scriptlap.listaPilotos[id].modo = 2;
 
     }
     public void fast()
     {
-        scriptlap.copiaSegura[id].modo = 3;
+        scriptlap.listaPilotos[id].modo = 3;
 
     }
 
@@ -228,9 +228,9 @@ public class test_box : MonoBehaviour
 
     public void box_time(int tiempo)
     {
-        scriptlap.copiaSegura[id].desgaste = 100; // desgaste
-        scriptlap.copiaSegura[id].compuesto = neumatico; // compuesto
-        scriptlap.copiaSegura[id].tiempo_total = Convert.ToInt32(scriptlap.copiaSegura[id].tiempo_total) + tiempo; // tiempo total
+        scriptlap.listaPilotos[id].desgaste = 100; // desgaste
+        scriptlap.listaPilotos[id].compuesto = neumatico; // compuesto
+        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total) + tiempo; // tiempo total
 
 
     }
@@ -240,7 +240,7 @@ public class test_box : MonoBehaviour
     void Load_Helmet()
     {
         // Obtener la ruta del casco desde los datos
-        string imagePath = "Fotos/" + scriptlap.copiaSegura[id].casco.ToString();
+        string imagePath = "Fotos/Cascos/" + scriptlap.listaPilotos[id].casco;
 
         // Cargar el sprite desde Resources usando la ruta proporcionada
         Sprite sprite = Resources.Load<Sprite>(imagePath);

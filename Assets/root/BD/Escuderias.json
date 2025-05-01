@@ -3,52 +3,32 @@
     {
       "id": 1,
       "nombre": "Mercedes",
-      "imagen": "mercedes.png"
+      "imagen": "ch"
     },
     {
       "id": 2,
       "nombre": "Red Bull Racing",
-      "imagen": "redbull.png"
+      "imagen": "chisteracing"
     },
     {
       "id": 3,
       "nombre": "Ferrari",
-      "imagen": "ferrari.png"
+      "imagen": "Group_935_logo_WaW"
     },
     {
       "id": 4,
       "nombre": "McLaren",
-      "imagen": "mclaren.png"
+      "imagen": "lukych1"
     },
     {
       "id": 5,
       "nombre": "Aston Martin",
-      "imagen": "astonmartin.png"
+      "imagen": "neo"
     },
     {
       "id": 6,
       "nombre": "Alpine",
-      "imagen": "alpine.png"
-    },
-    {
-      "id": 7,
-      "nombre": "Williams",
-      "imagen": "williams.png"
-    },
-    {
-      "id": 8,
-      "nombre": "Visa Cash App RB",
-      "imagen": "rb.png"
-    },
-    {
-      "id": 9,
-      "nombre": "Kick Sauber",
-      "imagen": "sauber.png"
-    },
-    {
-      "id": 10,
-      "nombre": "Haas",
-      "imagen": "haas.png"
+      "imagen": "soliluna"
     }
   ]
 }
