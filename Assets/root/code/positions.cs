@@ -45,19 +45,20 @@ public class positions : MonoBehaviour
     {
 
     }
-
+    int posicion;
     public void AñadirPrefabAlPanel()
     {
         LimpiarPanel();
-        print(listaEscuderia[0].nombre);
+        posicion = 0;
         int offsetY = 300; // Separación inicial entre elementos
         tiempo_anterior = 0;
+        tiempo_lider=0;
         // Validar que los elementos necesarios están asignados
         if (prefab != null && panel != null)
         {
             foreach (var piloto in scriptlap.copiaSegura)
             {
-
+                posicion++;
                 // Instanciar el prefab y asignarlo al panel
                 GameObject instancia = Instantiate(prefab, panel);
 
@@ -66,17 +67,120 @@ public class positions : MonoBehaviour
                 Image[] escuderia = instancia.GetComponentsInChildren<Image>();
 
 
- 
+
                 for (int D = 0; D < listaEscuderia.Count; D++)
                 {
                     if (listaEscuderia[D].id == piloto.escuderia)
                     {
-                string imagePath = "Fotos/Logos/" + listaEscuderia[D].imagen;
-                 Sprite sprite = Resources.Load<Sprite>(imagePath);
+                        string imagePath = "Fotos/Logos/" + listaEscuderia[D].imagen;
+                        Sprite sprite = Resources.Load<Sprite>(imagePath);
 
-                escuderia[1].sprite = sprite;
+                        escuderia[3].sprite = sprite;
+
+                        string[] RGB = listaEscuderia[D].color.Split(',');
+                        float r = int.Parse(RGB[0]) / 255f;
+                        float g = int.Parse(RGB[1]) / 255f;
+                        float b = int.Parse(RGB[2]) / 255f;
+           
+                        escuderia[2].color = new Color(r, g, b); ;
                     }
                 }
+
+                textComponents[0].text = posicion + "";
+                textComponents[1].text = piloto.nombre + "";
+                textComponents[2].text = Convert.ToInt32(piloto.numero) + "";
+                //textComponents[3].text = Convert.ToInt32(piloto.tiempo_lap) + "";
+
+
+                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto.tiempo_lap);
+
+                // Calcular minutos, segundos y milisegundos
+                int minutos = tiempoactualEnMilisegundos / 60000;
+                int segundos = (tiempoactualEnMilisegundos % 60000) / 1000;
+                int milisegundos = tiempoactualEnMilisegundos % 1000;
+
+                // Formatear el texto en mm:ss:fff
+                textComponents[3].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
+
+
+
+
+                //modos tabla
+
+                //respecto lider
+                if (tipo == 0)
+                {
+
+                    if (tiempo_lider > 0)
+                    {
+                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_lap);
+                        diferencia = Mathf.Abs(diferencia);
+                        if (diferencia == 0)
+                        {
+                            diferencia = 1;
+                        }
+
+                        // Calcular minutos, segundos y milisegundos
+                        int minutos_d = diferencia / 60000;
+                        int segundos_d = (diferencia % 60000) / 1000;
+                        int milisegundos_d = diferencia % 1000;
+
+                        // Formatear el texto en mm:ss:fff
+                        textComponents[4].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
+                    }
+                    else
+                    {
+                        textComponents[4].text = "Leader";
+                        tiempo_lider = Convert.ToInt32(piloto.tiempo_lap);
+                    }
+
+                }
+
+                //respecto ribal
+                if (tipo == 1)
+                {
+
+                    if (tiempo_anterior > 0)
+                    {
+
+                        int diferencia = Convert.ToInt32(piloto.tiempo_total)-tiempo_anterior ;
+                        diferencia = Mathf.Abs(diferencia);
+                        if (diferencia == 0)
+                        {
+                            diferencia = 1;
+                        }
+
+                        // Calcular minutos, segundos y milisegundos
+                        int minutos_d = diferencia / 60000;
+                        int segundos_d = (diferencia % 60000) / 1000;
+                        int milisegundos_d = diferencia % 1000;
+
+                        // Formatear el texto en mm:ss:fff
+                        print(string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d));
+                        textComponents[4].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
+                        tiempo_anterior = Convert.ToInt32(piloto.tiempo_lap);
+
+                    }
+                    else
+                    {
+                        tiempo_anterior = Convert.ToInt32(piloto.tiempo_lap);
+                        textComponents[4].text = "Delta";
+                    }
+                }
+                if (tipo == 2)
+                {
+                    textComponents[4].text = Convert.ToInt32(piloto.desgaste) + "";
+
+                }
+                if (tipo == 3)
+                {
+                    textComponents[4].text = Convert.ToInt32(piloto.modo) + "";
+
+                }
+                tiempo_anterior = Convert.ToInt32(piloto.tiempo_total);
+
+                /*
+
                 //asignacion logo escuderia
                 /*
                 if (Convert.ToInt32(piloto.escuderia) == 1)
@@ -114,16 +218,16 @@ public class positions : MonoBehaviour
                     escuderia[1].sprite = logos[5];
 
                 }
-                */
+              //
 
                 //diferentes paneles de infoirmacion adicional
                 if (tipo == 0)
                 {
 
-                    if (tiempo_anterior > 0)
+                    if (tiempo_lider > 0)
                     {
-
-                        int diferencia = tiempo_anterior - Convert.ToInt32(piloto.tiempo_lap);
+                        print(tiempo_anterior);
+                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_lap);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -141,15 +245,18 @@ public class positions : MonoBehaviour
                     else
                     {
                         textComponents[3].text = "leader";
+                        // tiempo_lider = Convert.ToInt32(piloto.tiempo_lap);
+                        tiempo_lider = 1;
                     }
 
                 }
                 if (tipo == 1)
                 {
+                       
                     if (tiempo_anterior > 0)
                     {
 
-                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_total);
+                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_lap);
                         diferencia = Mathf.Abs(diferencia);
                         if (diferencia == 0)
                         {
@@ -166,7 +273,7 @@ public class positions : MonoBehaviour
                     }
                     else
                     {
-                        tiempo_lider = Convert.ToInt32(piloto.tiempo_total);
+                        tiempo_lider = Convert.ToInt32(piloto.tiempo_lap);
                         textComponents[3].text = "leader";
                     }
                 }
@@ -209,7 +316,7 @@ public class positions : MonoBehaviour
                 // Formatear el texto en mm:ss:fff
                 textComponents[2].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
                 //textComponents[2].text = piloto[2].ToString(); // Nombre de la mejora
-
+                */
                 // Ajustar la posición del prefab en el panel
                 instancia.transform.localPosition = new Vector3(0, offsetY, 0);
                 offsetY -= 50; // Reducir la separación para la siguiente mejora
@@ -244,12 +351,12 @@ public class positions : MonoBehaviour
 
     public void diferencia_L()
     {
-        tipo = 1;
+        tipo = 0;
         AñadirPrefabAlPanel();
     }
     public void diferencia()
     {
-        tipo = 0;
+        tipo = 1;
         AñadirPrefabAlPanel();
 
     }

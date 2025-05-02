@@ -3,32 +3,38 @@
     {
       "id": 1,
       "nombre": "Mercedes",
-      "imagen": "ch"
+      "imagen": "ch",
+"color":"103, 0, 123"
     },
     {
       "id": 2,
       "nombre": "Red Bull Racing",
-      "imagen": "chisteracing"
+      "imagen": "chisteracing",
+"color":"123, 0, 0"
     },
     {
       "id": 3,
       "nombre": "Ferrari",
-      "imagen": "Group_935_logo_WaW"
+      "imagen": "Group_935_logo_WaW",
+"color":" 98, 98, 98"
     },
     {
       "id": 4,
       "nombre": "McLaren",
-      "imagen": "lukych1"
+      "imagen": "lukych1",
+"color":"3, 144, 162"
     },
     {
       "id": 5,
       "nombre": "Aston Martin",
-      "imagen": "neo"
+      "imagen": "neo",
+"color":" 195, 126, 164"
     },
     {
       "id": 6,
       "nombre": "Alpine",
-      "imagen": "soliluna"
+      "imagen": "soliluna",
+"color":"234, 224, 66"
     }
   ]
 }

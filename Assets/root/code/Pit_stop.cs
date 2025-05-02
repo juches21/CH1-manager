@@ -9,6 +9,8 @@ public class Pit_stop : MonoBehaviour
 
     [SerializeField] GameObject[] mechanic;
     [SerializeField] GameObject light;
+    [SerializeField] AudioSource[] Pistolas_audio;
+    [SerializeField] AudioSource car_audio;
 
     public Image car;
     public int chrono = 0;
@@ -27,12 +29,15 @@ public class Pit_stop : MonoBehaviour
 
         }
         panel.SetActive(false);
+        stop = true;
+        chrono = 0;
         //time();
     }
 
     void acierto(int id)
     {
         print("cambio");
+        Pistolas_audio[id].Play();
         mechanic[id].GetComponent<Button>().interactable = false;
         StartCoroutine(Change());
     }
@@ -94,12 +99,14 @@ public class Pit_stop : MonoBehaviour
 
             yield return new WaitForSeconds(0.000001f);
         }
-
+        car_audio.Play();
     }
 
 
     IEnumerator car_ex()
     {
+        car_audio.Stop();
+
         for (float D = -34.52f; D <= 513.61f; D += 5)
         {
             car.rectTransform.anchoredPosition = new Vector2(0, D);
@@ -111,5 +118,6 @@ public class Pit_stop : MonoBehaviour
         car.rectTransform.anchoredPosition = new Vector2(0, -5555);
 
         panel.SetActive(false);
+        chrono = 0;
     }
 }

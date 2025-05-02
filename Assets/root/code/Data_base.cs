@@ -36,6 +36,7 @@ public class Data_base : MonoBehaviour
         public int id;
         public string nombre;
         public string imagen;
+        public string color;
     }
 
     [System.Serializable]
