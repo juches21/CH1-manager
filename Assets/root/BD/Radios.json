@@ -1,0 +1,96 @@
+{
+    "radios": [
+        {
+            "texto": "Creo que tengo problemas con la batería",
+            "opcion_1": "Ahora lo revisamos",
+            "opcion_2": "Tu sigue empujando"
+
+        },
+        {
+            "texto": "Creo que tengo problemas con la suspensión delantera ",
+            "opcion_1": "Ahora lo revisamos",
+            "opcion_2": "Tu sigue empujando"
+
+        },
+        {
+            "texto": "Creo que tengo problemas con la refrigeración",
+            "opcion_1": "Ahora lo revisamos",
+            "opcion_2": "Tu sigue empujando"
+
+        },
+        {
+            "texto": "Estoy quedándome sin batería para el modo ERS.",
+            "opcion_1": "Gestiona la carga, usa menos en recta",
+            "opcion_2": "Sigue usando ERS al máximo"
+
+        },
+
+
+
+        {
+            "texto": "Me están alcanzando rápido, ¿defiendo duro?",
+            "opcion_1": "Defiende limpio pero no arriesgues demasiado.",
+            "opcion_2": "Bloquéalo a toda costa, pase lo que pase."
+
+
+
+        },
+        {
+            "texto": "¿Cuál es el plan ahora? ¿Plan A o Plan B?",
+            "opcion_1": "Confirmamos Plan B, parada adelantada.",
+            "opcion_2": "No tenemos plan, improvisa."
+
+
+
+        },
+        {
+            "texto": "¿Puedo hacer la parada para la vuelta rápida?",
+            "opcion_1": "Negativo, riesgo de perder posición.",
+            "opcion_2": "Sí, entra ahora, sin importar la posición."
+
+
+
+        },
+        {
+            "texto": "¡He bloqueado frenos, casi pierdo el coche!",
+            "opcion_1": "Reduce presión en frenada, calma en la siguiente vuelta.",
+            "opcion_2": "Intenta frenar más tarde, así ganas tiempo."
+
+
+
+        },
+        {
+            "texto": "¿Estás seguro de esta estrategia? Puede salir muy mal.",
+            "opcion_1": "Confía en el plan, todo está calculado.",
+            "opcion_2": "Ni idea, ve improvisando."
+
+
+
+        },
+        {
+            "texto": "Me cuesta encontrar tracción a la salida de curva.",
+            "opcion_1": "Ajusta mapa motor al modo suave.",
+            "opcion_2": "Usa más acelerador, eso ayuda."
+
+
+
+        },
+
+        {
+            "texto": "¡Me siento bien, el coche está volando!",
+            "opcion_1": "Eso nos gusta oír. Mantén ese ritmo.",
+            "opcion_2": "No te emociones, baja el ritmo."
+
+
+
+        }
+        {
+            "texto": "Me estás dando demasiada información, no puedo concentrarme.",
+            "opcion_1": "Perdón. Silencio de radio, solo lo esencial.",
+            "opcion_2": "Aguanta, tú pediste datos."
+
+
+
+        }
+    ]
+}

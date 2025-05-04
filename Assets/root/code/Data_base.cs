@@ -6,6 +6,7 @@ public class Data_base : MonoBehaviour
     public TextAsset DB_Pilotos;
     public TextAsset DB_Pistas;
     public TextAsset DB_Escuderias;
+    public TextAsset DB_Radios;
 
     [System.Serializable]
     public class Piloto
@@ -39,6 +40,15 @@ public class Data_base : MonoBehaviour
         public string color;
     }
 
+
+
+    public class Radio
+    {
+        public string texto;
+        public string opcion_1;
+        public string opcion_2;
+        
+    }
     [System.Serializable]
     public class PilotoList
     {
@@ -55,15 +65,26 @@ public class Data_base : MonoBehaviour
     {
         public List<Escuderia> escuderia; // <-- Coincide con el JSON
     }
+
+
+    [System.Serializable]
+    public class RadioList
+    {
+        public List<Radio> radio; // <-- Coincide con el JSON
+    }
+
+
     public List<Piloto> PilotosCargados = new List<Piloto>();
     public List<Pista> PistasCargadas = new List<Pista>();
     public List<Escuderia> EscuderiasCargadas = new List<Escuderia>();
+    public List<Radio> RadiosCargadas = new List<Radio>();
 
     void Awake()
     {
         CargarPilotos();
         CargarPistas();
         CargarEscuderias();
+        CargarRadios();
     }
 
     void CargarPilotos()
@@ -99,6 +120,17 @@ public class Data_base : MonoBehaviour
         {
             EscuderiaList lista = JsonUtility.FromJson<EscuderiaList>(DB_Escuderias.text);
             EscuderiasCargadas = lista.escuderia;
+        }
+        else
+        {
+            Debug.LogError("DB_Escuderias no asignado.");
+        }
+    }  void CargarRadios()
+    {
+        if (DB_Escuderias != null)
+        {
+            RadioList lista = JsonUtility.FromJson<RadioList>(DB_Radios.text);
+           RadiosCargadas = lista.radio;
         }
         else
         {

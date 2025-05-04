@@ -1127,17 +1127,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210806614}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 4.1332793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1463058404}
+  m_Father: {fileID: 1834399702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 13, y: 212}
-  m_SizeDelta: {x: 612.48, y: 303.7}
+  m_AnchoredPosition: {x: 58, y: 0}
+  m_SizeDelta: {x: 780.5, y: 405.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &210806616
 MonoBehaviour:
@@ -3448,7 +3448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &785147321
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5125,9 +5125,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1822251301}
-  - {fileID: 409976223}
-  - {fileID: 879219386}
-  - {fileID: 1782988042}
   - {fileID: 1519661516}
   - {fileID: 1259143371}
   - {fileID: 1491572481}
@@ -5136,6 +5133,10 @@ RectTransform:
   - {fileID: 1459464682}
   - {fileID: 1604902029}
   - {fileID: 2070902316}
+  - {fileID: 1463058404}
+  - {fileID: 409976223}
+  - {fileID: 879219386}
+  - {fileID: 1782988042}
   m_Father: {fileID: 1807608364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7184,9 +7185,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 210806615}
-  m_Father: {fileID: 1822251301}
+  m_Children: []
+  m_Father: {fileID: 1102372410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7207,7 +7207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9354,7 +9354,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1463058404}
   - {fileID: 1834399702}
   - {fileID: 785147321}
   - {fileID: 2000134334}
@@ -9434,6 +9433,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 210806615}
   - {fileID: 2045440831}
   - {fileID: 169708789}
   - {fileID: 458565543}
@@ -11003,6 +11003,7 @@ MonoBehaviour:
   DB_Pilotos: {fileID: 4900000, guid: bc4d98aeedb36334dad8e835136402ee, type: 3}
   DB_Pistas: {fileID: 4900000, guid: 7c0928e2cdf2ba749a537a3e535058f1, type: 3}
   DB_Escuderias: {fileID: 4900000, guid: 60a2f92590f77eb4b8b87864f445dbba, type: 3}
+  DB_Radios: {fileID: 0}
   PilotosCargados: []
   PistasCargadas: []
   EscuderiasCargadas: []
