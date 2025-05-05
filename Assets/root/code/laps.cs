@@ -188,6 +188,7 @@ public class laps : MonoBehaviour
             listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
 
             boxbox(i);
+            Ritmo(i);
         }
 
         //degradacion.wheel_wear();
@@ -303,34 +304,39 @@ public class laps : MonoBehaviour
 
     }
 
+    public void Ritmo(int id)
+    {
+        int valor = Convert.ToInt32(listaPilotos[id].desgaste);
 
 
-    //[System.Serializable]
-    //public class Piloto
-    //{
-    //    public string nombre;
-    //    public int numero;
-    //    public int escuderia;
-    //    public string compuesto;
-    //    public int desgaste;
-    //    public int tiempo_total;
-    //    public int tiempo_lap;
-    //    public int modo;
-    //    public int vuelta;
-    //    public string casco;
-    //}
+        int probavilidad = UnityEngine.Random.Range(0, 100);
+        if (probavilidad > 50)
+        {
 
-    //public TextAsset archivoJSON; // arrastra aquí tu .json en el Inspector
-  
+            int actitud;
+            int probabilidad = Random.Range(0, 100); // Genera número entre 0 y 99
 
-    ////Base de datos
+            if (probabilidad < 20)
+            {
+                actitud = 1;
+            }
+            else if (probabilidad < 70)
+            {
+                actitud = 2;
+            }
+            else
+            {
+                actitud = 3;
+            }
 
-    //[System.Serializable]
-    //public class PilotoList
-    //{
-    //    public List<Piloto> pilotos;
-    //}
-    
 
-    //public List<Piloto> listaPilotos;
+         
+            listaPilotos[id].modo = actitud; // compuesto
+            print(listaPilotos[id].nombre + " cambio de ritmo");
+        }
+
+
+    }
+
+
 }

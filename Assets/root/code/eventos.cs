@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;  // Necesario para trabajar con botones
@@ -10,6 +11,7 @@ public class eventos : MonoBehaviour
     int falta;
     public List<List<object>> penalty = new List<List<object>>();
 
+    public List<Data_base.Radio> listaRadios;
 
     public GameObject panelchec;
 
@@ -22,12 +24,27 @@ public class eventos : MonoBehaviour
     int fallo_power;
 
 
+    public GameObject prefab;         // Prefab que se usa para cada elemento de la tienda
+    public Transform panel;
+
     int menor;
     int medio;
     int grande;
     // Start is called before the first frame update
     void Start()
     {
+
+        Data_base loader = FindObjectOfType<Data_base>();
+        if (loader != null)
+        {
+            listaRadios = loader.RadiosCargada;  //datos
+        
+            // Debug.Log("Primera pista: " + copiaSegura[0].nombre);
+        }
+        else
+        {
+            Debug.LogError("No se encontró el script Data_base en la escena.");
+        }
         falta = 0;
         partes[0].GetComponent<RawImage>().color = Color.green;
         partes[1].GetComponent<RawImage>().color = Color.green;
@@ -51,7 +68,7 @@ public class eventos : MonoBehaviour
     public void test()
     {
         int numeroAleatorio = UnityEngine.Random.Range(0, 101);
-
+        print(listaRadios[0].texto);
         if (numeroAleatorio > 80)
         {
             menor = gameObject.GetComponent<test_box>().minor_fault;
@@ -91,16 +108,23 @@ public class eventos : MonoBehaviour
         }
         */
 
-     
+
+        aplicar();
 
 
 
-        gameObject.GetComponent<test_box>().minor_fault=menor;
-        gameObject.GetComponent<test_box>().medium_fault=medio;
-        gameObject.GetComponent<test_box>().major_fault=grande;
+
     }
 
 
+
+
+    public void aplicar()
+    {
+        gameObject.GetComponent<test_box>().minor_fault = menor;
+        gameObject.GetComponent<test_box>().medium_fault = medio;
+        gameObject.GetComponent<test_box>().major_fault = grande;
+    }
     public void acierto(int id)
     {
         for (int i = 0; i < penalty.Count; i++)

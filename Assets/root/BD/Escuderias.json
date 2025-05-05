@@ -2,39 +2,39 @@
   "escuderia": [
     {
       "id": 1,
-      "nombre": "Mercedes",
+      "nombre": "HexaForge AMG F1",
       "imagen": "ch",
-"color":"103, 0, 123"
+        "color":"103, 0, 123"
     },
     {
       "id": 2,
-      "nombre": "Red Bull Racing",
+      "nombre": "Unlucky Ferrari Strike",
       "imagen": "chisteracing",
-"color":"123, 0, 0"
+      "color":"204, 0, 0"
     },
     {
       "id": 3,
-      "nombre": "Ferrari",
+      "nombre": "Nano Speed",
       "imagen": "Group_935_logo_WaW",
-"color":" 98, 98, 98"
+      "color":"0, 94, 255"
     },
     {
       "id": 4,
-      "nombre": "McLaren",
+      "nombre": "Neo Minardi X",
       "imagen": "lukych1",
-"color":"3, 144, 162"
+     "color":"90, 90, 90"
     },
     {
       "id": 5,
-      "nombre": "Aston Martin",
+      "nombre": "Turbo Honda Ramen",
       "imagen": "neo",
-"color":" 195, 126, 164"
+"color":" 255, 211, 71"
     },
     {
       "id": 6,
-      "nombre": "Alpine",
+      "nombre": "CryoRenault KSI",
       "imagen": "soliluna",
-"color":"234, 224, 66"
+"color":"162, 232, 255"
     }
   ]
 }

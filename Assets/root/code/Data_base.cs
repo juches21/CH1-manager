@@ -41,7 +41,7 @@ public class Data_base : MonoBehaviour
     }
 
 
-
+    [System.Serializable]
     public class Radio
     {
         public string texto;
@@ -70,14 +70,14 @@ public class Data_base : MonoBehaviour
     [System.Serializable]
     public class RadioList
     {
-        public List<Radio> radio; // <-- Coincide con el JSON
+        public List<Radio> radios; // <-- Coincide con el JSON
     }
 
 
     public List<Piloto> PilotosCargados = new List<Piloto>();
     public List<Pista> PistasCargadas = new List<Pista>();
     public List<Escuderia> EscuderiasCargadas = new List<Escuderia>();
-    public List<Radio> RadiosCargadas = new List<Radio>();
+    public List<Radio> RadiosCargada = new List<Radio>();
 
     void Awake()
     {
@@ -130,7 +130,7 @@ public class Data_base : MonoBehaviour
         if (DB_Escuderias != null)
         {
             RadioList lista = JsonUtility.FromJson<RadioList>(DB_Radios.text);
-           RadiosCargadas = lista.radio;
+           RadiosCargada = lista.radios;
         }
         else
         {
