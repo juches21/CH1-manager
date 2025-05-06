@@ -18,6 +18,14 @@
             "opcion_2": "Tu sigue empujando"
 
         },
+          {
+            "texto": "¡Me siento bien, el coche está volando!",
+            "opcion_1": "Eso nos gusta oír. Mantén ese ritmo.",
+            "opcion_2": "No te emociones, baja el ritmo."
+
+
+
+        },
         {
             "texto": "Estoy quedándome sin batería para el modo ERS.",
             "opcion_1": "Gestiona la carga, usa menos en recta",
@@ -76,14 +84,7 @@
 
         },
 
-        {
-            "texto": "¡Me siento bien, el coche está volando!",
-            "opcion_1": "Eso nos gusta oír. Mantén ese ritmo.",
-            "opcion_2": "No te emociones, baja el ritmo."
-
-
-
-        },
+      
         {
             "texto": "Me estás dando demasiada información, no puedo concentrarme.",
             "opcion_1": "Perdón. Silencio de radio, solo lo esencial.",

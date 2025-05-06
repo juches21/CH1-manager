@@ -11,6 +11,7 @@ public class test_box : MonoBehaviour
     public GameObject B_ask;
     public GameObject B_lap;
     public TextMeshProUGUI T_player;
+    public TextMeshProUGUI T_desgaste;
     [SerializeField] int id;
     laps scriptlap;
 
@@ -18,7 +19,7 @@ public class test_box : MonoBehaviour
     public int minor_fault = 0;
     public int medium_fault = 0;
     public int major_fault = 0;
-    int time_advantage = 0;
+    public int time_advantage = 0;
 
 
     string neumatico;
@@ -37,6 +38,7 @@ public class test_box : MonoBehaviour
         B_ask.SetActive(true);
         B_lap.SetActive(false);
         ask_for_id();
+        normal();
     }
 
     // Update is called once per frame
@@ -57,6 +59,7 @@ public class test_box : MonoBehaviour
         {
 
             T_player.text = scriptlap.listaPilotos[id].nombre.ToString();
+           
             B_ask.SetActive(false);
             B_lap.SetActive(true);
         }
@@ -71,9 +74,7 @@ public class test_box : MonoBehaviour
     {
 
         //print("lapeada indi");
-        minor_fault = 0;
-        medium_fault = 0;
-        major_fault = 0;
+  
         time_advantage = 0;
 
 
@@ -86,28 +87,38 @@ public class test_box : MonoBehaviour
         int modo = Convert.ToInt32(scriptlap.listaPilotos[id].modo);
         int desgaste = Convert.ToInt32(scriptlap.listaPilotos[id].desgaste);
 
-        if (modo == 1) medium_fault++;
-        if (modo == 2) minor_fault++;
-        if (modo == 3) time_advantage++;
 
+        if (modo == 1)
+        {
+            penalizacion += UnityEngine.Random.Range(150, 300);
+        }
+        if (modo == 2)
+        {
+            penalizacion += UnityEngine.Random.Range(50, 100);
+        }
+        if (modo == 3)
+        {
+            penalizacion -= UnityEngine.Random.Range(500, 900);
+        }
 
         if (desgaste > 80)
         {
-            minor_fault++;
+            penalizacion += UnityEngine.Random.Range(50, 100);
         }
         else if (desgaste > 50)
         { }
         else if (desgaste > 30)
         {
-            medium_fault += 2;
+            penalizacion += UnityEngine.Random.Range(150, 900);
         }
         else if (desgaste > 10)
         {
-            major_fault += 7;
+            penalizacion += UnityEngine.Random.Range(900, 12000);
         }
         else if (desgaste <= 10)
         {
-            major_fault += 9;
+            penalizacion += UnityEngine.Random.Range(12000, 15000);
+            
         }
 
         
@@ -125,7 +136,9 @@ public class test_box : MonoBehaviour
         }
         for (int j = 0; j <= time_advantage; j++)
         {
-            penalizacion -= UnityEngine.Random.Range(50, 200);
+            print(penalizacion + " penalizar pre");
+            penalizacion -= UnityEngine.Random.Range(500, 900);
+            print(penalizacion+" penalizar");
         }
         
 
@@ -137,7 +150,7 @@ public class test_box : MonoBehaviour
 
 
 
-        float nuevoTiempo = 86252 + UnityEngine.Random.Range(0, 30);
+        float nuevoTiempo = 86252 + UnityEngine.Random.Range(0, 90);
 
         scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
         scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta
@@ -146,7 +159,7 @@ public class test_box : MonoBehaviour
         //print(nuevoTiempo);
 
 
-
+         T_desgaste.text = "Neumatico " + scriptlap.listaPilotos[id].compuesto.ToString() +" : "+ scriptlap.listaPilotos[id].desgaste.ToString()+"%";
 
         penalizacion = 0;
 
@@ -186,17 +199,17 @@ public class test_box : MonoBehaviour
     public void eco()
     {
         scriptlap.listaPilotos[id].modo = 1;
-
+        medium_fault++;
     }
     public void normal()
     {
         scriptlap.listaPilotos[id].modo = 2;
-
+        minor_fault++;
     }
     public void fast()
     {
         scriptlap.listaPilotos[id].modo = 3;
-
+        time_advantage++;
     }
 
     //botones neumaticos
@@ -220,8 +233,11 @@ public class test_box : MonoBehaviour
 
     public void boxbox()
     {
-
+        if(scriptlap.listaPilotos[id].compuesto != null)
+        {
         gameObject.GetComponent<Pit_stop>().time();
+
+        }
 
 
     }
@@ -230,7 +246,7 @@ public class test_box : MonoBehaviour
     {
         scriptlap.listaPilotos[id].desgaste = 100; // desgaste
         scriptlap.listaPilotos[id].compuesto = neumatico; // compuesto
-        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total) + tiempo; // tiempo total
+        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total) + tiempo+9000; // tiempo total
 
 
     }

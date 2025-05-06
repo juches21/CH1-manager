@@ -65,13 +65,14 @@ public class positions : MonoBehaviour
                 // Buscar los componentes de texto en el prefab y asignar los valores correspondientes
                 TextMeshProUGUI[] textComponents = instancia.GetComponentsInChildren<TextMeshProUGUI>();
                 Image[] escuderia = instancia.GetComponentsInChildren<Image>();
-
+               
 
 
                 for (int D = 0; D < listaEscuderia.Count; D++)
                 {
                     if (listaEscuderia[D].id == piloto.escuderia)
                     {
+                       
                         string imagePath = "Fotos/Logos/" + listaEscuderia[D].imagen;
                         Sprite sprite = Resources.Load<Sprite>(imagePath);
 
@@ -174,7 +175,7 @@ public class positions : MonoBehaviour
                 }
                 if (tipo == 3)
                 {
-                    textComponents[4].text = Convert.ToInt32(piloto.modo) + "";
+                    textComponents[4].text = piloto.compuesto + "";
 
                 }
                 tiempo_anterior = Convert.ToInt32(piloto.tiempo_total);

@@ -138,10 +138,18 @@ public class laps : MonoBehaviour
 
             int modo = Convert.ToInt32(listaPilotos[i].modo);
             int desgaste = Convert.ToInt32(listaPilotos[i].desgaste);
-
-            if (modo == 1) medium_fault++;
-            if (modo == 2) minor_fault++;
-            if (modo == 3) time_advantage++;
+            if (modo == 1)
+            {
+                penalizacion += UnityEngine.Random.Range(150, 300);
+            }
+            if (modo == 2)
+            {
+                penalizacion += UnityEngine.Random.Range(50, 100);
+            }
+            if (modo == 3)
+            {
+                penalizacion -= UnityEngine.Random.Range(500, 900);
+            }
 
             if (desgaste > 80)
             {
@@ -181,17 +189,17 @@ public class laps : MonoBehaviour
             }
 
             float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
-            float nuevoTiempo = UnityEngine.Random.Range(0, 30) + 86252;
+            float nuevoTiempo = UnityEngine.Random.Range(0, 90) + 86252;
 
             listaPilotos[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
             listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
             listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
-
+            penalizacion = 0;
             boxbox(i);
             Ritmo(i);
         }
 
-        //degradacion.wheel_wear();
+        degradacion.wheel_wear();
         evento();
 
         copiaSegura.Clear();
@@ -224,7 +232,7 @@ public class laps : MonoBehaviour
 
         if (vueltas_act < listaPistas[0].vueltas)
         {
-            yield return new WaitForSeconds(1f); // Espera 2 segundos
+            yield return new WaitForSeconds(5f); // Espera 2 segundos
 
             vueltas_act++;
             jugadores[0].gameObject.GetComponent<test_box>().timer();
@@ -241,8 +249,7 @@ public class laps : MonoBehaviour
 
     void evento()
     {
-
-        jugadores[0].gameObject.GetComponent<eventos>().test();
+        jugadores[0].gameObject.GetComponent<eventos>().maquina_de_radios();
 
     }
 

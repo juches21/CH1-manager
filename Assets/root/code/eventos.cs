@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;  // Necesario para trabajar con botones
@@ -30,15 +31,17 @@ public class eventos : MonoBehaviour
     int menor;
     int medio;
     int grande;
+
+
+    public AudioSource audio;
     // Start is called before the first frame update
     void Start()
     {
-
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
         {
             listaRadios = loader.RadiosCargada;  //datos
-        
+
             // Debug.Log("Primera pista: " + copiaSegura[0].nombre);
         }
         else
@@ -55,7 +58,7 @@ public class eventos : MonoBehaviour
         botones[2].GetComponent<Button>().interactable = false;
 
 
-     
+
     }
 
     // Update is called once per frame
@@ -64,58 +67,65 @@ public class eventos : MonoBehaviour
 
     }
 
-
-    public void test()
+    bool radio_on = false;
+    public void maquina_de_radios()
     {
-        int numeroAleatorio = UnityEngine.Random.Range(0, 101);
-        print(listaRadios[0].texto);
-        if (numeroAleatorio > 80)
+        if (!radio_on)
         {
-            menor = gameObject.GetComponent<test_box>().minor_fault;
-            medio = gameObject.GetComponent<test_box>().medium_fault;
-            grande = gameObject.GetComponent<test_box>().major_fault;
+            audio.Play();
+            radio_on =true;
+            int numeroAleatorio = UnityEngine.Random.Range(0, 101);
+            print(listaRadios[0].texto);
+
+            if (50 == 50)
+            {
+                menor = gameObject.GetComponent<test_box>().minor_fault;
+                medio = gameObject.GetComponent<test_box>().medium_fault;
+                grande = gameObject.GetComponent<test_box>().major_fault;
+
+                print("eventoooooooooooooooooooooooooooooo");
+
+                int accidente = UnityEngine.Random.Range(0, 101);
+
+                if (accidente < 33)
+                {
+                    Problemas_Radio();
+
+                }
+                else if (accidente > 33 && accidente < 80)
+                {
+                    Poner_Radio();
+                }
+                else
+                {
+
+                    Good_Radio();
+                }
+            }
 
 
-            int accidente = UnityEngine.Random.Range(0, 101);
+            /*
+            if (!panelchec.activeSelf)
+            {
+
+                penalty.Add(new List<object> { falta, 1, "leve" });
+                panelchec.SetActive(true);
+
+                miBoton.onClick.AddListener(() => acierto(falta));
+                falta++;
+
+            }
+            */
+
+
           
-            if (accidente < 33)
-            {
-            fgallo_suspension();
 
-            }
-            else if (accidente > 33 && accidente < 66)
-            {
-                fgallo_refrigeracion();
-            }
-            else
-            {
-            fgallo_power();
-
-            }
-        }
-
-
-        /*
-        if (!panelchec.activeSelf)
-        {
-
-            penalty.Add(new List<object> { falta, 1, "leve" });
-            panelchec.SetActive(true);
-
-            miBoton.onClick.AddListener(() => acierto(falta));
-            falta++;
-
-        }
-        */
-
-
-        aplicar();
 
 
 
+        }
 
     }
-
 
 
 
@@ -125,6 +135,9 @@ public class eventos : MonoBehaviour
         gameObject.GetComponent<test_box>().medium_fault = medio;
         gameObject.GetComponent<test_box>().major_fault = grande;
     }
+
+
+
     public void acierto(int id)
     {
         for (int i = 0; i < penalty.Count; i++)
@@ -138,10 +151,10 @@ public class eventos : MonoBehaviour
         }
     }
 
- 
+
     public void fgallo_suspension()
     {
-        
+
         fallo_suspension++;
         botones[0].GetComponent<Button>().interactable = true;
         if (fallo_suspension == 1)
@@ -187,7 +200,7 @@ public class eventos : MonoBehaviour
         botones[2].GetComponent<Button>().interactable = true;
         if (fallo_power == 1)
         {
-        menor++;
+            menor++;
             partes[2].GetComponent<RawImage>().color = Color.yellow;
 
         }
@@ -196,7 +209,7 @@ public class eventos : MonoBehaviour
         {
             menor--;
             grande++;
-                        partes[2].GetComponent<RawImage>().color = Color.red;
+            partes[2].GetComponent<RawImage>().color = Color.red;
 
         }
 
@@ -247,7 +260,7 @@ public class eventos : MonoBehaviour
     public void reparar_power()
     {
         partes[2].GetComponent<RawImage>().color = Color.green;
-    
+
         if (fallo_power == 1)
         {
             menor--;
@@ -261,5 +274,125 @@ public class eventos : MonoBehaviour
         }
         fallo_power = 0;
         botones[2].GetComponent<Button>().interactable = false;
+    }
+
+
+
+
+
+    GameObject radioactual;
+
+    public void Poner_Radio()
+    {
+        if (prefab != null && panel != null)
+        {
+
+            int random = UnityEngine.Random.Range(4, listaRadios.Count);
+            // Instanciar el prefab y asignarlo al panel
+            GameObject instancia = Instantiate(prefab, panel);
+            radioactual = instancia;
+            // Buscar los componentes de texto en el prefab y asignar los valores correspondientes
+            TextMeshProUGUI[] textComponents = instancia.GetComponentsInChildren<TextMeshProUGUI>();
+            Image[] escuderia = instancia.GetComponentsInChildren<Image>();
+            Button[] Opciones = instancia.GetComponentsInChildren<Button>();
+
+            textComponents[0].text = listaRadios[random].texto;
+            textComponents[2].text = listaRadios[random].opcion_1;
+            textComponents[1].text = listaRadios[random].opcion_2;
+            Opciones[1].GetComponent<Button>().onClick.AddListener(() => neutra());
+            Opciones[0].GetComponent<Button>().onClick.AddListener(() => fallo());
+
+
+        }
+
+    }
+
+    public void Problemas_Radio()
+    {
+        if (prefab != null && panel != null)
+        {
+
+            int random = UnityEngine.Random.Range(0, 3);
+            // Instanciar el prefab y asignarlo al panel
+            GameObject instancia = Instantiate(prefab, panel);
+            radioactual = instancia;
+            // Buscar los componentes de texto en el prefab y asignar los valores correspondientes
+            TextMeshProUGUI[] textComponents = instancia.GetComponentsInChildren<TextMeshProUGUI>();
+            Image[] escuderia = instancia.GetComponentsInChildren<Image>();
+            Button[] Opciones = instancia.GetComponentsInChildren<Button>();
+
+            textComponents[0].text = listaRadios[random].texto;
+            textComponents[2].text = listaRadios[random].opcion_1;
+            textComponents[1].text = listaRadios[random].opcion_2;
+            if (random == 0)
+            {
+                fgallo_suspension();
+            }
+            if (random == 1)
+            {
+                fgallo_refrigeracion();
+            }
+            if (random == 2)
+            {
+                fgallo_power();
+            }
+            Opciones[1].GetComponent<Button>().onClick.AddListener(() => neutra());
+            Opciones[0].GetComponent<Button>().onClick.AddListener(() => fallo());
+
+
+        }
+
+    }
+
+    public void Good_Radio()
+    {
+        if (prefab != null && panel != null)
+        {
+
+
+            // Instanciar el prefab y asignarlo al panel
+            GameObject instancia = Instantiate(prefab, panel);
+            radioactual = instancia;
+            // Buscar los componentes de texto en el prefab y asignar los valores correspondientes
+            TextMeshProUGUI[] textComponents = instancia.GetComponentsInChildren<TextMeshProUGUI>();
+            Image[] escuderia = instancia.GetComponentsInChildren<Image>();
+            Button[] Opciones = instancia.GetComponentsInChildren<Button>();
+
+            textComponents[0].text = listaRadios[3].texto;
+            textComponents[2].text = listaRadios[3].opcion_1;
+            textComponents[1].text = listaRadios[3].opcion_2;
+            Opciones[1].GetComponent<Button>().onClick.AddListener(() => correcta());
+            Opciones[0].GetComponent<Button>().onClick.AddListener(() => neutra());
+
+
+        }
+
+    }
+
+    public void correcta()
+    {
+        menor = 0;
+        medio = 0;
+
+        aplicar();
+        radio_on = false;
+
+        Destroy(radioactual);
+    }
+
+    public void neutra()
+    {
+        radio_on = false;
+
+        Destroy(radioactual);
+    }
+
+    public void fallo()
+    {
+        medio++;
+        aplicar();
+        radio_on = false;
+
+        Destroy(radioactual);
     }
 }
