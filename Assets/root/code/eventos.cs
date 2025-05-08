@@ -14,7 +14,7 @@ public class eventos : MonoBehaviour
 
     public List<Data_base.Radio> listaRadios;
 
-    public GameObject panelchec;
+    public Image panelchec_color;
 
     public Button miBoton;  // El botón en el Inspector
 
@@ -33,10 +33,11 @@ public class eventos : MonoBehaviour
     int grande;
 
 
-    public AudioSource audio;
+    public AudioSource audio_s;
     // Start is called before the first frame update
     void Start()
     {
+       
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
         {
@@ -72,20 +73,21 @@ public class eventos : MonoBehaviour
     {
         if (!radio_on)
         {
-            audio.Play();
-            radio_on =true;
+            audio_s.Play();
+            radio_on = true;
             int numeroAleatorio = UnityEngine.Random.Range(0, 101);
             print(listaRadios[0].texto);
 
-            if (50 == 50)
+            if (numeroAleatorio < 50)
             {
                 menor = gameObject.GetComponent<test_box>().minor_fault;
                 medio = gameObject.GetComponent<test_box>().medium_fault;
                 grande = gameObject.GetComponent<test_box>().major_fault;
 
-                print("eventoooooooooooooooooooooooooooooo");
 
                 int accidente = UnityEngine.Random.Range(0, 101);
+
+                StartCoroutine(color());
 
                 if (accidente < 33)
                 {
@@ -118,7 +120,7 @@ public class eventos : MonoBehaviour
             */
 
 
-          
+
 
 
 
@@ -128,7 +130,7 @@ public class eventos : MonoBehaviour
     }
 
 
-
+    //aplica los daños al piloto
     public void aplicar()
     {
         gameObject.GetComponent<test_box>().minor_fault = menor;
@@ -138,19 +140,20 @@ public class eventos : MonoBehaviour
 
 
 
-    public void acierto(int id)
-    {
-        for (int i = 0; i < penalty.Count; i++)
-        {
-            if (Convert.ToInt32(penalty[i][0]) == id - 1)
-            {
-                penalty.RemoveAt(i);
-                panelchec.SetActive(false);
-                break;
-            }
-        }
-    }
+    //public void acierto(int id)
+    //{
+    //    for (int i = 0; i < penalty.Count; i++)
+    //    {
+    //        if (Convert.ToInt32(penalty[i][0]) == id - 1)
+    //        {
+    //            penalty.RemoveAt(i);
+    //            //panelchec.SetActive(false);
+    //            break;
+    //        }
+    //    }
+    //}
 
+    //_funciones para dañar los diferentes conponentes
 
     public void fgallo_suspension()
     {
@@ -216,7 +219,7 @@ public class eventos : MonoBehaviour
     }
 
 
-
+    //_funciones para reparar los diferentes conponentes
     public void reparar_suspension()
     {
         partes[0].GetComponent<RawImage>().color = Color.green;
@@ -282,6 +285,8 @@ public class eventos : MonoBehaviour
 
     GameObject radioactual;
 
+
+    //_radios que anuncian problemas con conponentes 
     public void Poner_Radio()
     {
         if (prefab != null && panel != null)
@@ -307,6 +312,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_radios que plantean dilemas de respuesta
     public void Problemas_Radio()
     {
         if (prefab != null && panel != null)
@@ -344,6 +350,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_radios que linpian la lista de fallos
     public void Good_Radio()
     {
         if (prefab != null && panel != null)
@@ -369,6 +376,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_tipos de respuestas
     public void correcta()
     {
         menor = 0;
@@ -394,5 +402,25 @@ public class eventos : MonoBehaviour
         radio_on = false;
 
         Destroy(radioactual);
+    }
+
+
+
+    //notificacion visual de mensaje por radio
+    IEnumerator color()
+    {
+        Color color_original = panelchec_color.color;
+        Vector3 coloringo = new Vector3(1f, 1f, 0f); // Valores entre 0 y 1
+
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(0.1f); // Espera 2 segundos
+
+            panelchec_color.color = new Color(coloringo.x, coloringo.y, coloringo.z, 1f); // 1f es el alfa (opacidad)
+            yield return new WaitForSeconds(0.1f); // Espera 2 segundos
+            panelchec_color.color = color_original;
+
+        }
+
     }
 }

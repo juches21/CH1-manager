@@ -4,37 +4,35 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 using Random = UnityEngine.Random;
-
+using TMPro;
 public class laps : MonoBehaviour
 {
-   // public int vuelta_promedio = 86252;
-    //public List<List<object>> datos = new List<List<object>>();
-    // public List<List<object>> posiciones = new List<List<object>>();
-    GameObject[] jugadores;
+    // === PUBLIC VARIABLES ===
     public GameObject tiempos;
+    public VideoPlayer vide_lap;
+    public List<Data_base.Piloto> listaPilotos;
+    public List<Data_base.Pista> listaPistas;
+    public List<Data_base.Piloto> copiaSegura = new List<Data_base.Piloto>();
 
-    
-    int dorsales;
-    
+    // === PUBLIC VARIABLES - Fault Counters ===
     public int minor_fault = 0;
     public int medium_fault = 0;
     public int major_fault = 0;
     public int time_advantage = 0;
 
-    Proceso_Degradacion degradacion;
+    // === PRIVATE VARIABLES ===
+    private GameObject[] jugadores;
+    private Proceso_Degradacion degradacion;
+
+    // === PRIVATE VARIABLES - Gameplay State ===
+    private int dorsales;
+    private int vueltas_act = 0;
+    private bool linea = true;
 
 
-
-    //int vueltas_max = 40;
-    public int vueltas_act = 0;
-
-    bool linea = true;
-
-
-    public List<Data_base.Piloto> listaPilotos;
-    public List<Data_base.Pista> listaPistas;
-        public List<Data_base.Piloto> copiaSegura = new List<Data_base.Piloto>();
+    [SerializeField] TextMeshProUGUI tex_laps;
 
     void Start()
     {
@@ -44,7 +42,6 @@ public class laps : MonoBehaviour
             listaPilotos = loader.PilotosCargados;  //datos
         listaPilotos = listaPilotos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
             listaPistas = loader.PistasCargadas;
-           // Debug.Log("Primera pista: " + copiaSegura[0].nombre);
         }
         else
         {
@@ -52,9 +49,7 @@ public class laps : MonoBehaviour
         }
 
 
-        //Debug.Log(copiaSegura[1].nombre); // Por ejemplo, imprime "Russell"
-        //Debug.Log(listaPistas[0].nombre); // Por ejemplo, imprime "Russell"
-
+        
 
         foreach (var piloto in listaPilotos)
         {
@@ -74,6 +69,7 @@ public class laps : MonoBehaviour
 
             copiaSegura.Add(nuevo);
         }
+        tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
 
         // nombre, número, escudería, compuesto, desgaste, tiempo total, tiempo lap, modo, vuelta
         //datos.Add(new List<object> { "Max", 33, 1, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
@@ -84,10 +80,6 @@ public class laps : MonoBehaviour
         //datos.Add(new List<object> { "Rossi", 46, 6, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
 
 
-        //foreach (var piloto in datos)
-        //{
-        //    posiciones.Add(new List<object>(piloto));
-        //}
 
         degradacion = gameObject.GetComponent<Proceso_Degradacion>();
         jugadores = GameObject.FindGameObjectsWithTag("Player");
@@ -131,6 +123,8 @@ public class laps : MonoBehaviour
 
     public void lap()
     {
+        vide_lap.Play();
+        tex_laps.text=vueltas_act+"/"+listaPistas[0].vueltas;
         for (int i = 1; i < listaPilotos.Count; i++)
         {
             minor_fault = medium_fault = major_fault = time_advantage = 0;
@@ -168,7 +162,6 @@ public class laps : MonoBehaviour
             else if (desgaste <= 10)
             {
                 major_fault += 9;
-                print("fallo: " + listaPilotos[i].nombre + "  " + desgaste);
             }
 
             for (int j = 0; j <= minor_fault; j++)
@@ -189,7 +182,7 @@ public class laps : MonoBehaviour
             }
 
             float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
-            float nuevoTiempo = UnityEngine.Random.Range(0, 90) + 86252;
+            float nuevoTiempo = UnityEngine.Random.Range(0, 90) + listaPistas[0].tiempo_promedio;
 
             listaPilotos[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
             listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
@@ -321,7 +314,7 @@ public class laps : MonoBehaviour
         {
 
             int actitud;
-            int probabilidad = Random.Range(0, 100); // Genera número entre 0 y 99
+            int probabilidad = Random.Range(0, 100); 
 
             if (probabilidad < 20)
             {

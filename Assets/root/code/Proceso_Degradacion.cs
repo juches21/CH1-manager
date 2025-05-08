@@ -66,7 +66,7 @@ public class Proceso_Degradacion : MonoBehaviour
             }
 
             piloto.desgaste = desgasteActual;
-           // print(piloto[4]);
+     
         }
     }
 
