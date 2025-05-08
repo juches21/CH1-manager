@@ -7,28 +7,31 @@ using UnityEngine.UI;
 
 public class test_box : MonoBehaviour
 {
-    GameObject manager;
+    // === PUBLIC GAMEOBJECTS ===
     public GameObject B_ask;
     public GameObject B_lap;
+    public GameObject manager;
+
+    // === PUBLIC UI ELEMENTS ===
     public TextMeshProUGUI T_player;
     public TextMeshProUGUI T_desgaste;
-    [SerializeField] int id;
-    laps scriptlap;
 
-
+    // === PUBLIC FAULT COUNTERS ===
     public int minor_fault = 0;
     public int medium_fault = 0;
     public int major_fault = 0;
     public int time_advantage = 0;
 
-
-    string neumatico;
-
-
+    // === PUBLIC PENALTY / STATUS ===
     public int penalizacion = 0;
 
-    [SerializeField] GameObject panel_pit;
+    // === PRIVATE / SERIALIZED VARIABLES ===
+    [SerializeField] private int id;
+    [SerializeField] private GameObject panel_pit;
+    private laps scriptlap;
 
+    // === PRIVATE STATE VARIABLES ===
+    private string neumatico;
 
     // Start is called before the first frame update
     void Start()
@@ -136,9 +139,8 @@ public class test_box : MonoBehaviour
         }
         for (int j = 0; j <= time_advantage; j++)
         {
-            print(penalizacion + " penalizar pre");
+         
             penalizacion -= UnityEngine.Random.Range(500, 900);
-            print(penalizacion+" penalizar");
         }
         
 
@@ -150,13 +152,12 @@ public class test_box : MonoBehaviour
 
 
 
-        float nuevoTiempo = 86252 + UnityEngine.Random.Range(0, 90);
+        float nuevoTiempo = scriptlap.listaPistas[0].tiempo_promedio + UnityEngine.Random.Range(0, 90);
 
         scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
         scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta
         scriptlap.listaPilotos[id].vuelta = Convert.ToInt32(scriptlap.listaPilotos[id].vuelta) + 1;
 
-        //print(nuevoTiempo);
 
 
          T_desgaste.text = "Neumatico " + scriptlap.listaPilotos[id].compuesto.ToString() +" : "+ scriptlap.listaPilotos[id].desgaste.ToString()+"%";

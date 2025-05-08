@@ -78,7 +78,7 @@ public class eventos : MonoBehaviour
             int numeroAleatorio = UnityEngine.Random.Range(0, 101);
             print(listaRadios[0].texto);
 
-            if (50 == 50)
+            if (numeroAleatorio < 50)
             {
                 menor = gameObject.GetComponent<test_box>().minor_fault;
                 medio = gameObject.GetComponent<test_box>().medium_fault;
@@ -86,7 +86,9 @@ public class eventos : MonoBehaviour
 
 
                 int accidente = UnityEngine.Random.Range(0, 101);
+
                 StartCoroutine(color());
+
                 if (accidente < 33)
                 {
                     Problemas_Radio();
@@ -128,7 +130,7 @@ public class eventos : MonoBehaviour
     }
 
 
-
+    //aplica los daños al piloto
     public void aplicar()
     {
         gameObject.GetComponent<test_box>().minor_fault = menor;
@@ -151,6 +153,7 @@ public class eventos : MonoBehaviour
     //    }
     //}
 
+    //_funciones para dañar los diferentes conponentes
 
     public void fgallo_suspension()
     {
@@ -216,7 +219,7 @@ public class eventos : MonoBehaviour
     }
 
 
-
+    //_funciones para reparar los diferentes conponentes
     public void reparar_suspension()
     {
         partes[0].GetComponent<RawImage>().color = Color.green;
@@ -282,6 +285,8 @@ public class eventos : MonoBehaviour
 
     GameObject radioactual;
 
+
+    //_radios que anuncian problemas con conponentes 
     public void Poner_Radio()
     {
         if (prefab != null && panel != null)
@@ -307,6 +312,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_radios que plantean dilemas de respuesta
     public void Problemas_Radio()
     {
         if (prefab != null && panel != null)
@@ -344,6 +350,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_radios que linpian la lista de fallos
     public void Good_Radio()
     {
         if (prefab != null && panel != null)
@@ -369,6 +376,7 @@ public class eventos : MonoBehaviour
 
     }
 
+    //_tipos de respuestas
     public void correcta()
     {
         menor = 0;
@@ -396,6 +404,9 @@ public class eventos : MonoBehaviour
         Destroy(radioactual);
     }
 
+
+
+    //notificacion visual de mensaje por radio
     IEnumerator color()
     {
         Color color_original = panelchec_color.color;

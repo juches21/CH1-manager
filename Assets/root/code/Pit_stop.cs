@@ -71,7 +71,6 @@ public class Pit_stop : MonoBehaviour
 
     public void time()
     {
-        //car.rectTransform.anchoredPosition += new Vector2(0, 507.38f);
         panel_botones.SetActive(false);
         chrono = 0;
         panel.SetActive(true);

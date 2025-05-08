@@ -50,7 +50,7 @@ public class positions : MonoBehaviour
     {
         LimpiarPanel();
         posicion = 0;
-        int offsetY = 300; // Separación inicial entre elementos
+        int offsetY = 250; // Separación inicial entre elementos
         tiempo_anterior = 0;
         tiempo_lider=0;
         // Validar que los elementos necesarios están asignados
@@ -90,6 +90,7 @@ public class positions : MonoBehaviour
                 textComponents[0].text = posicion + "";
                 textComponents[1].text = piloto.nombre + "";
                 textComponents[2].text = Convert.ToInt32(piloto.numero) + "";
+
                 //textComponents[3].text = Convert.ToInt32(piloto.tiempo_lap) + "";
 
 
@@ -101,7 +102,7 @@ public class positions : MonoBehaviour
                 int milisegundos = tiempoactualEnMilisegundos % 1000;
 
                 // Formatear el texto en mm:ss:fff
-                textComponents[3].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
+                textComponents[3].text = Tiempo(Convert.ToInt32(piloto.tiempo_lap));
 
 
 
@@ -127,7 +128,7 @@ public class positions : MonoBehaviour
                         int milisegundos_d = diferencia % 1000;
 
                         // Formatear el texto en mm:ss:fff
-                        textComponents[4].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
+                        textComponents[4].text = Tiempo(diferencia);
                     }
                     else
                     {
@@ -157,8 +158,7 @@ public class positions : MonoBehaviour
                         int milisegundos_d = diferencia % 1000;
 
                         // Formatear el texto en mm:ss:fff
-                        print(string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d));
-                        textComponents[4].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
+                        textComponents[4].text = Tiempo(diferencia);
                         tiempo_anterior = Convert.ToInt32(piloto.tiempo_lap);
 
                     }
@@ -179,6 +179,8 @@ public class positions : MonoBehaviour
 
                 }
                 tiempo_anterior = Convert.ToInt32(piloto.tiempo_total);
+
+
 
                 /*
 
@@ -319,8 +321,10 @@ public class positions : MonoBehaviour
                 //textComponents[2].text = piloto[2].ToString(); // Nombre de la mejora
                 */
                 // Ajustar la posición del prefab en el panel
+
+
                 instancia.transform.localPosition = new Vector3(0, offsetY, 0);
-                offsetY -= 50; // Reducir la separación para la siguiente mejora
+                offsetY -= 50; // Reducir la separación para la siguiente piloto
             }
         }
         else
@@ -346,10 +350,51 @@ public class positions : MonoBehaviour
     }
 
 
+    string Tiempo(int numeros)
+    {
+        int minutos_d = numeros / 60000;
+        int segundos_d = (numeros % 60000) / 1000;
+        int milisegundos_d = numeros % 1000;
 
+        // Formatear el texto en mm:ss:fff
+        return string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
+         
+    }
 
     //modos panel
 
+
+    public void up()
+    {
+        if (tipo < 3)
+        {
+
+        tipo ++;
+        }
+        else
+        {
+            tipo = 0;
+        }
+        AñadirPrefabAlPanel();
+
+    }
+
+    public void down()
+    {
+        if (tipo > 0)
+        {
+
+            tipo++;
+        }
+        else
+        {
+            tipo = 3;
+        }
+        AñadirPrefabAlPanel();
+
+    }
+
+    /*
     public void diferencia_L()
     {
         tipo = 0;
@@ -374,5 +419,5 @@ public class positions : MonoBehaviour
         tipo = 2;
         AñadirPrefabAlPanel();
 
-    }
+    }*/
 }
