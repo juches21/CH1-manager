@@ -9132,18 +9132,20 @@ MonoBehaviour:
   manager: {fileID: 0}
   T_player: {fileID: 1886656770}
   T_desgaste: {fileID: 510470614}
+  Helmet: {fileID: 1252468902}
+  Car: {fileID: 1432121712}
   minor_fault: 0
   medium_fault: 0
   major_fault: 0
   time_advantage: 0
-  penalizacion: 0
+  Penalty: 0
   id: 1
   panel_pit: {fileID: 0}
+  listaEscuderias: []
   monitores:
   - {fileID: 2000134333}
   - {fileID: 785147320}
   - {fileID: 1834399701}
-  imageObject: {fileID: 1252468902}
 --- !u!4 &1807608364
 Transform:
   m_ObjectHideFlags: 0
@@ -9214,6 +9216,7 @@ MonoBehaviour:
   - {fileID: 1436203465}
   - {fileID: 250931648}
   car_audio: {fileID: 1249225380}
+  listaEscuderia: []
   car: {fileID: 1432121712}
   chrono: 0
 --- !u!1 &1808605710

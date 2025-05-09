@@ -13,6 +13,13 @@ public class Pit_stop : MonoBehaviour
     [SerializeField] AudioSource[] Pistolas_audio;
     [SerializeField] AudioSource car_audio;
 
+
+
+
+
+
+    public List<Data_base.Escuderia> listaEscuderia;
+
     public Image car;
     public int chrono = 0;
     int wheel_chek;
@@ -20,6 +27,9 @@ public class Pit_stop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
+       
+
 
         light.GetComponent<Button>().interactable = false;
         for (int i = 0; i <= mechanic.Length - 1; i++)
@@ -116,7 +126,7 @@ public class Pit_stop : MonoBehaviour
             yield return new WaitForSeconds(0.000001f);
         }
         stop = true;
-        gameObject.GetComponent<test_box>().box_time(chrono);
+        gameObject.GetComponent<Player>().box_time(chrono);
         car.rectTransform.anchoredPosition = new Vector2(0, -5555);
 
         panel.SetActive(false);

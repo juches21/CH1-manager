@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class test_box : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // === PUBLIC GAMEOBJECTS ===
     public GameObject B_ask;
@@ -15,6 +15,8 @@ public class test_box : MonoBehaviour
     // === PUBLIC UI ELEMENTS ===
     public TextMeshProUGUI T_player;
     public TextMeshProUGUI T_desgaste;
+    public Image Helmet;
+    public Image Car;
 
     // === PUBLIC FAULT COUNTERS ===
     public int minor_fault = 0;
@@ -23,7 +25,7 @@ public class test_box : MonoBehaviour
     public int time_advantage = 0;
 
     // === PUBLIC PENALTY / STATUS ===
-    public int penalizacion = 0;
+    public int Penalty = 0;
 
     // === PRIVATE / SERIALIZED VARIABLES ===
     [SerializeField] private int id;
@@ -33,11 +35,25 @@ public class test_box : MonoBehaviour
     // === PRIVATE STATE VARIABLES ===
     private string neumatico;
 
+    public List<Data_base.Escuderia> listaEscuderias;
+
+
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("manager");
         scriptlap = manager.GetComponent<laps>();
+
+        Data_base loader = FindObjectOfType<Data_base>();
+        if (loader != null)
+        {
+            listaEscuderias = loader.EscuderiasCargadas;  //datos
+        }
+        else
+        {
+            Debug.LogError("No se encontró el script Data_base en la escena.");
+        }
+
         B_ask.SetActive(true);
         B_lap.SetActive(false);
         ask_for_id();
@@ -66,7 +82,7 @@ public class test_box : MonoBehaviour
             B_ask.SetActive(false);
             B_lap.SetActive(true);
         }
-
+        Load_Car();
         Load_Helmet();
     }
 
@@ -88,59 +104,59 @@ public class test_box : MonoBehaviour
 
 
         int modo = Convert.ToInt32(scriptlap.listaPilotos[id].modo);
-        int desgaste = Convert.ToInt32(scriptlap.listaPilotos[id].desgaste);
+        int Wear = Convert.ToInt32(scriptlap.listaPilotos[id].desgaste);
 
 
         if (modo == 1)
         {
-            penalizacion += UnityEngine.Random.Range(150, 300);
+            Penalty += UnityEngine.Random.Range(150, 300);
         }
         if (modo == 2)
         {
-            penalizacion += UnityEngine.Random.Range(50, 100);
+            Penalty += UnityEngine.Random.Range(50, 100);
         }
         if (modo == 3)
         {
-            penalizacion -= UnityEngine.Random.Range(500, 900);
+            Penalty -= UnityEngine.Random.Range(500, 900);
         }
 
-        if (desgaste > 80)
+        if (Wear > 80)
         {
-            penalizacion += UnityEngine.Random.Range(50, 100);
+            Penalty += UnityEngine.Random.Range(50, 100);
         }
-        else if (desgaste > 50)
+        else if (Wear > 50)
         { }
-        else if (desgaste > 30)
+        else if (Wear > 30)
         {
-            penalizacion += UnityEngine.Random.Range(150, 900);
+            Penalty += UnityEngine.Random.Range(150, 900);
         }
-        else if (desgaste > 10)
+        else if (Wear > 10)
         {
-            penalizacion += UnityEngine.Random.Range(900, 12000);
+            Penalty += UnityEngine.Random.Range(900, 12000);
         }
-        else if (desgaste <= 10)
+        else if (Wear <= 10)
         {
-            penalizacion += UnityEngine.Random.Range(12000, 15000);
+            Penalty += UnityEngine.Random.Range(12000, 15000);
             
         }
 
         
         for (int j = 0; j <= minor_fault; j++)
         {
-            penalizacion += UnityEngine.Random.Range(50, 100);
+            Penalty += UnityEngine.Random.Range(50, 100);
         }
         for (int j = 0; j <= medium_fault; j++)
         {
-            penalizacion += UnityEngine.Random.Range(150, 300);
+            Penalty += UnityEngine.Random.Range(150, 300);
         }
         for (int j = 0; j <= major_fault; j++)
         {
-            penalizacion += UnityEngine.Random.Range(500, 1000);
+            Penalty += UnityEngine.Random.Range(500, 1000);
         }
         for (int j = 0; j <= time_advantage; j++)
         {
          
-            penalizacion -= UnityEngine.Random.Range(500, 900);
+            Penalty -= UnityEngine.Random.Range(500, 900);
         }
         
 
@@ -154,15 +170,15 @@ public class test_box : MonoBehaviour
 
         float nuevoTiempo = scriptlap.listaPistas[0].tiempo_promedio + UnityEngine.Random.Range(0, 90);
 
-        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion);  // .tiempo_total es total
-        scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);  // .tiempo_lap es última vuelta
+        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + Penalty);  // .tiempo_total es total
+        scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + Penalty);  // .tiempo_lap es última vuelta
         scriptlap.listaPilotos[id].vuelta = Convert.ToInt32(scriptlap.listaPilotos[id].vuelta) + 1;
 
 
 
          T_desgaste.text = "Neumatico " + scriptlap.listaPilotos[id].compuesto.ToString() +" : "+ scriptlap.listaPilotos[id].desgaste.ToString()+"%";
 
-        penalizacion = 0;
+        Penalty = 0;
 
 
 
@@ -252,8 +268,7 @@ public class test_box : MonoBehaviour
 
     }
 
-
-    public Image imageObject;
+   
     void Load_Helmet()
     {
         // Obtener la ruta del casco desde los datos
@@ -266,7 +281,29 @@ public class test_box : MonoBehaviour
         // Comprobar si la imagen fue cargada correctamente
         if (sprite != null)
         {
-            imageObject.sprite = sprite;  // Asignar el sprite al objeto de imagen
+            Helmet.sprite = sprite;  // Asignar el sprite al objeto de imagen
+        }
+        else
+        {
+            Debug.LogError("No se pudo cargar la imagen. Asegúrate de que la ruta sea correcta.");
+            // Imprimir más información de depuración para verificar la ruta
+            print("Ruta de la imagen no válida o archivo no encontrado: " + imagePath);
+        }
+    }
+
+    void Load_Car()
+    {
+        // Obtener la ruta del casco desde los datos
+        string imagePath = "Fotos/Logos/" + listaEscuderias[id].imagen;
+
+        // Cargar el sprite desde Resources usando la ruta proporcionada
+        Sprite sprite = Resources.Load<Sprite>(imagePath);
+   
+
+        // Comprobar si la imagen fue cargada correctamente
+        if (sprite != null)
+        {
+            Car.sprite = sprite;  // Asignar el sprite al objeto de imagen
         }
         else
         {

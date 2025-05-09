@@ -80,9 +80,9 @@ public class eventos : MonoBehaviour
 
             if (numeroAleatorio < 50)
             {
-                menor = gameObject.GetComponent<test_box>().minor_fault;
-                medio = gameObject.GetComponent<test_box>().medium_fault;
-                grande = gameObject.GetComponent<test_box>().major_fault;
+                menor = gameObject.GetComponent<Player>().minor_fault;
+                medio = gameObject.GetComponent<Player>().medium_fault;
+                grande = gameObject.GetComponent<Player>().major_fault;
 
 
                 int accidente = UnityEngine.Random.Range(0, 101);
@@ -105,26 +105,6 @@ public class eventos : MonoBehaviour
                 }
             }
 
-
-            /*
-            if (!panelchec.activeSelf)
-            {
-
-                penalty.Add(new List<object> { falta, 1, "leve" });
-                panelchec.SetActive(true);
-
-                miBoton.onClick.AddListener(() => acierto(falta));
-                falta++;
-
-            }
-            */
-
-
-
-
-
-
-
         }
 
     }
@@ -133,25 +113,14 @@ public class eventos : MonoBehaviour
     //aplica los daños al piloto
     public void aplicar()
     {
-        gameObject.GetComponent<test_box>().minor_fault = menor;
-        gameObject.GetComponent<test_box>().medium_fault = medio;
-        gameObject.GetComponent<test_box>().major_fault = grande;
+        gameObject.GetComponent<Player>().minor_fault = menor;
+        gameObject.GetComponent<Player>().medium_fault = medio;
+        gameObject.GetComponent<Player>().major_fault = grande;
     }
 
 
 
-    //public void acierto(int id)
-    //{
-    //    for (int i = 0; i < penalty.Count; i++)
-    //    {
-    //        if (Convert.ToInt32(penalty[i][0]) == id - 1)
-    //        {
-    //            penalty.RemoveAt(i);
-    //            //panelchec.SetActive(false);
-    //            break;
-    //        }
-    //    }
-    //}
+   
 
     //_funciones para dañar los diferentes conponentes
 
@@ -410,14 +379,14 @@ public class eventos : MonoBehaviour
     IEnumerator color()
     {
         Color color_original = panelchec_color.color;
-        Vector3 coloringo = new Vector3(1f, 1f, 0f); // Valores entre 0 y 1
+        Vector3 coloringo = new Vector3(1f, 1f, 0f); 
 
         for (int i = 0; i < 3; i++)
         {
-            yield return new WaitForSeconds(0.1f); // Espera 2 segundos
+            yield return new WaitForSeconds(0.1f); 
 
-            panelchec_color.color = new Color(coloringo.x, coloringo.y, coloringo.z, 1f); // 1f es el alfa (opacidad)
-            yield return new WaitForSeconds(0.1f); // Espera 2 segundos
+            panelchec_color.color = new Color(coloringo.x, coloringo.y, coloringo.z, 1f);
+            yield return new WaitForSeconds(0.1f); 
             panelchec_color.color = color_original;
 
         }

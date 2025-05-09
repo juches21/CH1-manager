@@ -40,7 +40,7 @@ public class laps : MonoBehaviour
         if (loader != null)
         {
             listaPilotos = loader.PilotosCargados;  //datos
-        listaPilotos = listaPilotos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
+            listaPilotos = listaPilotos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
             listaPistas = loader.PistasCargadas;
         }
         else
@@ -49,7 +49,7 @@ public class laps : MonoBehaviour
         }
 
 
-        
+
 
         foreach (var piloto in listaPilotos)
         {
@@ -102,7 +102,7 @@ public class laps : MonoBehaviour
         {
 
             vueltas_act++;
-            jugadores[0].gameObject.GetComponent<test_box>().timer();
+            jugadores[0].gameObject.GetComponent<Player>().timer();
             lap();
         }
 
@@ -124,7 +124,7 @@ public class laps : MonoBehaviour
     public void lap()
     {
         vide_lap.Play();
-        tex_laps.text=vueltas_act+"/"+listaPistas[0].vueltas;
+        tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
         for (int i = 1; i < listaPilotos.Count; i++)
         {
             minor_fault = medium_fault = major_fault = time_advantage = 0;
@@ -184,7 +184,7 @@ public class laps : MonoBehaviour
             float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
             float nuevoTiempo = UnityEngine.Random.Range(0, 90) + listaPistas[0].tiempo_promedio;
 
-            listaPilotos[i].tiempo_total = Convert.ToInt32( tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
+            listaPilotos[i].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
             listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
             listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
             penalizacion = 0;
@@ -217,7 +217,7 @@ public class laps : MonoBehaviour
         copiaSegura.Sort((a, b) => Convert.ToInt32(a.tiempo_total).CompareTo(Convert.ToInt32(b.tiempo_total)));
         copiaSegura.Sort((b, a) => Convert.ToInt32(a.vuelta).CompareTo(Convert.ToInt32(b.vuelta)));
 
-        tiempos.GetComponent<positions>().AñadirPrefabAlPanel();
+        tiempos.GetComponent<time_table>().AñadirPrefabAlPanel();
     }
 
     IEnumerator tempo()
@@ -228,7 +228,7 @@ public class laps : MonoBehaviour
             yield return new WaitForSeconds(20f); // Espera 2 segundos
 
             vueltas_act++;
-            jugadores[0].gameObject.GetComponent<test_box>().timer();
+            jugadores[0].gameObject.GetComponent<Player>().timer();
             lap();
             linea = true;
         }
@@ -283,18 +283,18 @@ public class laps : MonoBehaviour
 
             if (probabilidad < 60)
             {
-                 neumatico = "h";
+                neumatico = "h";
             }
             else if (probabilidad < 90)
             {
-                 neumatico = "m";
+                neumatico = "m";
             }
             else
             {
-                 neumatico = "s";
+                neumatico = "s";
             }
 
-            
+
             listaPilotos[id].desgaste = 100; // desgaste
             listaPilotos[id].compuesto = neumatico; // compuesto
             listaPilotos[id].tiempo_total = Convert.ToInt32(listaPilotos[id].tiempo_total) + UnityEngine.Random.Range(9000, 15000); // tiempo total
@@ -314,7 +314,7 @@ public class laps : MonoBehaviour
         {
 
             int actitud;
-            int probabilidad = Random.Range(0, 100); 
+            int probabilidad = Random.Range(0, 100);
 
             if (probabilidad < 20)
             {
@@ -330,7 +330,7 @@ public class laps : MonoBehaviour
             }
 
 
-         
+
             listaPilotos[id].modo = actitud; // compuesto
             print(listaPilotos[id].nombre + " cambio de ritmo");
         }

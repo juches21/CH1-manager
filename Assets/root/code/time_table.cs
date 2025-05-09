@@ -6,13 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class positions : MonoBehaviour
+public class time_table : MonoBehaviour
 {
     GameObject manager;
     public GameObject prefab;         // Prefab que se usa para cada elemento de la tienda
     public Transform panel;
     laps scriptlap;
-    int tiempoEnMilisegundos;
     int tiempo_anterior = 0;
     int tiempo_lider = 0;
 
