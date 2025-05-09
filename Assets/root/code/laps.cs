@@ -225,7 +225,7 @@ public class laps : MonoBehaviour
 
         if (vueltas_act < listaPistas[0].vueltas)
         {
-            yield return new WaitForSeconds(5f); // Espera 2 segundos
+            yield return new WaitForSeconds(20f); // Espera 2 segundos
 
             vueltas_act++;
             jugadores[0].gameObject.GetComponent<test_box>().timer();

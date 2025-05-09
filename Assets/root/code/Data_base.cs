@@ -38,6 +38,7 @@ public class Data_base : MonoBehaviour
         public string nombre;
         public string imagen;
         public string color;
+        public string coche;
     }
 
 

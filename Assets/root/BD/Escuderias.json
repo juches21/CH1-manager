@@ -4,37 +4,43 @@
       "id": 1,
       "nombre": "HexaForge AMG F1",
       "imagen": "HexaForge_AMG_F1",
-        "color":"103, 0, 123"
+      "color": "103, 0, 123",
+      "coche": "Hexa GT23"
     },
     {
       "id": 2,
       "nombre": "Unlucky Ferrari Strike",
       "imagen": "Unlucky_Ferrari_Strike",
-      "color":"204, 0, 0"
+      "color": "204, 0, 0",
+      "coche": "Strike V12"
     },
     {
       "id": 3,
       "nombre": "Nano Speed",
       "imagen": "Nano_Speed",
-      "color":"0, 94, 255"
+      "color": "0, 94, 255",
+      "coche": "Nano Blitz"
     },
     {
       "id": 4,
       "nombre": "Neo Minardi X",
       "imagen": "Neo_Minardi_X",
-     "color":"90, 90, 90"
+      "color": "90, 90, 90",
+      "coche": "Minardi EX"
     },
     {
       "id": 5,
       "nombre": "Turbo Honda Ramen",
       "imagen": "Turbo_Honda_Ramen",
-"color":" 255, 211, 71"
+      "color": "255, 211, 71",
+      "coche": "Ramen Turbo"
     },
     {
       "id": 6,
       "nombre": "CryoRenault KSI",
       "imagen": "CryoRenault",
-"color":"162, 232, 255"
+      "color": "162, 232, 255",
+      "coche": "Cryo X2"
     }
   ]
 }
