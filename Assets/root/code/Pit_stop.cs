@@ -81,6 +81,7 @@ public class Pit_stop : MonoBehaviour
 
     public void time()
     {
+        
         panel_botones.SetActive(false);
         chrono = 0;
         panel.SetActive(true);

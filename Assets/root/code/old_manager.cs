@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class manager : MonoBehaviour
+public class old_manager : MonoBehaviour
 {
 
     [SerializeField] GameObject[] tarjetas;

@@ -68,18 +68,17 @@ public class eventos : MonoBehaviour
 
     }
 
-    bool radio_on = false;
+    public bool radio_on = false;
     public void maquina_de_radios()
     {
         if (!radio_on)
         {
-            audio_s.Play();
-            radio_on = true;
             int numeroAleatorio = UnityEngine.Random.Range(0, 101);
-            print(listaRadios[0].texto);
 
             if (numeroAleatorio < 50)
             {
+            audio_s.Play();
+            radio_on = true;
                 menor = gameObject.GetComponent<Player>().minor_fault;
                 medio = gameObject.GetComponent<Player>().medium_fault;
                 grande = gameObject.GetComponent<Player>().major_fault;
@@ -276,7 +275,7 @@ public class eventos : MonoBehaviour
             Opciones[1].GetComponent<Button>().onClick.AddListener(() => neutra());
             Opciones[0].GetComponent<Button>().onClick.AddListener(() => fallo());
 
-
+            print("fallo   " + listaRadios[random].texto);
         }
 
     }

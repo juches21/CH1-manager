@@ -71,14 +71,7 @@ public class laps : MonoBehaviour
         }
         tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
 
-        // nombre, número, escudería, compuesto, desgaste, tiempo total, tiempo lap, modo, vuelta
-        //datos.Add(new List<object> { "Max", 33, 1, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-        //datos.Add(new List<object> { "Russell", 63, 2, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-        //datos.Add(new List<object> { "Hamilton", 44, 3, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-        //datos.Add(new List<object> { "Carlos", 55, 4, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-        //datos.Add(new List<object> { "Alonso", 14, 5, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-        //datos.Add(new List<object> { "Rossi", 46, 6, "m", 100, 0, 0, 2, 0, "sol_y_luna" });
-
+   
 
 
         degradacion = gameObject.GetComponent<Proceso_Degradacion>();
@@ -91,24 +84,14 @@ public class laps : MonoBehaviour
         if (linea)
         {
             linea = false;
-            StartCoroutine(tempo());
+            StartCoroutine(LapTimerRoutine());
         }
     }
 
-    //Debug
-    public void boton()
-    {
-        if (vueltas_act < listaPistas[0].vueltas)
-        {
+    
 
-            vueltas_act++;
-            jugadores[0].gameObject.GetComponent<Player>().timer();
-            lap();
-        }
-
-    }
     //----------------
-    public int give_id()
+    public int AssignPlayerID()
     {
         if (dorsales <= listaPilotos.Count + 1)
         {
@@ -121,9 +104,9 @@ public class laps : MonoBehaviour
         }
     }
 
-    public void lap()
+    public void UpdateLapData()
     {
-        vide_lap.Play();
+        
         tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
         for (int i = 1; i < listaPilotos.Count; i++)
         {
@@ -188,12 +171,12 @@ public class laps : MonoBehaviour
             listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
             listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
             penalizacion = 0;
-            boxbox(i);
-            Ritmo(i);
+            HandlePitStop(i);
+            AdjustPilotPace(i);
         }
 
         degradacion.wheel_wear();
-        evento();
+        TriggerRadioEvent();
 
         copiaSegura.Clear();
         foreach (var piloto in listaPilotos)
@@ -220,16 +203,18 @@ public class laps : MonoBehaviour
         tiempos.GetComponent<time_table>().AñadirPrefabAlPanel();
     }
 
-    IEnumerator tempo()
+    IEnumerator LapTimerRoutine()
     {
 
         if (vueltas_act < listaPistas[0].vueltas)
         {
-            yield return new WaitForSeconds(20f); // Espera 2 segundos
-
+            vide_lap.Stop();
+            vide_lap.Play();
+            yield return new WaitForSeconds(0.2f);
             vueltas_act++;
             jugadores[0].gameObject.GetComponent<Player>().timer();
-            lap();
+            UpdateLapData();
+            yield return new WaitForSeconds(20f); // Espera 2 segundos
             linea = true;
         }
 
@@ -240,7 +225,7 @@ public class laps : MonoBehaviour
 
 
 
-    void evento()
+    void TriggerRadioEvent()
     {
         jugadores[0].gameObject.GetComponent<eventos>().maquina_de_radios();
 
@@ -252,7 +237,7 @@ public class laps : MonoBehaviour
     //IA
 
 
-    public void boxbox(int id)
+    public void HandlePitStop(int id)
     {
         int valor = Convert.ToInt32(listaPilotos[id].desgaste);
 
@@ -304,9 +289,9 @@ public class laps : MonoBehaviour
 
     }
 
-    public void Ritmo(int id)
+    public void AdjustPilotPace(int id)
     {
-        int valor = Convert.ToInt32(listaPilotos[id].desgaste);
+       // int valor = Convert.ToInt32(listaPilotos[id].desgaste);
 
 
         int probavilidad = UnityEngine.Random.Range(0, 100);
@@ -332,7 +317,7 @@ public class laps : MonoBehaviour
 
 
             listaPilotos[id].modo = actitud; // compuesto
-            print(listaPilotos[id].nombre + " cambio de ritmo");
+            //print(listaPilotos[id].nombre + " cambio de ritmo");ad
         }
 
 

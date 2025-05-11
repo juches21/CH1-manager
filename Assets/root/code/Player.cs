@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
     }
     public void ask_for_id()
     {
-        id = scriptlap.give_id();
+        id = scriptlap.AssignPlayerID();
         if (id == -1)
         {
             print("error");
@@ -250,7 +250,7 @@ public class Player : MonoBehaviour
 
     public void boxbox()
     {
-        if(scriptlap.listaPilotos[id].compuesto != null)
+        if(neumatico != null)
         {
         gameObject.GetComponent<Pit_stop>().time();
 
@@ -294,7 +294,10 @@ public class Player : MonoBehaviour
     void Load_Car()
     {
         // Obtener la ruta del casco desde los datos
-        string imagePath = "Fotos/Logos/" + listaEscuderias[id].imagen;
+        int numero = scriptlap.listaPilotos[id].escuderia;
+        print(numero + "numero");
+        print(listaEscuderias[numero-1].coche);
+        string imagePath = "Fotos/Monoplazas_up/" + listaEscuderias[numero-1].coche;
 
         // Cargar el sprite desde Resources usando la ruta proporcionada
         Sprite sprite = Resources.Load<Sprite>(imagePath);

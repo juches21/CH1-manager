@@ -383,7 +383,7 @@ public class time_table : MonoBehaviour
         if (tipo > 0)
         {
 
-            tipo++;
+            tipo--;
         }
         else
         {
