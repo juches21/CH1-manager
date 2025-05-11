@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;  // Necesario para trabajar con botones
 
-public class eventos : MonoBehaviour
+public class RadioManager : MonoBehaviour
 {
     int falta;
     public List<List<object>> penalty = new List<List<object>>();
@@ -62,14 +62,10 @@ public class eventos : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+ 
 
     public bool radio_on = false;
-    public void maquina_de_radios()
+    public void TriggerRadioMessage()
     {
         if (!radio_on)
         {
@@ -90,17 +86,17 @@ public class eventos : MonoBehaviour
 
                 if (accidente < 33)
                 {
-                    Problemas_Radio();
+                    PlayProblemRadioMessage();
 
                 }
                 else if (accidente > 33 && accidente < 80)
                 {
-                    Poner_Radio();
+                    PlayRadioMessage();
                 }
                 else
                 {
 
-                    Good_Radio();
+                    PlayPositiveRadioMessage();
                 }
             }
 
@@ -110,7 +106,7 @@ public class eventos : MonoBehaviour
 
 
     //aplica los daños al piloto
-    public void aplicar()
+    public void ApplyFaults()
     {
         gameObject.GetComponent<Player>().minor_fault = menor;
         gameObject.GetComponent<Player>().medium_fault = medio;
@@ -123,7 +119,7 @@ public class eventos : MonoBehaviour
 
     //_funciones para dañar los diferentes conponentes
 
-    public void fgallo_suspension()
+    public void ApplySuspensionFault()
     {
 
         fallo_suspension++;
@@ -144,7 +140,7 @@ public class eventos : MonoBehaviour
         }
 
     }
-    public void fgallo_refrigeracion()
+    public void ApplyCoolingFault()
     {
 
         fallo_refrigeracion++;
@@ -164,7 +160,7 @@ public class eventos : MonoBehaviour
 
         }
     }
-    public void fgallo_power()
+    public void ApplyPowerFault()
     {
 
         fallo_power++;
@@ -255,7 +251,7 @@ public class eventos : MonoBehaviour
 
 
     //_radios que anuncian problemas con conponentes 
-    public void Poner_Radio()
+    public void PlayRadioMessage()
     {
         if (prefab != null && panel != null)
         {
@@ -281,7 +277,7 @@ public class eventos : MonoBehaviour
     }
 
     //_radios que plantean dilemas de respuesta
-    public void Problemas_Radio()
+    public void PlayProblemRadioMessage()
     {
         if (prefab != null && panel != null)
         {
@@ -300,15 +296,15 @@ public class eventos : MonoBehaviour
             textComponents[1].text = listaRadios[random].opcion_2;
             if (random == 0)
             {
-                fgallo_suspension();
+                ApplySuspensionFault();
             }
             if (random == 1)
             {
-                fgallo_refrigeracion();
+                ApplyCoolingFault();
             }
             if (random == 2)
             {
-                fgallo_power();
+                ApplyPowerFault();
             }
             Opciones[1].GetComponent<Button>().onClick.AddListener(() => neutra());
             Opciones[0].GetComponent<Button>().onClick.AddListener(() => fallo());
@@ -319,7 +315,7 @@ public class eventos : MonoBehaviour
     }
 
     //_radios que linpian la lista de fallos
-    public void Good_Radio()
+    public void PlayPositiveRadioMessage()
     {
         if (prefab != null && panel != null)
         {
@@ -350,7 +346,7 @@ public class eventos : MonoBehaviour
         menor = 0;
         medio = 0;
 
-        aplicar();
+        ApplyFaults();
         radio_on = false;
 
         Destroy(radioactual);
@@ -366,7 +362,7 @@ public class eventos : MonoBehaviour
     public void fallo()
     {
         medio++;
-        aplicar();
+        ApplyFaults();
         radio_on = false;
 
         Destroy(radioactual);

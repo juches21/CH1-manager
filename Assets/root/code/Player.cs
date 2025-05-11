@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     // === PRIVATE / SERIALIZED VARIABLES ===
     [SerializeField] private int id;
     [SerializeField] private GameObject panel_pit;
-    private laps scriptlap;
+    private Manager scriptlap;
 
     // === PRIVATE STATE VARIABLES ===
     private string neumatico;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("manager");
-        scriptlap = manager.GetComponent<laps>();
+        scriptlap = manager.GetComponent<Manager>();
 
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
@@ -56,8 +56,8 @@ public class Player : MonoBehaviour
 
         B_ask.SetActive(true);
         B_lap.SetActive(false);
-        ask_for_id();
-        normal();
+        AskPlayerID();
+        SetNormalMode();
     }
 
     // Update is called once per frame
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     {
 
     }
-    public void ask_for_id()
+    public void AskPlayerID()
     {
         id = scriptlap.AssignPlayerID();
         if (id == -1)
@@ -77,22 +77,22 @@ public class Player : MonoBehaviour
         else
         {
 
-            T_player.text = scriptlap.listaPilotos[id].nombre.ToString();
+            T_player.text = scriptlap.pilotsList[id].nombre.ToString();
            
             B_ask.SetActive(false);
             B_lap.SetActive(true);
         }
-        Load_Car();
-        Load_Helmet();
+        LoadCarSprite();
+        LoadHelmetSprite();
     }
 
 
     //laps individual
 
-    public void timer()
+    public void UpdateLapTime()
     {
 
-        //print("lapeada indi");
+      
   
         time_advantage = 0;
 
@@ -103,8 +103,8 @@ public class Player : MonoBehaviour
 
 
 
-        int modo = Convert.ToInt32(scriptlap.listaPilotos[id].modo);
-        int Wear = Convert.ToInt32(scriptlap.listaPilotos[id].desgaste);
+        int modo = Convert.ToInt32(scriptlap.pilotsList[id].modo);
+        int Wear = Convert.ToInt32(scriptlap.pilotsList[id].desgaste);
 
 
         if (modo == 1)
@@ -162,21 +162,21 @@ public class Player : MonoBehaviour
 
 
 
-        int tiempoActual = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total);
+        int tiempoActual = Convert.ToInt32(scriptlap.pilotsList[id].tiempo_total);
 
 
 
 
 
-        float nuevoTiempo = scriptlap.listaPistas[0].tiempo_promedio + UnityEngine.Random.Range(0, 90);
+        float nuevoTiempo = scriptlap.tracksList[0].tiempo_promedio + UnityEngine.Random.Range(0, 90);
 
-        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + Penalty);  // .tiempo_total es total
-        scriptlap.listaPilotos[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + Penalty);  // .tiempo_lap es última vuelta
-        scriptlap.listaPilotos[id].vuelta = Convert.ToInt32(scriptlap.listaPilotos[id].vuelta) + 1;
+        scriptlap.pilotsList[id].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + Penalty);  // .tiempo_total es total
+        scriptlap.pilotsList[id].tiempo_lap = Convert.ToInt32(nuevoTiempo + Penalty);  // .tiempo_lap es última vuelta
+        scriptlap.pilotsList[id].vuelta = Convert.ToInt32(scriptlap.pilotsList[id].vuelta) + 1;
 
 
 
-         T_desgaste.text = "Neumatico " + scriptlap.listaPilotos[id].compuesto.ToString() +" : "+ scriptlap.listaPilotos[id].desgaste.ToString()+"%";
+         T_desgaste.text = "Neumatico " + scriptlap.pilotsList[id].compuesto.ToString() +" : "+ scriptlap.pilotsList[id].desgaste.ToString()+"%";
 
         Penalty = 0;
 
@@ -191,19 +191,19 @@ public class Player : MonoBehaviour
     //monitores 
     [SerializeField] GameObject[] monitores;
 
-    public void piloto()
+    public void ShowPilotMonitor()
     {
         monitores[0].SetActive(true);
         monitores[1].SetActive(false);
         monitores[2].SetActive(false);
     }
-    public void mecanico()
+    public void ShowMechanicMonitor()
     {
         monitores[0].SetActive(false);
         monitores[1].SetActive(true);
         monitores[2].SetActive(false);
     }
-    public void radio()
+    public void ShowRadioMonitor()
     {
         monitores[0].SetActive(false);
         monitores[1].SetActive(false);
@@ -213,66 +213,66 @@ public class Player : MonoBehaviour
 
     //botones estado
 
-    public void eco()
+    public void SetEcoMode()
     {
-        scriptlap.listaPilotos[id].modo = 1;
+        scriptlap.pilotsList[id].modo = 1;
         medium_fault++;
     }
-    public void normal()
+    public void SetNormalMode()
     {
-        scriptlap.listaPilotos[id].modo = 2;
+        scriptlap.pilotsList[id].modo = 2;
         minor_fault++;
     }
-    public void fast()
+    public void SetAggressiveMode()
     {
-        scriptlap.listaPilotos[id].modo = 3;
+        scriptlap.pilotsList[id].modo = 3;
         time_advantage++;
     }
 
     //botones neumaticos
-    public void soft()
+    public void SetSoftCompound()
     {
         neumatico = "s";
 
 
     }
-    public void medium()
+    public void SetMediumCompound()
     {
         neumatico = "m";
 
     }
-    public void hard()
+    public void SetHardCompound()
     {
         neumatico = "h";
 
     }
 
 
-    public void boxbox()
+    public void RequestPitStop()
     {
         if(neumatico != null)
         {
-        gameObject.GetComponent<Pit_stop>().time();
+        gameObject.GetComponent<PitStop>().StartPitStop();
 
         }
 
 
     }
 
-    public void box_time(int tiempo)
+    public void ApplyPitStopTime(int tiempo)
     {
-        scriptlap.listaPilotos[id].desgaste = 100; // desgaste
-        scriptlap.listaPilotos[id].compuesto = neumatico; // compuesto
-        scriptlap.listaPilotos[id].tiempo_total = Convert.ToInt32(scriptlap.listaPilotos[id].tiempo_total) + tiempo+9000; // tiempo total
+        scriptlap.pilotsList[id].desgaste = 100; // desgaste
+        scriptlap.pilotsList[id].compuesto = neumatico; // compuesto
+        scriptlap.pilotsList[id].tiempo_total = Convert.ToInt32(scriptlap.pilotsList[id].tiempo_total) + tiempo+9000; // tiempo total
 
 
     }
 
    
-    void Load_Helmet()
+    void LoadHelmetSprite()
     {
         // Obtener la ruta del casco desde los datos
-        string imagePath = "Fotos/Cascos/" + scriptlap.listaPilotos[id].casco;
+        string imagePath = "Fotos/Cascos/" + scriptlap.pilotsList[id].casco;
 
         // Cargar el sprite desde Resources usando la ruta proporcionada
         Sprite sprite = Resources.Load<Sprite>(imagePath);
@@ -291,10 +291,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Load_Car()
+    void LoadCarSprite()
     {
         // Obtener la ruta del casco desde los datos
-        int numero = scriptlap.listaPilotos[id].escuderia;
+        int numero = scriptlap.pilotsList[id].escuderia;
         print(numero + "numero");
         print(listaEscuderias[numero-1].coche);
         string imagePath = "Fotos/Monoplazas_up/" + listaEscuderias[numero-1].coche;

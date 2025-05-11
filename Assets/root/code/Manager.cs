@@ -7,29 +7,29 @@ using UnityEngine.UIElements;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
 using TMPro;
-public class laps : MonoBehaviour
+public class Manager : MonoBehaviour
 {
     // === PUBLIC VARIABLES ===
     public GameObject tiempos;
     public VideoPlayer vide_lap;
-    public List<Data_base.Piloto> listaPilotos;
-    public List<Data_base.Pista> listaPistas;
-    public List<Data_base.Piloto> copiaSegura = new List<Data_base.Piloto>();
+    public List<Data_base.Piloto> pilotsList;
+    public List<Data_base.Pista> tracksList;
+    public List<Data_base.Piloto> backupPilotsList = new List<Data_base.Piloto>();
 
     // === PUBLIC VARIABLES - Fault Counters ===
-    public int minor_fault = 0;
-    public int medium_fault = 0;
-    public int major_fault = 0;
-    public int time_advantage = 0;
+    public int minorFaultCount = 0;
+    public int mediumFaultCount = 0;
+    public int majorFaultCount = 0;
+    public int timeAdvantageCount = 0;
 
     // === PRIVATE VARIABLES ===
     private GameObject[] jugadores;
-    private Proceso_Degradacion degradacion;
+    private TyreWearManager degradacion;
 
     // === PRIVATE VARIABLES - Gameplay State ===
     private int dorsales;
-    private int vueltas_act = 0;
-    private bool linea = true;
+    private int currentLap = 0;
+    private bool isLapComplete = true;
 
 
     [SerializeField] TextMeshProUGUI tex_laps;
@@ -39,9 +39,9 @@ public class laps : MonoBehaviour
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
         {
-            listaPilotos = loader.PilotosCargados;  //datos
-            listaPilotos = listaPilotos.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
-            listaPistas = loader.PistasCargadas;
+            pilotsList = loader.PilotosCargados;  //datos
+            pilotsList = pilotsList.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList(); //aleatorizar lisata pilotos
+            tracksList = loader.PistasCargadas;
         }
         else
         {
@@ -51,7 +51,7 @@ public class laps : MonoBehaviour
 
 
 
-        foreach (var piloto in listaPilotos)
+        foreach (var piloto in pilotsList)
         {
             Data_base.Piloto nuevo = new Data_base.Piloto()
             {
@@ -67,23 +67,23 @@ public class laps : MonoBehaviour
                 casco = piloto.casco
             };
 
-            copiaSegura.Add(nuevo);
+            backupPilotsList.Add(nuevo);
         }
-        tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
+        tex_laps.text = currentLap + "/" + tracksList[0].vueltas;
 
    
 
 
-        degradacion = gameObject.GetComponent<Proceso_Degradacion>();
+        degradacion = gameObject.GetComponent<TyreWearManager>();
         jugadores = GameObject.FindGameObjectsWithTag("Player");
 
     }
 
     private void Update()
     {
-        if (linea)
+        if (isLapComplete)
         {
-            linea = false;
+            isLapComplete = false;
             StartCoroutine(LapTimerRoutine());
         }
     }
@@ -93,7 +93,7 @@ public class laps : MonoBehaviour
     //----------------
     public int AssignPlayerID()
     {
-        if (dorsales <= listaPilotos.Count + 1)
+        if (dorsales <= pilotsList.Count + 1)
         {
             dorsales++;
             return dorsales - 1;
@@ -107,14 +107,15 @@ public class laps : MonoBehaviour
     public void UpdateLapData()
     {
         
-        tex_laps.text = vueltas_act + "/" + listaPistas[0].vueltas;
-        for (int i = 1; i < listaPilotos.Count; i++)
+        tex_laps.text = currentLap + "/" + tracksList[0].vueltas;
+        for (int i = 1; i < pilotsList.Count; i++)
         {
-            minor_fault = medium_fault = major_fault = time_advantage = 0;
+            minorFaultCount = mediumFaultCount = majorFaultCount = timeAdvantageCount = 0;
             float penalizacion = 0;
 
-            int modo = Convert.ToInt32(listaPilotos[i].modo);
-            int desgaste = Convert.ToInt32(listaPilotos[i].desgaste);
+            int modo = Convert.ToInt32(pilotsList[i].modo);
+            int desgaste = Convert.ToInt32(pilotsList[i].desgaste);
+
             if (modo == 1)
             {
                 penalizacion += UnityEngine.Random.Range(150, 300);
@@ -130,56 +131,56 @@ public class laps : MonoBehaviour
 
             if (desgaste > 80)
             {
-                minor_fault++;
+                minorFaultCount++;
             }
             else if (desgaste > 50)
             { }
             else if (desgaste > 30)
             {
-                medium_fault += 2;
+                mediumFaultCount += 2;
             }
             else if (desgaste > 10)
             {
-                major_fault += 7;
+                majorFaultCount += 7;
             }
             else if (desgaste <= 10)
             {
-                major_fault += 9;
+                majorFaultCount += 9;
             }
 
-            for (int j = 0; j <= minor_fault; j++)
+            for (int j = 0; j <= minorFaultCount; j++)
             {
                 penalizacion += UnityEngine.Random.Range(50, 100);
             }
-            for (int j = 0; j <= medium_fault; j++)
+            for (int j = 0; j <= mediumFaultCount; j++)
             {
                 penalizacion += UnityEngine.Random.Range(150, 300);
             }
-            for (int j = 0; j <= major_fault; j++)
+            for (int j = 0; j <= majorFaultCount; j++)
             {
                 penalizacion += UnityEngine.Random.Range(500, 1000);
             }
-            for (int j = 0; j <= time_advantage; j++)
+            for (int j = 0; j <= timeAdvantageCount; j++)
             {
                 penalizacion -= UnityEngine.Random.Range(50, 200);
             }
 
-            float tiempoActual = Convert.ToInt32(listaPilotos[i].tiempo_total);
-            float nuevoTiempo = UnityEngine.Random.Range(0, 90) + listaPistas[0].tiempo_promedio;
+            float tiempoActual = Convert.ToInt32(pilotsList[i].tiempo_total);
+            float nuevoTiempo = UnityEngine.Random.Range(0, 90) + tracksList[0].tiempo_promedio;
 
-            listaPilotos[i].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
-            listaPilotos[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
-            listaPilotos[i].vuelta = Convert.ToInt32(listaPilotos[i].vuelta) + 1;          // Sumar vuelta
+            pilotsList[i].tiempo_total = Convert.ToInt32(tiempoActual + nuevoTiempo + penalizacion); // Tiempo total
+            pilotsList[i].tiempo_lap = Convert.ToInt32(nuevoTiempo + penalizacion);               // Última vuelta
+            pilotsList[i].vuelta = Convert.ToInt32(pilotsList[i].vuelta) + 1;          // Sumar vuelta
             penalizacion = 0;
             HandlePitStop(i);
             AdjustPilotPace(i);
         }
 
-        degradacion.wheel_wear();
+        degradacion.ApplyTyreWear();
         TriggerRadioEvent();
 
-        copiaSegura.Clear();
-        foreach (var piloto in listaPilotos)
+        backupPilotsList.Clear();
+        foreach (var piloto in pilotsList)
         {
             Data_base.Piloto nuevo = new Data_base.Piloto()
             {
@@ -195,27 +196,27 @@ public class laps : MonoBehaviour
                 casco = piloto.casco
             };
 
-            copiaSegura.Add(nuevo);
+            backupPilotsList.Add(nuevo);
         }
-        copiaSegura.Sort((a, b) => Convert.ToInt32(a.tiempo_total).CompareTo(Convert.ToInt32(b.tiempo_total)));
-        copiaSegura.Sort((b, a) => Convert.ToInt32(a.vuelta).CompareTo(Convert.ToInt32(b.vuelta)));
+        backupPilotsList.Sort((a, b) => Convert.ToInt32(a.tiempo_total).CompareTo(Convert.ToInt32(b.tiempo_total)));
+        backupPilotsList.Sort((b, a) => Convert.ToInt32(a.vuelta).CompareTo(Convert.ToInt32(b.vuelta)));
 
-        tiempos.GetComponent<time_table>().AñadirPrefabAlPanel();
+        tiempos.GetComponent<TimeTable>().UpdateTimeTable();
     }
 
     IEnumerator LapTimerRoutine()
     {
 
-        if (vueltas_act < listaPistas[0].vueltas)
+        if (currentLap < tracksList[0].vueltas)
         {
             vide_lap.Stop();
             vide_lap.Play();
             yield return new WaitForSeconds(0.2f);
-            vueltas_act++;
-            jugadores[0].gameObject.GetComponent<Player>().timer();
+            currentLap++;
+            jugadores[0].gameObject.GetComponent<Player>().UpdateLapTime();
             UpdateLapData();
             yield return new WaitForSeconds(20f); // Espera 2 segundos
-            linea = true;
+            isLapComplete = true;
         }
 
     }
@@ -227,7 +228,7 @@ public class laps : MonoBehaviour
 
     void TriggerRadioEvent()
     {
-        jugadores[0].gameObject.GetComponent<eventos>().maquina_de_radios();
+        jugadores[0].gameObject.GetComponent<RadioManager>().TriggerRadioMessage();
 
     }
 
@@ -239,7 +240,7 @@ public class laps : MonoBehaviour
 
     public void HandlePitStop(int id)
     {
-        int valor = Convert.ToInt32(listaPilotos[id].desgaste);
+        int valor = Convert.ToInt32(pilotsList[id].desgaste);
 
         int numero = 0;
         if (valor > 50)
@@ -280,10 +281,10 @@ public class laps : MonoBehaviour
             }
 
 
-            listaPilotos[id].desgaste = 100; // desgaste
-            listaPilotos[id].compuesto = neumatico; // compuesto
-            listaPilotos[id].tiempo_total = Convert.ToInt32(listaPilotos[id].tiempo_total) + UnityEngine.Random.Range(9000, 15000); // tiempo total
-            print(listaPilotos[id].nombre + " cambio de riueda");
+            pilotsList[id].desgaste = 100; // desgaste
+            pilotsList[id].compuesto = neumatico; // compuesto
+            pilotsList[id].tiempo_total = Convert.ToInt32(pilotsList[id].tiempo_total) + UnityEngine.Random.Range(9000, 15000); // tiempo total
+            print(pilotsList[id].nombre + " cambio de riueda");
         }
 
 
@@ -291,7 +292,6 @@ public class laps : MonoBehaviour
 
     public void AdjustPilotPace(int id)
     {
-       // int valor = Convert.ToInt32(listaPilotos[id].desgaste);
 
 
         int probavilidad = UnityEngine.Random.Range(0, 100);
@@ -316,7 +316,7 @@ public class laps : MonoBehaviour
 
 
 
-            listaPilotos[id].modo = actitud; // compuesto
+            pilotsList[id].modo = actitud; // compuesto
             //print(listaPilotos[id].nombre + " cambio de ritmo");ad
         }
 

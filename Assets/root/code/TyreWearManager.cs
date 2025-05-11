@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Proceso_Degradacion : MonoBehaviour
+public class TyreWearManager : MonoBehaviour
 {
 
     GameObject manager;
-    laps scriptlap;
+    Manager scriptlap;
 
     // Start is called before the first frame update
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("manager");
-        scriptlap = manager.GetComponent<laps>();
+        scriptlap = manager.GetComponent<Manager>();
 
     }
 
@@ -23,9 +23,9 @@ public class Proceso_Degradacion : MonoBehaviour
 
         
     }
-    public void wheel_wear()
+    public void ApplyTyreWear()
     {
-        foreach (var piloto in scriptlap.listaPilotos)
+        foreach (var piloto in scriptlap.pilotsList)
         {
             int x = 0;
 

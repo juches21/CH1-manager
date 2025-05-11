@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Pit_stop : MonoBehaviour
+public class PitStop : MonoBehaviour
 {
     [SerializeField] GameObject panel;
     [SerializeField] GameObject panel_botones;
@@ -21,14 +21,13 @@ public class Pit_stop : MonoBehaviour
     public List<Data_base.Escuderia> listaEscuderia;
 
     public Image car;
-    public int chrono = 0;
-    int wheel_chek;
+    public int pitStopTime = 0;
+    int changedWheelsCount;
     bool stop = false;
+
     // Start is called before the first frame update
     void Start()
     {
-       
-       
 
 
         light.GetComponent<Button>().interactable = false;
@@ -36,29 +35,21 @@ public class Pit_stop : MonoBehaviour
         {
             mechanic[i].GetComponent<Button>().interactable = true;
             int j = i;
-            mechanic[i].GetComponent<Button>().onClick.AddListener(() => acierto(j));
+            mechanic[i].GetComponent<Button>().onClick.AddListener(() => OnWheelChanged(j));
 
         }
         panel.SetActive(false);
         stop = true;
-        chrono = 0;
-        //time();
+        pitStopTime = 0;
+
     }
 
-    void acierto(int id)
-    {
-        print("cambio");
-        Pistolas_audio[id].Play();
-        mechanic[id].GetComponent<Button>().interactable = false;
-        StartCoroutine(Change());
-    }
-    // Update is called once per frame
     void Update()
     {
-        if (wheel_chek == 4)
+        if (changedWheelsCount == 4)
         {
-            wheel_chek = 0;
-                light.GetComponent<Button>().interactable = true;
+            changedWheelsCount = 0;
+            light.GetComponent<Button>().interactable = true;
             for (int i = 0; i <= mechanic.Length - 1; i++)
             {
 
@@ -68,26 +59,34 @@ public class Pit_stop : MonoBehaviour
         }
         if (!stop)
         {
-            chrono++;
+            pitStopTime++;
 
         }
     }
-    IEnumerator Change()
+    void OnWheelChanged(int id)
+    {
+       
+        Pistolas_audio[id].Play();
+        mechanic[id].GetComponent<Button>().interactable = false;
+        StartCoroutine(WaitForWheelChange());
+    }
+    // Update is called once per frame
+    IEnumerator WaitForWheelChange()
     {
         yield return new WaitForSeconds(2f);
-        wheel_chek++;
+        changedWheelsCount++;
 
     }
 
-    public void time()
+    public void StartPitStop()
     {
-        
+
         panel_botones.SetActive(false);
-        chrono = 0;
+        pitStopTime = 0;
         panel.SetActive(true);
         light.GetComponent<Button>().interactable = false;
         stop = false;
-        StartCoroutine(car_in());
+        StartCoroutine(MoveCarIn());
         print(mechanic.Length);
         for (int i = 0; i <= mechanic.Length - 1; i++)
         {
@@ -97,14 +96,14 @@ public class Pit_stop : MonoBehaviour
     }
 
 
-    public void exit()
+    public void EndPitStop()
     {
 
-        StartCoroutine(car_ex());
+        StartCoroutine(MoveCarOut());
     }
 
 
-    IEnumerator car_in()
+    IEnumerator MoveCarIn()
     {
         for (float D = -541.9f; D <= -34.52f; D += 5)
         {
@@ -116,7 +115,7 @@ public class Pit_stop : MonoBehaviour
     }
 
 
-    IEnumerator car_ex()
+    IEnumerator MoveCarOut()
     {
         car_audio.Stop();
 
@@ -127,7 +126,7 @@ public class Pit_stop : MonoBehaviour
             yield return new WaitForSeconds(0.000001f);
         }
         stop = true;
-        gameObject.GetComponent<Player>().box_time(chrono);
+        gameObject.GetComponent<Player>().ApplyPitStopTime(pitStopTime);
         car.rectTransform.anchoredPosition = new Vector2(0, -5555);
 
         panel.SetActive(false);

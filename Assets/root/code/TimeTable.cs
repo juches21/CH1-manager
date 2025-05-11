@@ -6,12 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
-public class time_table : MonoBehaviour
+public class TimeTable : MonoBehaviour
 {
     GameObject manager;
     public GameObject prefab;         // Prefab que se usa para cada elemento de la tienda
     public Transform panel;
-    laps scriptlap;
+    Manager scriptlap;
     int tiempo_anterior = 0;
     int tiempo_lider = 0;
 
@@ -25,7 +25,7 @@ public class time_table : MonoBehaviour
     void Start()
     {
         manager = GameObject.FindGameObjectWithTag("manager");
-        scriptlap = manager.GetComponent<laps>();
+        scriptlap = manager.GetComponent<Manager>();
 
         Data_base loader = FindObjectOfType<Data_base>();
         if (loader != null)
@@ -39,15 +39,11 @@ public class time_table : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+   
     int posicion;
-    public void AñadirPrefabAlPanel()
+    public void UpdateTimeTable()
     {
-        LimpiarPanel();
+        ClearPanel();
         posicion = 0;
         int offsetY = 250; // Separación inicial entre elementos
         tiempo_anterior = 0;
@@ -55,7 +51,7 @@ public class time_table : MonoBehaviour
         // Validar que los elementos necesarios están asignados
         if (prefab != null && panel != null)
         {
-            foreach (var piloto in scriptlap.copiaSegura)
+            foreach (var piloto in scriptlap.backupPilotsList)
             {
                 posicion++;
                 // Instanciar el prefab y asignarlo al panel
@@ -101,7 +97,7 @@ public class time_table : MonoBehaviour
                 int milisegundos = tiempoactualEnMilisegundos % 1000;
 
                 // Formatear el texto en mm:ss:fff
-                textComponents[3].text = Tiempo(Convert.ToInt32(piloto.tiempo_lap));
+                textComponents[3].text = FormatTime(Convert.ToInt32(piloto.tiempo_lap));
 
 
 
@@ -127,7 +123,7 @@ public class time_table : MonoBehaviour
                         int milisegundos_d = diferencia % 1000;
 
                         // Formatear el texto en mm:ss:fff
-                        textComponents[4].text = Tiempo(diferencia);
+                        textComponents[4].text = FormatTime(diferencia);
                     }
                     else
                     {
@@ -157,7 +153,7 @@ public class time_table : MonoBehaviour
                         int milisegundos_d = diferencia % 1000;
 
                         // Formatear el texto en mm:ss:fff
-                        textComponents[4].text = Tiempo(diferencia);
+                        textComponents[4].text = FormatTime(diferencia);
                         tiempo_anterior = Convert.ToInt32(piloto.tiempo_lap);
 
                     }
@@ -181,144 +177,6 @@ public class time_table : MonoBehaviour
 
 
 
-                /*
-
-                //asignacion logo escuderia
-                /*
-                if (Convert.ToInt32(piloto.escuderia) == 1)
-                {
-
-                    escuderia[1].sprite = logos[0];
-                }
-                if (Convert.ToInt32(piloto.escuderia) == 2)
-                {
-
-                    escuderia[1].sprite = logos[1];
-
-                }
-                if (Convert.ToInt32(piloto.escuderia) == 3)
-                {
-
-                    escuderia[1].sprite = logos[2];
-
-                }
-                if (Convert.ToInt32(piloto.escuderia) == 4)
-                {
-
-                    escuderia[1].sprite = logos[3];
-
-                }
-                if (Convert.ToInt32(piloto.escuderia) == 5)
-                {
-
-                    escuderia[1].sprite = logos[4];
-
-                }
-                if (Convert.ToInt32(piloto.escuderia) == 6)
-                {
-
-                    escuderia[1].sprite = logos[5];
-
-                }
-              //
-
-                //diferentes paneles de infoirmacion adicional
-                if (tipo == 0)
-                {
-
-                    if (tiempo_lider > 0)
-                    {
-                        print(tiempo_anterior);
-                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_lap);
-                        diferencia = Mathf.Abs(diferencia);
-                        if (diferencia == 0)
-                        {
-                            diferencia = 1;
-                        }
-
-                        // Calcular minutos, segundos y milisegundos
-                        int minutos_d = diferencia / 60000;
-                        int segundos_d = (diferencia % 60000) / 1000;
-                        int milisegundos_d = diferencia % 1000;
-
-                        // Formatear el texto en mm:ss:fff
-                        textComponents[3].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
-                    }
-                    else
-                    {
-                        textComponents[3].text = "leader";
-                        // tiempo_lider = Convert.ToInt32(piloto.tiempo_lap);
-                        tiempo_lider = 1;
-                    }
-
-                }
-                if (tipo == 1)
-                {
-                       
-                    if (tiempo_anterior > 0)
-                    {
-
-                        int diferencia = tiempo_lider - Convert.ToInt32(piloto.tiempo_lap);
-                        diferencia = Mathf.Abs(diferencia);
-                        if (diferencia == 0)
-                        {
-                            diferencia = 1;
-                        }
-
-                        // Calcular minutos, segundos y milisegundos
-                        int minutos_d = diferencia / 60000;
-                        int segundos_d = (diferencia % 60000) / 1000;
-                        int milisegundos_d = diferencia % 1000;
-
-                        // Formatear el texto en mm:ss:fff
-                        textComponents[3].text = string.Format("{0:00}:{1:00}:{2:000}", minutos_d, segundos_d, milisegundos_d);
-                    }
-                    else
-                    {
-                        tiempo_lider = Convert.ToInt32(piloto.tiempo_lap);
-                        textComponents[3].text = "leader";
-                    }
-                }
-                if (tipo == 2)
-                {
-                    textComponents[3].text = Convert.ToInt32(piloto.desgaste) + "";
-
-                }
-                if (tipo == 3)
-                {
-                    textComponents[3].text = Convert.ToInt32(piloto.modo) + "";
-
-                }
-
-
-
-                //datos pilotos
-
-                textComponents[0].text = piloto.nombre.ToString(); // Nombre del piloto
-
-                tiempoEnMilisegundos = Convert.ToInt32(piloto.tiempo_total);
-
-                tiempo_anterior = Convert.ToInt32(piloto.tiempo_total);
-
-                // Calcular minutos, segundos y milisegundos
-                int minutos = tiempoEnMilisegundos / 60000;
-                int segundos = (tiempoEnMilisegundos % 60000) / 1000;
-                int milisegundos = tiempoEnMilisegundos % 1000;
-                // Formatear el texto en mm:ss:fff
-                textComponents[1].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
-
-
-                int tiempoactualEnMilisegundos = Convert.ToInt32(piloto.tiempo_lap);
-
-                // Calcular minutos, segundos y milisegundos
-                minutos = tiempoactualEnMilisegundos / 60000;
-                segundos = (tiempoactualEnMilisegundos % 60000) / 1000;
-                milisegundos = tiempoactualEnMilisegundos % 1000;
-
-                // Formatear el texto en mm:ss:fff
-                textComponents[2].text = string.Format("{0:00}:{1:00}:{2:000}", minutos, segundos, milisegundos);
-                //textComponents[2].text = piloto[2].ToString(); // Nombre de la mejora
-                */
                 // Ajustar la posición del prefab en el panel
 
 
@@ -333,7 +191,7 @@ public class time_table : MonoBehaviour
     }
 
 
-    public void LimpiarPanel()
+    public void ClearPanel()
     {
         // Obtener todos los hijos del panel
         Transform[] hijos = panel.GetComponentsInChildren<Transform>();
@@ -349,7 +207,7 @@ public class time_table : MonoBehaviour
     }
 
 
-    string Tiempo(int numeros)
+    string FormatTime(int numeros)
     {
         int minutos_d = numeros / 60000;
         int segundos_d = (numeros % 60000) / 1000;
@@ -363,7 +221,7 @@ public class time_table : MonoBehaviour
     //modos panel
 
 
-    public void up()
+    public void NextMode()
     {
         if (tipo < 3)
         {
@@ -374,11 +232,11 @@ public class time_table : MonoBehaviour
         {
             tipo = 0;
         }
-        AñadirPrefabAlPanel();
+        UpdateTimeTable();
 
     }
 
-    public void down()
+    public void PreviousMode()
     {
         if (tipo > 0)
         {
@@ -389,34 +247,9 @@ public class time_table : MonoBehaviour
         {
             tipo = 3;
         }
-        AñadirPrefabAlPanel();
+        UpdateTimeTable();
 
     }
 
-    /*
-    public void diferencia_L()
-    {
-        tipo = 0;
-        AñadirPrefabAlPanel();
-    }
-    public void diferencia()
-    {
-        tipo = 1;
-        AñadirPrefabAlPanel();
-
-    }
-
-    public void aptitud()
-    {
-        tipo = 3;
-        AñadirPrefabAlPanel();
-
-    }
-
-    public void rueda()
-    {
-        tipo = 2;
-        AñadirPrefabAlPanel();
-
-    }*/
+   
 }
