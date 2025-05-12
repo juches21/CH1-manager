@@ -109,7 +109,7 @@ public class PitStop : MonoBehaviour
         {
             car.rectTransform.anchoredPosition = new Vector2(0, D);
 
-            yield return new WaitForSeconds(0.000001f);
+            yield return  null;
         }
         car_audio.Play();
     }
@@ -123,7 +123,7 @@ public class PitStop : MonoBehaviour
         {
             car.rectTransform.anchoredPosition = new Vector2(0, D);
 
-            yield return new WaitForSeconds(0.000001f);
+            yield return null;
         }
         stop = true;
         gameObject.GetComponent<Player>().ApplyPitStopTime(pitStopTime);

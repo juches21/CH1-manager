@@ -33,6 +33,8 @@ public class Manager : MonoBehaviour
 
 
     [SerializeField] TextMeshProUGUI tex_laps;
+    [SerializeField] GameObject Panel_podio;
+    
 
     void Start()
     {
@@ -83,6 +85,7 @@ public class Manager : MonoBehaviour
     {
         if (isLapComplete)
         {
+            
             isLapComplete = false;
             StartCoroutine(LapTimerRoutine());
         }
@@ -106,7 +109,7 @@ public class Manager : MonoBehaviour
 
     public void UpdateLapData()
     {
-        
+        backupPilotsList.Clear();
         tex_laps.text = currentLap + "/" + tracksList[0].vueltas;
         for (int i = 1; i < pilotsList.Count; i++)
         {
@@ -179,7 +182,7 @@ public class Manager : MonoBehaviour
         degradacion.ApplyTyreWear();
         TriggerRadioEvent();
 
-        backupPilotsList.Clear();
+        //backupPilotsList.Clear();
         foreach (var piloto in pilotsList)
         {
             Data_base.Piloto nuevo = new Data_base.Piloto()
@@ -209,14 +212,20 @@ public class Manager : MonoBehaviour
 
         if (currentLap < tracksList[0].vueltas)
         {
+            Panel_podio.SetActive(false);
             vide_lap.Stop();
             vide_lap.Play();
             yield return new WaitForSeconds(0.2f);
             currentLap++;
             jugadores[0].gameObject.GetComponent<Player>().UpdateLapTime();
             UpdateLapData();
-            yield return new WaitForSeconds(20f); // Espera 2 segundos
+            yield return new WaitForSeconds(.1f); // Espera 2 segundos
             isLapComplete = true;
+        }
+        else
+        {
+            Panel_podio.SetActive(true);
+            Panel_podio.GetComponent<Podium>().mostrardatos();
         }
 
     }

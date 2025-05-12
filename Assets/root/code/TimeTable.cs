@@ -91,10 +91,7 @@ public class TimeTable : MonoBehaviour
 
                 int tiempoactualEnMilisegundos = Convert.ToInt32(piloto.tiempo_lap);
 
-                // Calcular minutos, segundos y milisegundos
-                int minutos = tiempoactualEnMilisegundos / 60000;
-                int segundos = (tiempoactualEnMilisegundos % 60000) / 1000;
-                int milisegundos = tiempoactualEnMilisegundos % 1000;
+              
 
                 // Formatear el texto en mm:ss:fff
                 textComponents[3].text = FormatTime(Convert.ToInt32(piloto.tiempo_lap));
@@ -116,11 +113,6 @@ public class TimeTable : MonoBehaviour
                         {
                             diferencia = 1;
                         }
-
-                        // Calcular minutos, segundos y milisegundos
-                        int minutos_d = diferencia / 60000;
-                        int segundos_d = (diferencia % 60000) / 1000;
-                        int milisegundos_d = diferencia % 1000;
 
                         // Formatear el texto en mm:ss:fff
                         textComponents[4].text = FormatTime(diferencia);

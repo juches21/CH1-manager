@@ -22,7 +22,7 @@
     "vuelta": 0,
     "casco": "Rosa"
   },
-  {    "nombre": "Un",
+  {    "nombre": "Jey Uso",
     "numero": 13,
     "escuderia": 2,
     "compuesto": "m",
@@ -33,7 +33,7 @@
     "vuelta": 0,
     "casco": "un"
   },
-  {    "nombre": "Luky",
+  {    "nombre": "Nishka Bulto",
     "numero": 4,
     "escuderia": 2,
     "compuesto": "m",
@@ -66,7 +66,7 @@
     "vuelta": 0,
     "casco": "sol_y_luna"
   },
-  {    "nombre": "Cuosit",
+  {    "nombre": "Cusit Sironi",
     "numero": 9,
     "escuderia": 4,
     "compuesto": "m",
@@ -77,7 +77,7 @@
     "vuelta": 0,
     "casco": "sol_y_luna"
   },
-  {    "nombre": "Valentino Rossi",
+  {    "nombre": "Aurora Rossi",
     "numero": 46,
     "escuderia": 4,
     "compuesto": "m",
