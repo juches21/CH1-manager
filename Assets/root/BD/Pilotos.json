@@ -31,7 +31,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "un"
+    "casco": "yeet"
   },
   {    "nombre": "Nishka Bulto",
     "numero": 4,
@@ -75,7 +75,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "mona_lisa"
   },
   {    "nombre": "Aurora Rossi",
     "numero": 46,
@@ -86,7 +86,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "luna_y_sol"
   },
   {    "nombre": "Takeo Masaki",
     "numero": 30,
@@ -97,7 +97,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "ola"
   },
   {    "nombre": "Seraph Zhen-Zhen",
     "numero": 54,
@@ -108,10 +108,10 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "sky"
   },
-  {    "nombre": "Rossi",
-    "numero": 46,
+  {    "nombre": "Ivan Juoch",
+    "numero": 3,
     "escuderia": 6,
     "compuesto": "m",
     "desgaste": 100,
@@ -119,7 +119,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "ch"
   },
   {    "nombre": "Rami Solomar",
     "numero": 58,
@@ -130,7 +130,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "ksi"
   }
   ]
 }
