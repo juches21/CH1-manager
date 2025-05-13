@@ -7520,7 +7520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 4370327649133509256, guid: 07efbbcac85d2054fb783ac12fdba962, type: 3}
   panel: {fileID: 1519661516}
-  tipo: 3
+  tipo: 0
   logos:
   - {fileID: 21300000, guid: dc3aa515c1a19484ca0ddfefe18307e3, type: 3}
   - {fileID: 21300000, guid: af98eadc1e4bb05478d065f26a42bea3, type: 3}
