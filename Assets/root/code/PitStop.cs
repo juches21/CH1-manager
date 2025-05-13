@@ -53,7 +53,6 @@ public class PitStop : MonoBehaviour
             for (int i = 0; i <= mechanic.Length - 1; i++)
             {
 
-                //mechanic[i].SetActive(false);
             }
 
         }
