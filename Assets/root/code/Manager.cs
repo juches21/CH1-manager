@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
 using TMPro;
-using static UnityEditor.Progress;
 
 public class Manager : MonoBehaviour
 {
@@ -31,6 +30,7 @@ public class Manager : MonoBehaviour
 
     // === PRIVATE VARIABLES - Gameplay State ===
     private int dorsales; // ID de los pilotos
+    public int id_piloto;
     private int currentLap = 0; // Número de vuelta actual
     private bool isLapComplete = true; // Bandera para saber si una vuelta ha finalizado
 
@@ -80,18 +80,27 @@ public class Manager : MonoBehaviour
         // Obtiene el componente de degradación y los objetos de los jugadores
         degradacion = gameObject.GetComponent<TyreWearManager>();
         jugadores = GameObject.FindGameObjectsWithTag("Player");
-        iniciarjuego();
+       
+        
+      
     }
 
-    void iniciarjuego()
+    public void iniciarjuego()
     {
         isLapComplete = true;
         
-        pilotsList.Insert(0, pilotsList[2]);
-        pilotsList.RemoveAt(3);
+        pilotsList.Insert(0, pilotsList[id_piloto]);
+        pilotsList.RemoveAt(id_piloto+1);
+        //jugadores[0].GetComponent<Player>().AskPlayerID();
+        StartCoroutine(esperarstart());
         
     }
+    IEnumerator esperarstart()
+    {
+        yield return new WaitForSeconds(.1f); // Espera 100ms antes de completar la vuelta
+        jugadores[0].GetComponent<Player>().AskPlayerID();
 
+    }
 
 
     private void Update()

@@ -56,19 +56,20 @@ public class Player : MonoBehaviour
 
         B_ask.SetActive(true);
         B_lap.SetActive(false);
-        AskPlayerID();
+
         SetNormalMode();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //AskPlayerID();
     }
     public void AskPlayerID()
     {
         //id = scriptlap.AssignPlayerID();
-        id = 1;
+        print(scriptlap.pilotsList.Count);
+        id = 0;
         if (id == -1)
         {
             print("error");
@@ -77,9 +78,11 @@ public class Player : MonoBehaviour
         }
         else
         {
+            print(id);
 
+            print(scriptlap.pilotsList.Count);
             T_player.text = scriptlap.pilotsList[id].nombre.ToString();
-           
+
             B_ask.SetActive(false);
             B_lap.SetActive(true);
         }
@@ -93,8 +96,8 @@ public class Player : MonoBehaviour
     public void UpdateLapTime()
     {
 
-      
-  
+
+
         time_advantage = 0;
 
 
@@ -138,10 +141,10 @@ public class Player : MonoBehaviour
         else if (Wear <= 10)
         {
             Penalty += UnityEngine.Random.Range(12000, 15000);
-            
+
         }
 
-        
+
         for (int j = 0; j <= minor_fault; j++)
         {
             Penalty += UnityEngine.Random.Range(50, 100);
@@ -156,10 +159,10 @@ public class Player : MonoBehaviour
         }
         for (int j = 0; j <= time_advantage; j++)
         {
-         
+
             Penalty -= UnityEngine.Random.Range(500, 900);
         }
-        
+
 
 
 
@@ -177,7 +180,7 @@ public class Player : MonoBehaviour
 
 
 
-         T_desgaste.text = "Neumatico " + scriptlap.pilotsList[id].compuesto.ToString() +" : "+ scriptlap.pilotsList[id].desgaste.ToString()+"%";
+        T_desgaste.text = "Neumatico " + scriptlap.pilotsList[id].compuesto.ToString() + " : " + scriptlap.pilotsList[id].desgaste.ToString() + "%";
 
         Penalty = 0;
 
@@ -251,9 +254,9 @@ public class Player : MonoBehaviour
 
     public void RequestPitStop()
     {
-        if(neumatico != null)
+        if (neumatico != null)
         {
-        gameObject.GetComponent<PitStop>().StartPitStop();
+            gameObject.GetComponent<PitStop>().StartPitStop();
 
         }
 
@@ -264,12 +267,12 @@ public class Player : MonoBehaviour
     {
         scriptlap.pilotsList[id].desgaste = 100; // desgaste
         scriptlap.pilotsList[id].compuesto = neumatico; // compuesto
-        scriptlap.pilotsList[id].tiempo_total = Convert.ToInt32(scriptlap.pilotsList[id].tiempo_total) + tiempo+9000; // tiempo total
+        scriptlap.pilotsList[id].tiempo_total = Convert.ToInt32(scriptlap.pilotsList[id].tiempo_total) + tiempo + 9000; // tiempo total
 
 
     }
 
-   
+
     void LoadHelmetSprite()
     {
         // Obtener la ruta del casco desde los datos
@@ -297,12 +300,12 @@ public class Player : MonoBehaviour
         // Obtener la ruta del casco desde los datos
         int numero = scriptlap.pilotsList[id].escuderia;
         print(numero + "numero");
-        print(listaEscuderias[numero-1].coche);
-        string imagePath = "Fotos/Monoplazas_up/" + listaEscuderias[numero-1].coche;
+        print(listaEscuderias[numero - 1].coche);
+        string imagePath = "Fotos/Monoplazas_up/" + listaEscuderias[numero - 1].coche;
 
         // Cargar el sprite desde Resources usando la ruta proporcionada
         Sprite sprite = Resources.Load<Sprite>(imagePath);
-   
+
 
         // Comprobar si la imagen fue cargada correctamente
         if (sprite != null)

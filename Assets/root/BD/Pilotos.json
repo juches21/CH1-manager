@@ -53,7 +53,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "mona_lisa"
+    "casco": "alonso"
   },
   {    "nombre": "Carlos Alonso JR",
     "numero": 33,
@@ -64,7 +64,7 @@
     "tiempo_lap": 0,
     "modo": 2,
     "vuelta": 0,
-    "casco": "sol_y_luna"
+    "casco": "alonsojr"
   },
   {    "nombre": "Cusit Sironi",
     "numero": 9,
