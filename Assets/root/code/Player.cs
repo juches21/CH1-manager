@@ -67,7 +67,8 @@ public class Player : MonoBehaviour
     }
     public void AskPlayerID()
     {
-        id = scriptlap.AssignPlayerID();
+        //id = scriptlap.AssignPlayerID();
+        id = 1;
         if (id == -1)
         {
             print("error");

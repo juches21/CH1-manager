@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
 using TMPro;
+using static UnityEditor.Progress;
 
 public class Manager : MonoBehaviour
 {
@@ -38,12 +39,14 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
+        isLapComplete = false;
+
         Data_base loader = FindObjectOfType<Data_base>(); // Encuentra el script de la base de datos
         if (loader != null)
         {
             // Carga y aleatoriza los pilotos
             pilotsList = loader.PilotosCargados;
-            pilotsList = pilotsList.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
+            //pilotsList = pilotsList.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
             tracksList = loader.PistasCargadas;
         }
         else
@@ -77,7 +80,19 @@ public class Manager : MonoBehaviour
         // Obtiene el componente de degradación y los objetos de los jugadores
         degradacion = gameObject.GetComponent<TyreWearManager>();
         jugadores = GameObject.FindGameObjectsWithTag("Player");
+        iniciarjuego();
     }
+
+    void iniciarjuego()
+    {
+        isLapComplete = true;
+        
+        pilotsList.Insert(0, pilotsList[2]);
+        pilotsList.RemoveAt(3);
+        
+    }
+
+
 
     private void Update()
     {
