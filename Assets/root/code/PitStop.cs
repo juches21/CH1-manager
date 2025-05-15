@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class PitStop : MonoBehaviour
 {
     [SerializeField] GameObject panel;
@@ -104,12 +104,10 @@ public class PitStop : MonoBehaviour
 
     IEnumerator MoveCarIn()
     {
-        for (float D = -541.9f; D <= -34.52f; D += 5)
-        {
-            car.rectTransform.anchoredPosition = new Vector2(0, D);
-
+      
+        car.transform.DOMoveY(600, 1, false);
             yield return  null;
-        }
+
         car_audio.Play();
     }
 
@@ -118,16 +116,13 @@ public class PitStop : MonoBehaviour
     {
         car_audio.Stop();
 
-        for (float D = -34.52f; D <= 513.61f; D += 5)
-        {
-            car.rectTransform.anchoredPosition = new Vector2(0, D);
-
-            yield return null;
-        }
+        car.transform.DOMoveY(1500, 1, false);
         stop = true;
-        gameObject.GetComponent<Player>().ApplyPitStopTime(pitStopTime);
-        car.rectTransform.anchoredPosition = new Vector2(0, -5555);
 
+        gameObject.GetComponent<Player>().ApplyPitStopTime(pitStopTime);
+
+        yield return new WaitForSeconds(2f);
+        car.rectTransform.anchoredPosition = new Vector2(0, -5555);
         panel.SetActive(false);
         panel_botones.SetActive(true);
 
