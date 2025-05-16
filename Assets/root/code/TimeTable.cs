@@ -140,7 +140,7 @@ public class TimeTable : MonoBehaviour
                 // Modo 2: Desgaste del neumático
                 if (tipo == 2)
                 {
-                    textComponents[4].text = piloto.desgaste.ToString();
+                    textComponents[4].text = piloto.desgaste.ToString()+"%";
                 }
 
                 // Modo 3: Tipo de compuesto del neumático

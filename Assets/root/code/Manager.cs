@@ -97,7 +97,7 @@ public class Manager : MonoBehaviour
     }
     IEnumerator esperarstart()
     {
-        yield return new WaitForSeconds(.1f); // Espera 100ms antes de completar la vuelta
+        yield return new WaitForSeconds(.1f);
         jugadores[0].GetComponent<Player>().AskPlayerID();
 
     }
@@ -216,7 +216,7 @@ public class Manager : MonoBehaviour
             currentLap++;
             jugadores[0].gameObject.GetComponent<Player>().UpdateLapTime();
             UpdateLapData();
-            yield return new WaitForSeconds(.1f); // Espera 100ms antes de completar la vuelta
+            yield return new WaitForSeconds(20f); // Espera 100ms antes de completar la vuelta
             isLapComplete = true;
         }
         else
