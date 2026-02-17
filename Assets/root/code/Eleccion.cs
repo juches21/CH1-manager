@@ -11,30 +11,30 @@ public class Eleccion : MonoBehaviour
     int id;
     public TextMeshProUGUI T_Nombre;
     public Image Helmet;
-    
+
     // Start is called before the first frame update
-     void Start()
+    void Start()
     {
-        id=0;
+        id = 0;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
 
     }
     public void up()
     {
-        if(id>= Manager.pilotsList.Count-1)
+        if (id >= Manager.pilotsList.Count - 1)
         {
             id = 0;
         }
         else
         {
 
-        id++;
+            id++;
         }
         cargar_piloto();
     }
@@ -61,7 +61,7 @@ public class Eleccion : MonoBehaviour
 
         // Cargar el sprite desde Resources usando la ruta proporcionada
         Sprite sprite = Resources.Load<Sprite>(imagePath);
-       
+
 
         // Comprobar si la imagen fue cargada correctamente
         if (sprite != null)
@@ -71,7 +71,7 @@ public class Eleccion : MonoBehaviour
         else
         {
             // Imprimir más información de depuración para verificar la ruta
-            print("Ruta de la imagen no válida o archivo no encontrado: " + imagePath);
+            print("imagen no encontrado: " + imagePath);
         }
     }
 

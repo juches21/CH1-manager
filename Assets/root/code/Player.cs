@@ -61,13 +61,10 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        //AskPlayerID();
-    }
+ 
     public void AskPlayerID()
     {
-        //id = scriptlap.AssignPlayerID();
+     
         print(scriptlap.pilotsList.Count);
         id = 0;
         if (id == -1)

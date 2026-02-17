@@ -44,9 +44,9 @@ public class Manager : MonoBehaviour
         Data_base loader = FindObjectOfType<Data_base>(); // Encuentra el script de la base de datos
         if (loader != null)
         {
-            // Carga y aleatoriza los pilotos
+            // Carga los pilotos
             pilotsList = loader.PilotosCargados;
-            //pilotsList = pilotsList.OrderBy(x => UnityEngine.Random.Range(0f, 1f)).ToList();
+          
             tracksList = loader.PistasCargadas;
         }
         else
@@ -91,7 +91,6 @@ public class Manager : MonoBehaviour
         
         pilotsList.Insert(0, pilotsList[id_piloto]);
         pilotsList.RemoveAt(id_piloto+1);
-        //jugadores[0].GetComponent<Player>().AskPlayerID();
         StartCoroutine(esperarstart());
         
     }

@@ -49,7 +49,7 @@ public class TimeTable : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró el script Data_base en la escena.");
+            Debug.LogError("No se encontró Data_base ");
         }
     }
 

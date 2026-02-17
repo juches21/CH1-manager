@@ -16,16 +16,17 @@ public class RadioManager : MonoBehaviour
 
     public Image panelchec_color;
 
-    public Button miBoton;  // El botón en el Inspector
+    public Button miBoton; 
 
     [SerializeField] GameObject[] partes;
     [SerializeField] GameObject[] botones;
+
     int fallo_suspension;
     int fallo_refrigeracion;
     int fallo_power;
 
 
-    public GameObject prefab;         // Prefab que se usa para cada elemento de la tienda
+    public GameObject prefab;         // Prefab que se usa para cada mensaje
     public Transform panel;
 
     int menor;
@@ -69,6 +70,9 @@ public class RadioManager : MonoBehaviour
     {
         if (!radio_on)
         {
+          
+
+            
             int numeroAleatorio = UnityEngine.Random.Range(0, 101);
 
             if (numeroAleatorio < 50)
@@ -99,7 +103,7 @@ public class RadioManager : MonoBehaviour
                     PlayPositiveRadioMessage();
                 }
             }
-
+            
         }
 
     }
@@ -296,15 +300,15 @@ public class RadioManager : MonoBehaviour
             textComponents[1].text = listaRadios[random].opcion_2;
             if (random == 0)
             {
-                ApplySuspensionFault();
+                ApplyPowerFault();
             }
             if (random == 1)
             {
-                ApplyCoolingFault();
+                ApplySuspensionFault();
             }
             if (random == 2)
             {
-                ApplyPowerFault();
+                ApplyCoolingFault();
             }
             Opciones[1].GetComponent<Button>().onClick.AddListener(() => neutra());
             Opciones[0].GetComponent<Button>().onClick.AddListener(() => fallo());
