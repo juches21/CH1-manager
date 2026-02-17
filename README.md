@@ -4,10 +4,11 @@
 <img src="https://github.com/juches21/Juches21-images/blob/3f0353f32f6869ccbe967e5c59cc5116e9d3b131/ch1%20manager%20logo.png" alt="CH1 Manager Logo">
 
 <p><strong>CH1 Manager</strong> is a game developed in <strong>Unity</strong> where players take on the role of a Formula 1 race engineer. You do not drive the car; <strong>you make the strategic decisions in real time</strong>, managing tires, race pace, and dynamic events.</p>
+
 <p><strong>Final project for video game studies, developed entirely solo.</strong><br>Development duration: 3 months</p>
 
 <hr>
-
+        <a href="https://juan-chovi.itch.io/ch1-manager" target="blank"><img align="center" src="https://img.shields.io/badge/Itch.io-FA5C5C?style=for-the-badge&logo=itchdotio&logoColor=white" alt="unsimpledev"  /></a>
 <h2>📖 Description</h2>
 <p>In <strong>CH1 Manager</strong>:</p>
 <ul>
